@@ -24,8 +24,12 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
+
+    const searchParams = useSearchParams();
+    const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ? "Email usata con un altro provider" : "";
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -39,23 +43,19 @@ export const LoginForm = () => {
         }
     });
 
-    const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
         setError("");
         setSuccess("");
 
         startTransition(() => {
-            login(data)
+            login(values)
             .then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
-            })
-            .catch((err) => {
-                
-            })
+                setError(data?.error);
+                //TODO Add when we add 2FA
+                // setSuccess(data?.success);
+
+            });
         });
-         
-
-
     }
 
     return(
@@ -102,7 +102,7 @@ export const LoginForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormError message={error}/>
+                        <FormError message={error || urlError}/>
                         <FormSuccess message={success}/>
                         <Button type="submit"
                         className="w-full"
