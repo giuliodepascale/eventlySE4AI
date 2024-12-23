@@ -12,7 +12,7 @@ export const publicRoutes = [
 
 /**
  * Un array di routes che sono usate per l'autenticazione
- * Queste routes rindirizzano gli utenti loggati to /settings
+ * Queste routes reindirizzano gli utenti loggati to /settings
  * @type {string[]}
  */
 

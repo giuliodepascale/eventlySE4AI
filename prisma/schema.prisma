@@ -54,7 +54,7 @@ model User {
   @@map("users")
 }
 
-model VerificationToken {
+model VerificationToken {   //per la verifica della mail
   id String @id @default(cuid())
   email String
   token String @unique
