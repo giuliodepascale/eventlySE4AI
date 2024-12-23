@@ -7,6 +7,8 @@
 
 export const publicRoutes = [
     "/",
+    "/auth/new-verification",
+
    
 ];
 
@@ -19,6 +21,9 @@ export const publicRoutes = [
 export const authRoutes = [
     "/auth/login",
     "/auth/register",
+    "/auth/error",
+    "/auth/reset",
+    "/auth/new-password" //è accessibile solo agli utenti non loggati perchè quelli autenticati lo faranno dalle impostazioni utente
 ]
 /**
  * Prefisso per api authentication routes

@@ -25,3 +25,17 @@ export const RegisterSchema = z.object({
         message: "Inserisci il tuo nome",
     }).max(25)
 });
+
+export const ResetSchema = z.object({
+    email: z.string().email({
+        message: "Inserisci una email valida",
+    }),
+});
+
+export const NewPasswordSchema = z.object({
+    password: z.string().min(5,{
+        message: "La password è necessaria (almeno 5 caratteri)",
+    }).max(20,{
+        message: "La password deve avere al massimo 20 caratteri",
+    }),
+});

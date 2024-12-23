@@ -62,3 +62,12 @@ model VerificationToken {   //per la verifica della mail
 
   @@unique([email, token])
 }
+
+model PasswordResetToken {   //per il reset della password
+  id String @id @default(cuid())
+  email String
+  token String @unique
+  expires DateTime
+
+  @@unique([email, token])
+}

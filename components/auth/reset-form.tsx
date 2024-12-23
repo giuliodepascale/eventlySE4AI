@@ -3,7 +3,7 @@
 import {useForm} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import {LoginSchema} from "@/schemas"
+import {ResetSchema} from "@/schemas"
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { Input } from "@/components/ui/input";
@@ -22,48 +22,43 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { login } from "@/actions/login";
+import { reset } from "@/actions/reset";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
-export const LoginForm = () => {
 
-    const searchParams = useSearchParams();
-    const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ? "Email usata con un altro provider" : "";
+export const ResetForm = () => {
+
+  
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof ResetSchema>>({
+        resolver: zodResolver(ResetSchema),
         defaultValues: {
-            email: "",
-            password: ""    
+            email: ""  
         }
     });
 
-    const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    const onSubmit = (values: z.infer<typeof ResetSchema>) => {
         setError("");
         setSuccess("");
 
         startTransition(() => {
-            login(values)
-            .then((data) => {
+            reset(values)
+            .then((data: { error?: string; success?: string }) => {
                 setError(data?.error);
                 setSuccess(data?.success);
-
             });
-        });
+        }); 
     }
 
     return(
         <CardWrapper 
-        headerLabel="Welcome back"
-        backButtonLabel="Don't have an account?"
-        backButtonHref="/auth/register"
-        showSocial
+        headerLabel="Password dimenticata?"
+        backButtonLabel="Torna al login"
+        backButtonHref="/auth/login"
         > 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}
@@ -86,31 +81,13 @@ export const LoginForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} 
-                                        placeholder="******"
-                                        type="password" 
-                                        disabled={isPending}/>
-                                    </FormControl>
-                                    <Button variant="link" className="px-0 font-normal" asChild size="sm">
-                                        <Link href="/auth/reset">Password dimenticata?</Link>
-                                    </Button>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormError message={error || urlError}/>
+                      
+                        <FormError message={error}/>
                         <FormSuccess message={success}/>
                         <Button type="submit"
                         className="w-full"
                         disabled={isPending}>
-                            Login
+                            Invia email di recupero
                         </Button>
                     </div>      
                 </form>
@@ -119,4 +96,4 @@ export const LoginForm = () => {
 )
 }  
 
-export default LoginForm;
+export default ResetForm;

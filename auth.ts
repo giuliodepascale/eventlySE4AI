@@ -21,14 +21,21 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
     }
   },
   callbacks: {
- /* ACCEDERE SOLO SE HAI VERIFICATO L'EMAIL  
-  async signIn({user}){
+  // ACCEDERE SOLO SE HAI VERIFICATO L'EMAIL  
+  async signIn({user, account}){
+
+    if(account?.provider!== 'credentials'){
+      return true;
+    }
+    //Per fare il login devi verificare l'email
     const existingUser = await getUserById(user.id!);
     if(!existingUser || !existingUser.emailVerified){
-      return false; //Per fare il login devi verificare l'email
+      return false; 
+      //TODO: verificare l'email
+      
     }
     return true;
-  },*/ 
+  },  //
    async session({ token, session }) {
     console.log({sessionToken: token})
     if(token.sub && session.user) {
