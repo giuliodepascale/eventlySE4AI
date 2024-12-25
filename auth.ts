@@ -37,7 +37,7 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
     return true;
   },  //
    async session({ token, session }) {
-    console.log({sessionToken: token})
+    //console.log({sessionToken: token})
     if(token.sub && session.user) {
       session.user.id = token.sub;   //quando avremo la sessione avremo anche l'id utente ora
     }
