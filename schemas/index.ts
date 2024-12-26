@@ -1,3 +1,4 @@
+
 import * as z from "zod";
 
 
@@ -39,3 +40,28 @@ export const NewPasswordSchema = z.object({
         message: "La password deve avere al massimo 20 caratteri",
     }),
 });
+
+export const SettingsSchema = z.object({
+    name: z.optional(z.string().min(1).max(25)),
+    email: z.optional(z.string().email()),
+    password: z.optional(z.string().min(5).max(20)).or(z.literal('')),
+    newPassword: z.optional(z.string().min(5).max(20)).or(z.literal('')),
+
+    
+}).refine((data) => {
+    if(data.password && !data.newPassword) {
+        return false
+    }
+    return true
+}, {
+    message: "Devi inserire entrambi i campi per cambiare la password",
+    path: ["newPassword"]
+}).refine((data) => {
+    if(!data.password && data.newPassword) {
+        return false
+    }
+    return true
+}, {
+    message: "Devi inserire entrambi i campi per cambiare la password",
+    path: ["password"]
+})

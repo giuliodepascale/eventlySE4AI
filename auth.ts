@@ -1,9 +1,10 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import authConfig from "@/auth.config" 
 import { db } from "@/lib/db"
-import { getUserById } from "./data/user" 
+import { getUserById } from "@/data/user" 
 import NextAuth from "next-auth"
 import { UserRole } from "@prisma/client"
+import { getAccountByUserId } from "./data/account"
  
 
 
@@ -45,6 +46,13 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
     if(token.role && session.user) {
       session.user.role = token.role as UserRole;
     }
+
+    if(session.user) {
+      session.user.name = token.name ?? '';
+      session.user.email = token.email ?? '';
+      session.user.isOAuth =  token.isOAuth as boolean;
+    }
+
      return session;
    },
     async jwt({ token }) { //tutto parte da qui, poi il token viene mandato alla sessione
@@ -55,9 +63,15 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
 
       if (!existingUser) {
         return token;
-       }
+      }
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
       token.role = existingUser.role;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      
 
       return token; 
     },
