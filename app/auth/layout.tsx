@@ -1,4 +1,4 @@
-import {BottomNavBar} from "@/components/bottom-navbar";
+// import {BottomNavBar} from "@/components/bottom-navbar";
  
  const AuthLayout = ({ children }: { children: React.ReactNode }) => {      
     return(

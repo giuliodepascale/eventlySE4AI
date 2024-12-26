@@ -50,7 +50,7 @@ export const RegisterForm = () => {
                 setError(data.error);
                 setSuccess(data.success);
             })
-            .catch((err) => {
+            .catch(() => {
                 
             })
         });
