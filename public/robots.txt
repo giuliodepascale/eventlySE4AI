@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://eventlyitalia.com
+
+# Sitemaps
+Sitemap: https://eventlyitalia.com/sitemap.xml
