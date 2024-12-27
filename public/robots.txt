@@ -6,4 +6,4 @@ Allow: /
 Host: https://eventlyitalia.com
 
 # Sitemaps
-Sitemap: https://eventlyitalia.com/sitemap.xml
+Sitemap: https://eventlyitalia.com/sitemap-0.xml

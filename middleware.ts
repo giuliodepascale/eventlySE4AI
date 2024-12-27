@@ -37,6 +37,15 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL(loginUrl, nextUrl));
   }
 
+  const url = req.nextUrl.pathname;
+
+  // Verifica se l'URL termina con sitemap.xml
+  if (url.endsWith('sitemap.xml')) {
+    const response = NextResponse.next();
+    response.headers.set('Content-Type', 'application/xml');
+    return response;
+  }
+
   return NextResponse.next();
 });
 
