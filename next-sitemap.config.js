@@ -1,8 +1,16 @@
-/** @type {import('next-sitemap').IConfig} */
 const config = {
-  siteUrl: 'https://eventlyitalia.com', // Cambia con il tuo dominio
-  generateRobotsTxt: true, // Per generare automaticamente robots.txt
-  generateIndexSitemap: true, // Crea l'indice della sitemap
+  siteUrl: 'https://eventlyitalia.com',
+  generateRobotsTxt: true,
+  additionalPaths: async () => {
+    return [
+      { loc: '/client', lastmod: new Date().toISOString() },
+      { loc: '/server', lastmod: new Date().toISOString() },
+      { loc: '/api/auth/login', lastmod: new Date().toISOString() },
+      { loc: '/admin', lastmod: new Date().toISOString() },
+      { loc: '/settings', lastmod: new Date().toISOString() },
+      { loc: '/', lastmod: new Date().toISOString() },
+    ];
+  },
 };
 
 module.exports = config;
