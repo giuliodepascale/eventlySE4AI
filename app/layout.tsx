@@ -18,9 +18,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Evently",
-  description: "Scopri gli eventi della tua città",
+  title: "Evently Italia - Trova Eventi Unici Nella Tua Città",
+  description: "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
 };
+
 
 export default async function RootLayout({
   children,
@@ -34,7 +35,7 @@ export default async function RootLayout({
   return (
     
     <SessionProvider session={session}>
-    <html lang="en">
+    <html lang="it">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
