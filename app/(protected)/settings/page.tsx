@@ -1,8 +1,11 @@
-import SettingsForm from "@/components/form-settings";
-import { currentUser } from "@/lib/auth";
+"use client"
 
-const SettingsPage = async () => {
-  const user = await currentUser();
+import SettingsForm from "@/components/form-settings";
+import { useCurrentUser } from "@/hooks/use-current-user";
+
+
+const SettingsPage =  () => {
+  const user =  useCurrentUser();
 
   return (
         <SettingsForm user={user} />
