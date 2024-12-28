@@ -2,19 +2,39 @@
 
 import { UserButton } from "@/components/auth/user-button";
 import { Button } from "@/components/ui/button";
+import { ExtendedUser } from "@/next-auth";
 import  Link  from "next/link";
 import { usePathname } from "next/navigation";
+import Container from "./container";
 
 //la navbar non è responsive per ora (non è lo scopo del tutotrial auth)
-export const Navbar = () => {
+
+interface NavbarProps {
+    currentUser?: ExtendedUser | null
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+    currentUser
+}) => {
 
     const pathname = usePathname();
 
     return ( 
-    <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl 
-        w-[600px] shadow-sm"> 
-        <div className="flex gap-x-2">
-            <Button 
+
+        <div className="fixed w-full bg-white z-10 shadow-sm">
+    <div className ="py-4 border-b-[1px]">
+
+    <Container>
+    <div className="
+        flex
+        flex-row
+        items-center
+        justify-between
+        gap-3
+        md:gap-0
+        ">
+        
+          <Button 
             variant={pathname === "/admin" ? "default" : "outline"}
             asChild
             >
@@ -47,10 +67,15 @@ export const Navbar = () => {
                 </Link>
             </Button>
         </div>
-        <UserButton/>
-    </nav>
-
+        </Container>
+    </div>
+   {// TODO AGGIUNGERE CLIENT PER LE CATEGORIE.
+   }
+    </div>
     );
 };
 
+
 export default Navbar;
+       
+   

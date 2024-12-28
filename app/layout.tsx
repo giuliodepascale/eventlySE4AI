@@ -6,6 +6,10 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { currentUser } from "@/lib/auth";
+import Navbar from "@/components/altre/navbar";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +33,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const session = await auth()
+  const session = await auth();
+  const user = await currentUser();
 
 
   return (
@@ -40,7 +45,10 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster/>
+        <Navbar currentUser={user}/>
+        <div className="pb-20 pt-28">
         {children}
+        </div>
         <Analytics/>
         <SpeedInsights/>
       </body>
