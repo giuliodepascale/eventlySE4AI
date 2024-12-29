@@ -1,36 +1,42 @@
-import {Poppins} from "next/font/google"
-import { cn } from "@/lib/utils";
-
-import { Button } from "@/components/ui/button"; 
-import { LoginButton } from '@/components/auth/login-button';
-import BottomNavBar from "@/components/bottom-navbar";
+import Container from "@/components/altre/container";
+import EmptyState from "@/components/altre/empty-state";
 
 
-const font = Poppins({
-  weight: "600",
-  subsets: ["latin"]
-})
 
-export default function Home() {
+interface HomeProps {
+  searchParams: string;
+}
+
+export default async function Home({
+  searchParams,
+}: HomeProps) {
+
+  //ricava listings
+  const listings = undefined;
+
+  if(!listings) return (
+    <EmptyState showReset></EmptyState>
+  )
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center
-    bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-      <div className="space-y-6 text-center">
-          <h1 className={cn("text-6xl font-bold text-white drop-shadow-md", font.className)}>
-            Auth
-          </h1>
-          <p className="text-white text-lg ">
-            A simple auth service
-          </p>
-            <div>
-              <LoginButton mode = "modal" asChild>
-              <Button variant={"secondary"} size={"lg"}>
-                Sign in
-              </Button>
-              </LoginButton>
-            </div>
-        <BottomNavBar></BottomNavBar>
-      </div>
+    <main >
+      <Container>
+          <div className="
+            pt-24
+            grid
+            grid-cols-1
+            sm-grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-4
+            xl:grid-cols-5
+            2xl:grid-cols-6
+            gap-8
+          ">
+
+          </div>
+
+      </Container>    
     </main>
+    
   );
 }

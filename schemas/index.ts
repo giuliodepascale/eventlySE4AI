@@ -65,3 +65,18 @@ export const SettingsSchema = z.object({
     message: "Devi inserire entrambi i campi per cambiare la password",
     path: ["password"]
 })
+
+
+export const CreateEventSchema = z.object({
+    title: z.string().min(3).max(50),
+    description: z.string().min(10).max(300),
+    imageSrc: z.string(),
+    category: z.string(),
+    userId: z.string(),
+    price: z.number().optional(), 
+    isFree: z.boolean().optional(),
+})
+
+
+
+

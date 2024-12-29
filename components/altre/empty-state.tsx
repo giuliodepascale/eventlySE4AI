@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/auth/header";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface EmptyState {
     title?: string,
@@ -11,11 +11,14 @@ interface EmptyState {
 }
  
 const EmptyState:React.FC<EmptyState> = ({
-    title = "No exact matches",
-    subtitle = "Try changing or removign some of your filters",
+    title = "Nessun risultato trovato",
+    subtitle = "Prova a modificare i filtri di ricerca",
     showReset
 
 }) => {
+
+    const router = useRouter();
+
     return (
         <div className="
             h-[60vh]
@@ -30,17 +33,15 @@ const EmptyState:React.FC<EmptyState> = ({
             subtitle={subtitle}
             center
             />
-            <div className="w-48 mt-4">
+            <div className="w-48 mt-4 text-center">
                 {showReset && (
                     <Button 
-                        variant={"outline"}
-                        title="Remove all filters"
-                        
-                    >
-                <Link href="/">
-                    Admin
-                </Link>
-                    </Button>
+                    variant={"outline"}
+                    size={"lg"}
+                    onClick={()=> router.push('/')}
+                >
+                    Rimuovi i filtri
+                </Button>
                 )}
             </div>
         </div>

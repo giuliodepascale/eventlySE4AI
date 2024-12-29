@@ -1,14 +1,11 @@
 // import {BottomNavBar} from "@/components/bottom-navbar";
- 
+
  const AuthLayout = ({ children }: { children: React.ReactNode }) => {      
     return(
-        <div className="min-h-screen flex items-center justify-center
-        bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-            {children} 
-            
-        </div>
-        
-    )
- }
+        <div className="flex min-h-screen items-center justify-center bg-white-100 px-4 sm:px-6 lg:px-8">
+            {children}
+    </div>
+    );
+};
 
- export default AuthLayout;
+export default AuthLayout;

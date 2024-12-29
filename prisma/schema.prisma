@@ -39,6 +39,7 @@ model Account {
  
  enum UserRole {
   USER
+  ORGANIZATION
   ADMIN
 }
  
@@ -50,7 +51,12 @@ model User {
   image         String?
   password      String?  //opzionale perchè in OAuth non abbiamo password
   role          UserRole  @default(USER)
+
+  favoriteIds   String[]
   accounts      Account[]
+  events        Event[]
+  reservation   Reservation[]
+
   @@map("users")
 }
 
@@ -70,4 +76,32 @@ model PasswordResetToken {   //per il reset della password
   expires DateTime
 
   @@unique([email, token])
+}
+
+
+model Event {
+  id String @id @default(cuid())
+  title String
+  description String
+  imageSrc String
+  createdAt DateTime @default(now())
+  category String
+  userId String @map("user_id")
+  price Int?
+  isFree Boolean?
+  favoriteCount Int @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete:Cascade)
+  reservations Reservation[]
+}
+
+model Reservation {
+  id String @id @default(cuid())
+  userId String 
+  eventId String 
+  totalPrice Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete:Cascade)
+  event Event @relation(fields: [eventId],references: [id],onDelete:Cascade)
 }

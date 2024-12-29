@@ -11,9 +11,8 @@ const ProtectedLayout = async ({ children }:ProtectedLayoutProps ) => {
 
     return (
     <SessionProvider session={session}>
-    <div className="h-full w-full flex flex-col gap-y-10 items-center justify-center 
-   bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
-        {children}
+        <div className="flex min-h-screen items-center justify-center bg-white-100 px-4 sm:px-6 lg:px-8">
+            {children}
     </div>
     </SessionProvider>
 
