@@ -35,7 +35,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-                <div onClick={() => {router.push('/settings')}}
+               {currentUser && ( <div onClick={() => {router.push('/crea-evento')}}
                     className="
                     hidden
                     md:block
@@ -48,8 +48,9 @@ const UserMenu: React.FC<UserMenuProps> = ({
                     transition
                     cursor-pointer
                     ">
-                        Il mio profilo
+                        Crea Evento
                 </div>
+                )}
                 <div
                 onClick={toggleOpen}
                 className="

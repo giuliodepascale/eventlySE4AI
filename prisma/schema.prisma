@@ -52,6 +52,8 @@ model User {
   password      String?  //opzionale perchè in OAuth non abbiamo password
   role          UserRole  @default(USER)
 
+  location      String?
+  
   favoriteIds   String[]
   accounts      Account[]
   events        Event[]
@@ -90,6 +92,8 @@ model Event {
   price Int?
   isFree Boolean?
   favoriteCount Int @default(0)
+  startDate DateTime
+  location String
 
   user User @relation(fields: [userId], references: [id], onDelete:Cascade)
   reservations Reservation[]
@@ -101,6 +105,7 @@ model Reservation {
   eventId String 
   totalPrice Int
   createdAt DateTime @default(now())
+
 
   user User @relation(fields: [userId], references: [id], onDelete:Cascade)
   event Event @relation(fields: [eventId],references: [id],onDelete:Cascade)

@@ -67,15 +67,43 @@ export const SettingsSchema = z.object({
 })
 
 
+
 export const CreateEventSchema = z.object({
-    title: z.string().min(3).max(50),
-    description: z.string().min(10).max(300),
-    imageSrc: z.string(),
-    category: z.string(),
-    userId: z.string(),
-    price: z.number().optional(), 
-    isFree: z.boolean().optional(),
-})
+  title: z
+    .string()
+    .min(3, "Il titolo deve contenere almeno 3 caratteri")
+    .max(50, "Il titolo non può superare i 50 caratteri"),
+  location: z
+  .string()
+    .min(3, "Il luogo deve contenere almeno 3 caratteri")
+    .max(50, "Il luogo non può superare i 50 caratteri"),
+  description: z
+    .string()
+    .min(10, "La descrizione deve contenere almeno 10 caratteri")
+    .max(300, "La descrizione non può superare i 300 caratteri"),
+  imageSrc: z
+    .string()
+    .url("L'immagine deve essere un URL valido"),
+  category: z
+    .string()
+    .nonempty("La categoria è obbligatoria"),
+  userId: z
+    .string(),
+  price: z
+    .number()
+    .min(0, "Il prezzo deve essere un numero positivo")
+    .optional()
+    .refine((val) => val === undefined || val >= 0, {
+      message: "Il prezzo non può essere negativo",
+    }),
+  isFree: z
+    .boolean()
+    .optional()
+    .default(false),
+}).refine((data) => data.isFree || (data.price !== undefined && data.price > 0), {
+  message: "Se l'evento non è gratuito, il prezzo deve essere specificato",
+  path: ["price"],
+});
 
 
 

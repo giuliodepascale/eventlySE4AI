@@ -1,3 +1,5 @@
+"use server"
+
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 import { CreateEventSchema } from "@/schemas";
@@ -10,12 +12,19 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Campi non validi" };
   }
 
+  
+
   const { title, description, imageSrc, category, userId, price, isFree } =
     validatedFields.data;
 
-  try {
+    console.log("userId: ", userId);
+
     const organizer = await getUserById(userId);
+    console.log("organizzatore: ", organizer);
     if (!organizer) throw new Error("Organizzatore non trovato");
+
+  try {
+    
 
     const newEvent = await db.event.create({
       data: {
