@@ -73,6 +73,9 @@ export const CreateEventSchema = z.object({
     .string()
     .min(3, "Il titolo deve contenere almeno 3 caratteri")
     .max(50, "Il titolo non può superare i 50 caratteri"),
+  eventDate: z.date(), 
+  eventTime: z.date(),
+  eventDateDay: z.date(),
   location: z
   .string()
     .min(3, "Il luogo deve contenere almeno 3 caratteri")

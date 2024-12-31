@@ -24,6 +24,25 @@ import { useRouter } from "next/navigation";
 import { FaEuroSign } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 
+import { Controller } from "react-hook-form";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
+import "dayjs/locale/it";
+
+import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+
+// Imposta la localizzazione italiana per dayjs
+dayjs.locale("it");
+
+
+
+
+
+
 import {
   Select,
   SelectContent,
@@ -32,6 +51,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {FileUploader} from "./file-uploader";
+import { useImageUploader } from "@/hooks/uploader-img";
 
 interface EventFormProps {
   userId: string;
@@ -44,8 +64,13 @@ export const EventForm = ({userId, type}: EventFormProps) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const [files, setFiles] = useState<File[]>([]);
 
+  const { startUpload } = useImageUploader();
+
+
+  
+
+  const [files, setFiles] = useState<File[]>([]);
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
     defaultValues: {
@@ -54,32 +79,84 @@ export const EventForm = ({userId, type}: EventFormProps) => {
       imageSrc: "",
       category: "",
       location: "",
+      eventDate: new Date(),
       userId: userId,
       price: 0,
       isFree: false,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof CreateEventSchema>) => {
-    console.log("arrivo client")
+  async function handleImageUpload(files: File[], defaultImageSrc: string) {
+    let uploadedImageUrl = defaultImageSrc;
+  
+    if (files.length > 0) {
+      const uploadedImages = await startUpload(files);
+  
+      if (!uploadedImages || uploadedImages.length === 0) {
+        throw new Error("Errore durante il caricamento delle immagini");
+      }
+  
+      uploadedImageUrl = uploadedImages[0].url;}
+  
+    return uploadedImageUrl;
+  }
+  
+  const handleEventDateTime = (date: Date, time: Date):Date => {
+    if (!date || !time) {
+      throw new Error("Sia la data che l'orario sono obbligatori.");
+    }
+  
+   
+  // Crea un nuovo oggetto Date partendo da `date` (giorno, mese, anno)
+  const combined = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  // Imposta ore e minuti dall'oggetto `time`
+  combined.setHours(time.getHours());
+  combined.setMinutes(time.getMinutes());
+  combined.setSeconds(0); // Imposta i secondi a zero per evitare dettagli non necessari
+
+  return combined; // Restituisce l'oggetto Date combinato
+};
+  
+  
+
+  async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
+    console.log(values);
     setError("");
     setSuccess("");
+    
+    const combinedDateTime = handleEventDateTime(
+      new Date(values.eventDateDay), 
+      new Date(values.eventTime)
+    );
 
-    startTransition(() => {
-      createEvent(values)
-        .then((data) => {
-          if (data.error) {
-            setError(data.error);
-          } else {
-            setSuccess("Evento creato con successo!");
-          }
-        })
-        .catch((err) => {
-          setError("Si è verificato un errore durante la creazione dell'evento.");
-          console.error(err);
-        });
-    });
-  };
+      // Esegui l'upload immagine prima della transizione
+    //  const uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+  
+      // Aggiorna i valori con l'immagine caricata
+      const updatedValues = {
+        ...values,
+        imageSrc: "https://www.esempio.com/percorso/pagina?parametro=valore",
+        eventDate: combinedDateTime, 
+      };
+  
+      startTransition(() => {
+        console.log(updatedValues);
+        createEvent(updatedValues)
+          .then((data) => {
+            if (data.error) {
+              setError(data.error);
+            } else {
+              setSuccess("Evento creato con successo!");
+            }
+          })
+          .catch((err) => {
+            setError("Si è verificato un errore durante la creazione dell'evento.");
+            console.error(err);
+          });
+      });
+  }
+  
 
   return (
     <CardWrapper
@@ -215,7 +292,126 @@ export const EventForm = ({userId, type}: EventFormProps) => {
               )}
             />
            </div>
-           
+           <FormField
+  control={form.control}
+  name="eventDateDay"
+  render={({ field }) => (
+    <FormItem className="flex flex-col w-full">
+      <FormLabel>Seleziona la data</FormLabel>
+      <FormControl>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+          <Controller
+            name="eventDateDay"
+            control={form.control}
+            render={({ field: controllerField }) => (
+              <MobileDatePicker
+                label="Data"
+                value={controllerField.value ? dayjs(controllerField.value) : null}
+                onChange={(newValue) => controllerField.onChange(newValue?.toDate())}
+                views={['year', 'month', 'day']}
+                slotProps={{
+                  textField: {
+                    sx: {
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '12px',
+                        padding: '10px',
+                        borderColor: '#ccc',
+                        '&:hover': {
+                          borderColor: '#007aff',
+                        },
+                      },
+                    },
+                  },
+                  dialog: {
+                    sx: {
+                      borderRadius: '16px',
+                      '& .MuiPickersCalendarHeader-root': {
+                        backgroundColor: '#007aff',
+                        color: '#fff',
+                      },
+                      '& .MuiPickersDay-root': {
+                        borderRadius: '50%',
+                        '&.Mui-selected': {
+                          backgroundColor: '#007aff',
+                          color: '#fff',
+                        },
+                        '&:hover': {
+                          backgroundColor: '#f0f0f0',
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
+            )}
+          />
+        </LocalizationProvider>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+<FormField
+  control={form.control}
+  name="eventTime"
+  render={({ field }) => (
+    <FormItem className="flex flex-col w-full mt-4">
+      <FormLabel>Seleziona l'orario</FormLabel>
+      <FormControl>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+          <Controller
+            name="eventTime"
+            control={form.control}
+            render={({ field: controllerField }) => (
+              <MobileTimePicker
+                label="Orario"
+                value={controllerField.value ? dayjs(controllerField.value) : null}
+                onChange={(newValue) => controllerField.onChange(newValue?.toDate())}
+                ampm={false} // Formato 24 ore
+                minutesStep={5} // Limita la selezione agli intervalli di 5 minuti
+                slotProps={{
+                  textField: {
+                    sx: {
+                      '& .MuiOutlinedInput-root': {
+                        borderRadius: '12px',
+                        padding: '10px',
+                        borderColor: '#ccc',
+                        '&:hover': {
+                          borderColor: '#007aff',
+                        },
+                      },
+                    },
+                  },
+                  dialog: {
+                    sx: {
+                      borderRadius: '16px',
+                      '& .MuiTypography-root': {
+                        fontSize: '14px',
+                      },
+                      '& .MuiPickersClock-pointer': {
+                        backgroundColor: '#007aff',
+                      },
+                      '& .MuiPickersClock-pin': {
+                        backgroundColor: '#007aff',
+                      },
+                      '& .MuiButtonBase-root:hover': {
+                        backgroundColor: '#f0f0f0',
+                      },
+                    },
+                  },
+                }}
+              />
+            )}
+          />
+        </LocalizationProvider>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+
            {//checkbox isFree TODO
             }
             

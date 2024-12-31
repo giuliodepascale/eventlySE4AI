@@ -14,7 +14,7 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
 
   
 
-  const { title, description, imageSrc, category, userId, price, isFree } =
+  const { title, description, imageSrc, category, userId, price, isFree , eventDate, location} =
     validatedFields.data;
 
     console.log("userId: ", userId);
@@ -31,7 +31,9 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         title,
         description,
         imageSrc,
+        location,
         category,
+        eventDate,
         userId,
         price: price ?? null,
         isFree: isFree ?? false,
