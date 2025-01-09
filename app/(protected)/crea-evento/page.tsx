@@ -7,6 +7,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 const CreateEventPage = () => {
 
     const user = useCurrentUser();
+    console.log(user);
 
     return (
             <div>

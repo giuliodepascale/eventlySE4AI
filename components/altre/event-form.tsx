@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createEvent } from "@/actions/event"; // Import dell'action
-import { useState, useTransition } from "react";
+import { use, useState, useTransition } from "react";
 import { FaEuroSign } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 
@@ -70,7 +70,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
 
 
   const { uploadFiles } = useUploadThing;
-
+  console.log("userIdprops EventForm: ", userIdprops);
   
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -131,7 +131,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
   
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-    console.log(values);
+    console.log("valori", values);
     setError("");
     setSuccess("");
     
@@ -148,7 +148,8 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       const updatedValues = {
         ...values,
         eventDate: combinedDateTime, 
-        imageSrc: uploadedImageUrl
+        imageSrc: uploadedImageUrl,
+        userId: userIdprops
       };
   
       startTransition(() => {
