@@ -2,26 +2,17 @@ import Container from "@/components/altre/container";
 import EmptyState from "@/components/altre/empty-state";
 
 
-
-interface HomeProps {
-  searchParams: string;
-}
-
-export default async function Home({
-  searchParams,
-}: HomeProps) {
-
-  //ricava listings
+export default async function Home() {
   const listings = undefined;
 
-  if(!listings) return (
-    <EmptyState showReset></EmptyState>
-  )
+  if (!listings)
+    return <EmptyState showReset></EmptyState>;
 
   return (
-    <main >
+    <main>
       <Container>
-          <div className="
+        <div
+          className="
             pt-24
             grid
             grid-cols-1
@@ -31,12 +22,11 @@ export default async function Home({
             xl:grid-cols-5
             2xl:grid-cols-6
             gap-8
-          ">
-
-          </div>
-
-      </Container>    
+          "
+        >
+          {/* Qui puoi mappare i listings */}
+        </div>
+      </Container>
     </main>
-    
   );
 }

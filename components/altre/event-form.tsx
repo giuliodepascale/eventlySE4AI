@@ -20,7 +20,6 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createEvent } from "@/actions/event"; // Import dell'action
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { FaEuroSign } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 
@@ -62,6 +61,7 @@ interface EventFormProps {
 }
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const EventForm = ({userId, type}: EventFormProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -73,6 +73,7 @@ export const EventForm = ({userId, type}: EventFormProps) => {
 
   
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [files, setFiles] = useState<File[]>([]);
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
@@ -91,19 +92,24 @@ export const EventForm = ({userId, type}: EventFormProps) => {
 
   async function handleImageUpload(files: File[], defaultImageSrc: string) {
     let uploadedImageUrl = defaultImageSrc;
+  
     console.log("Inizio caricamento immagini...");
-       if (files.length > 0) {
-        console.log("Inizio caricamento immagini2...");
-      const uploadedImages = await uploadFiles("imageUploader", { files }); 
+    if (files.length > 0) {
+      console.log("Inizio caricamento immagini2...");
+      const uploadedImages = await uploadFiles("imageUploader", { files });
       console.log("Immagini caricate con successo:", uploadedImages);
   
       if (!uploadedImages || uploadedImages.length === 0) {
         throw new Error("Errore durante il caricamento delle immagini");
       }
   
-
+      // Assegna l'URL della prima immagine caricata
+      uploadedImageUrl = uploadedImages[0].url;
+    }
+  
     return uploadedImageUrl;
   }
+  
   
   const handleEventDateTime = (date: Date, time: Date):Date => {
     if (!date || !time) {
@@ -302,6 +308,7 @@ export const EventForm = ({userId, type}: EventFormProps) => {
            <FormField
   control={form.control}
   name="eventDateDay"
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render={({ field }) => (
     <FormItem className="flex flex-col w-full">
       <FormLabel>Seleziona la data</FormLabel>
@@ -362,9 +369,10 @@ export const EventForm = ({userId, type}: EventFormProps) => {
 <FormField
   control={form.control}
   name="eventTime"
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   render={({ field }) => (
     <FormItem className="flex flex-col w-full mt-4">
-      <FormLabel>Seleziona l'orario</FormLabel>
+      <FormLabel>Seleziona l&apos;orario</FormLabel>
       <FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
           <Controller

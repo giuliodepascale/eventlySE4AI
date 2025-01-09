@@ -62,9 +62,9 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
         >
           <Input {...getInputProps()} />
           {isDragActive ? (
-            <p className="text-blue-500 font-medium">Rilascia l'immagine qui...</p>
+            <p className="text-blue-500 font-medium">Rilascia l&apos;immagine qui...</p>
           ) : (
-            <p className="text-gray-600">Trascina un'immagine qui o clicca per selezionarla</p>
+            <p className="text-gray-600">Trascina un&apos;immagine qui o clicca per selezionarla</p>
           )}
         </div>
       ) : (
