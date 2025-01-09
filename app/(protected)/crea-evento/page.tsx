@@ -10,7 +10,7 @@ const CreateEventPage = () => {
 
     return (
             <div>
-                <EventForm userId={user?.id || ''}  type="create"/>
+                <EventForm userIdprops={user?.id || ''}  type="create"/>
             </div>
     )
 }
