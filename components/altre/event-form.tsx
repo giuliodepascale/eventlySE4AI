@@ -27,11 +27,11 @@ import { FiMapPin } from "react-icons/fi";
 import { Controller } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+
+
 import dayjs from "dayjs";
 import "dayjs/locale/it";
 
-import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 
@@ -51,7 +51,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {FileUploader} from "./file-uploader";
-import { useImageUploader } from "@/hooks/uploader-img";
+
+import { useUploadThing } from "@/lib/uploadthing";
+
+
 
 interface EventFormProps {
   userId: string;
@@ -65,8 +68,8 @@ export const EventForm = ({userId, type}: EventFormProps) => {
   const [isPending, startTransition] = useTransition();
 
 
-  const { startUpload } = useImageUploader();
 
+  const { uploadFiles } = useUploadThing;
 
   
 
@@ -88,16 +91,17 @@ export const EventForm = ({userId, type}: EventFormProps) => {
 
   async function handleImageUpload(files: File[], defaultImageSrc: string) {
     let uploadedImageUrl = defaultImageSrc;
-  
-    if (files.length > 0) {
-      const uploadedImages = await startUpload(files);
+    console.log("Inizio caricamento immagini...");
+       if (files.length > 0) {
+        console.log("Inizio caricamento immagini2...");
+      const uploadedImages = await uploadFiles("imageUploader", { files }); 
+      console.log("Immagini caricate con successo:", uploadedImages);
   
       if (!uploadedImages || uploadedImages.length === 0) {
         throw new Error("Errore durante il caricamento delle immagini");
       }
   
-      uploadedImageUrl = uploadedImages[0].url;}
-  
+
     return uploadedImageUrl;
   }
   
@@ -130,17 +134,20 @@ export const EventForm = ({userId, type}: EventFormProps) => {
       new Date(values.eventTime)
     );
 
-      // Esegui l'upload immagine prima della transizione
-    //  const uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+    
+      const uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
   
-      // Aggiorna i valori con l'immagine caricata
+    
+     
       const updatedValues = {
         ...values,
-        imageSrc: "https://www.esempio.com/percorso/pagina?parametro=valore",
         eventDate: combinedDateTime, 
+        imageSrc: uploadedImageUrl
       };
   
       startTransition(() => {
+
+
         console.log(updatedValues);
         createEvent(updatedValues)
           .then((data) => {

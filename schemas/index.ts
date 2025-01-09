@@ -74,8 +74,16 @@ export const CreateEventSchema = z.object({
     .min(3, "Il titolo deve contenere almeno 3 caratteri")
     .max(50, "Il titolo non può superare i 50 caratteri"),
   eventDate: z.date(), 
-  eventTime: z.date(),
-  eventDateDay: z.date(),
+  eventTime: z.date({required_error: "Il campo orario dell'evento è obbligatorio",}),
+  eventDateDay: z.date({required_error: "Il campo data dell'evento è obbligatorio",}).refine(
+    (date) => {
+      const now = new Date();
+      return date >= now;
+    },
+    {
+      message: "La data dell'evento non può essere nel passato",
+    }
+  ),
   location: z
   .string()
     .min(3, "Il luogo deve contenere almeno 3 caratteri")
