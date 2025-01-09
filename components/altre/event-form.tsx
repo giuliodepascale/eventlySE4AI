@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createEvent } from "@/actions/event"; // Import dell'action
-import { use, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { FaEuroSign } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 
