@@ -56,13 +56,13 @@ import { useUploadThing } from "@/lib/uploadthing";
 
 
 interface EventFormProps {
-  userId: string;
+  userIdprops: string;
   type: string
 }
 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const EventForm = ({userId, type}: EventFormProps) => {
+export const EventForm = ({userIdprops, type}: EventFormProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -84,7 +84,7 @@ export const EventForm = ({userId, type}: EventFormProps) => {
       category: "",
       location: "",
       eventDate: new Date(),
-      userId: userId,
+      userId: userIdprops,
       price: 0,
       isFree: false,
     },
