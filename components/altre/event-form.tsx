@@ -66,7 +66,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
 
   const { uploadFiles } = useUploadThing;
@@ -130,7 +130,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
   
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-    
+    setIsSubmitting(true);
     setError("");
     setSuccess("");
     
@@ -167,7 +167,10 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
           .catch((err) => {
             setError("Si è verificato un errore durante la creazione dell'evento.");
             console.error(err);
-          });
+          })
+          .finally (() => {
+              setIsSubmitting(false)
+          })
       });
   }
   
@@ -432,8 +435,8 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
             
             <FormError message={error} />
             <FormSuccess message={success} />
-            <Button type="submit" className="w-full" disabled={isPending}>
-              Crea Evento
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              
             </Button>
             </div>
         </form>
