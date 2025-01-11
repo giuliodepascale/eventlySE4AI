@@ -1,10 +1,12 @@
 import Container from "@/components/altre/container";
 import EmptyState from "@/components/altre/empty-state";
-import EventCard from "@/components/events/eventCard";
 import { getEvents } from "@/data/event";
-import { SafeEvent } from "./types";
 import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
+import { Suspense } from "react";
+import EventList from "@/components/events/events-list";
+import Loading from "./loading";
+import { User } from "@prisma/client";
 
 
 
@@ -41,17 +43,10 @@ export default async function Home() {
             gap-8
           "
         >
-           {events.map((event: SafeEvent) => {
-                return (
-                  
-                  <EventCard 
-                  currentUser={fullUser || null}
-                  data={event}
-                  key={event.id}
-                  />
-               
-                )
-              })}
+           <Suspense fallback={<Loading />}>
+            <EventList events={events} currentUser={fullUser as User || null} />
+          </Suspense>
+              
         </div>
       </Container>
     </main>
