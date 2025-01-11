@@ -436,7 +436,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
             <FormError message={error} />
             <FormSuccess message={success} />
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              
+              Crea evento
             </Button>
             </div>
         </form>
