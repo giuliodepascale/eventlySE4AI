@@ -7,10 +7,12 @@ import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
 
 
-export default async function Home() {
-  const events = await getEvents();
 
-  const user = await currentUser();
+export default async function Home() {
+  const [events, user] = await Promise.all([getEvents(), currentUser()]);
+
+
+  
 
   let fullUser = null;
   if(user && user.id){
@@ -41,11 +43,13 @@ export default async function Home() {
         >
            {events.map((event: SafeEvent) => {
                 return (
+                  
                   <EventCard 
                   currentUser={fullUser || null}
                   data={event}
                   key={event.id}
                   />
+               
                 )
               })}
         </div>

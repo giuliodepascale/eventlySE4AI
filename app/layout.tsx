@@ -22,10 +22,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Evently Italia - Trova Eventi Unici Nella Tua Città",
-  description: "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
-};
+  title: "Evently Italia – Eventi Salerno",
+  description:
+    "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
+  
+  alternates: {
+    canonical: "https://www.evently.com/",
+  },
 
+  // Metadati Open Graph (per Facebook, LinkedIn, ecc.)
+  openGraph: {
+    title: "Evently Italia – Eventi Salerno",
+    description:
+      "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro.",
+    url: "https://www.evently.com/",
+    siteName: "Evently Italia",
+    locale: "it_IT",
+    type: "website",
+  },
+};
 
 export default async function RootLayout({
   children,
