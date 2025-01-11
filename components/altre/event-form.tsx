@@ -195,7 +195,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       {...field}
                       placeholder="Inserisci il titolo dell'evento"
                       type="text"
-                      disabled={isPending}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -213,7 +213,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       {...field}
                       placeholder="Descrizione dell'evento"
                       type="text"
-                      disabled={isPending}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -251,7 +251,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                     </FormControl>
                     <SelectContent>
                       {categories.map((item) => (
-                        <SelectItem key={item.label} value={item.label}>
+                        <SelectItem key={item.label} value={item.label} disabled={isSubmitting}>
                           {item.label}
                         </SelectItem>
                       ))}
@@ -275,7 +275,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       {...field}
                       placeholder="Prezzo dell'evento"
                       type="text"
-                      disabled={isPending}
+                      disabled={isSubmitting}
                     />
                   </div>
                   </FormControl>
@@ -298,7 +298,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       {...field}
                       placeholder="Luogo dell'evento"
                       type="text"
-                      disabled={isPending}
+                      disabled={isSubmitting}
                        className="flex-1 focus:ring-0 w-full"
                     />
                   </div>
@@ -317,7 +317,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       <FormLabel>Seleziona la data</FormLabel>
       <FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
-          <Controller
+          <Controller disabled={isSubmitting}
             name="eventDateDay"
             control={form.control}
             render={({ field: controllerField }) => (
@@ -378,7 +378,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       <FormLabel>Seleziona l&apos;orario</FormLabel>
       <FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
-          <Controller
+          <Controller disabled={isSubmitting}
             name="eventTime"
             control={form.control}
             render={({ field: controllerField }) => (
