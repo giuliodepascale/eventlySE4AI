@@ -51,9 +51,7 @@ export default async function RootLayout({
 }>) {
 
   const session = await auth();
-  const user = await currentUser();
-
-
+  
   return (
     
     <SessionProvider session={session}>
@@ -61,7 +59,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar currentUser={user}/>
+        <Navbar currentUser={session?.user}/>
         <Toaster/>
         <Suspense fallback={<Loading/>}>
         <div className="pt-20 pt-28">

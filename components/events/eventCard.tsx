@@ -46,7 +46,6 @@ const EventCard:React.FC<EventCardProps> = ({
                     alt="Evento"
                     src={data.imageSrc}
                     fill
-                    priority
                     className="
                         object-cover
                         h-full
