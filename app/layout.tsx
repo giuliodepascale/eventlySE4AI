@@ -6,7 +6,6 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { currentUser } from "@/lib/auth";
 import Navbar from "@/components/altre/navbar";
 import { Suspense } from "react";
 import Loading from "./loading";
