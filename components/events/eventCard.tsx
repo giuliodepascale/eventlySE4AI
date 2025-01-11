@@ -7,7 +7,7 @@ import Image from "next/image";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
 import { Suspense } from "react";
-import Loading from "@/app/loading";
+
 
 interface EventCardProps {
     data: SafeEvent;
@@ -27,6 +27,7 @@ const EventCard:React.FC<EventCardProps> = ({
 
 
     return (
+        <Suspense>
         <div 
         onClick={()=> router.push(`/events/${data.id}`)}
         className="
@@ -40,11 +41,12 @@ const EventCard:React.FC<EventCardProps> = ({
                     overflow-hidden
                     rounded-xl
                 ">
-                    <Suspense fallback={<Loading />}>
+                    
                     <Image 
                     alt="Evento"
                     src={data.imageSrc}
                     fill
+                    priority
                     className="
                         object-cover
                         h-full
@@ -53,7 +55,7 @@ const EventCard:React.FC<EventCardProps> = ({
                         transition
 
                     "/>
-                    </Suspense>
+                   
                     <div className="absolute top-3 right-3">
                         <HeartButton 
                             eventId={data.id}
@@ -77,7 +79,7 @@ const EventCard:React.FC<EventCardProps> = ({
             </div>
         </div>
         
-      
+        </Suspense>
     )
 }
 
