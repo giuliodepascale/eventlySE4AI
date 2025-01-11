@@ -195,7 +195,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       {...field}
                       placeholder="Inserisci il titolo dell'evento"
                       type="text"
-                      disabled={isSubmitting}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
