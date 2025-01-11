@@ -46,7 +46,7 @@ export default async function RootLayout({
       >
         <Navbar currentUser={user}/>
         <Toaster/>
-        <div className="pb-20 pt-28">
+        <div className="pt-20 pt-28">
         {children}
         </div>
         <Analytics/>

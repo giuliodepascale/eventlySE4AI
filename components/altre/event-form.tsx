@@ -70,7 +70,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
 
 
   const { uploadFiles } = useUploadThing;
-  console.log("userIdprops EventForm: ", userIdprops);
+ 
   
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -85,19 +85,18 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       location: "",
       eventDate: new Date(),
       userId: userIdprops,
-      price: 0,
-      isFree: false,
+      price: "",
     },
   });
 
   async function handleImageUpload(files: File[], defaultImageSrc: string) {
     let uploadedImageUrl = defaultImageSrc;
   
-    console.log("Inizio caricamento immagini...");
+    
     if (files.length > 0) {
-      console.log("Inizio caricamento immagini2...");
+ 
       const uploadedImages = await uploadFiles("imageUploader", { files });
-      console.log("Immagini caricate con successo:", uploadedImages);
+
   
       if (!uploadedImages || uploadedImages.length === 0) {
         throw new Error("Errore durante il caricamento delle immagini");
@@ -131,7 +130,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
   
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-    console.log("valori", values);
+    
     setError("");
     setSuccess("");
     
@@ -272,9 +271,8 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                     <Input
                       {...field}
                       placeholder="Prezzo dell'evento"
-                      type="number"
+                      type="text"
                       disabled={isPending}
-                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </div>
                   </FormControl>

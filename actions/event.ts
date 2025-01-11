@@ -14,14 +14,21 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
 
   
 
-  const { title, description, imageSrc, category, userId, price, isFree , eventDate, location} =
+  const { title, description, imageSrc, category, userId, price, eventDate, location} =
     validatedFields.data;
 
-    console.log("userId: ", userId);
+    
 
     const organizer = await getUserById(userId);
-    console.log("organizzatore: ", organizer);
+  
     if (!organizer) throw new Error("Organizzatore non trovato");
+   
+   
+    const finalPrice = price ? parseInt(price, 10) : 0;
+
+    const isFree = finalPrice === 0
+    
+    
 
   try {
     
@@ -35,8 +42,8 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         category,
         eventDate,
         userId,
-        price: price ?? 0,
-        isFree: isFree ?? true,
+        price: finalPrice,
+        isFree: isFree,
       },
     });
 

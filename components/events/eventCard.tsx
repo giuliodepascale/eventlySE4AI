@@ -28,7 +28,7 @@ const EventCard:React.FC<EventCardProps> = ({
         <div 
         onClick={()=> router.push(`/events/${data.id}`)}
         className="
-            col-span-1 cursor-pointer group p-4
+            col-span-1 cursor-pointer group p-4  border transition rounded-xl
         ">
             <div className="flex flex-col gap-2 w-full">
                 <div className="

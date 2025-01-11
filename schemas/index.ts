@@ -101,19 +101,24 @@ export const CreateEventSchema = z.object({
   userId: z
     .string(),
   price: z
-    .number()
-    .min(0, "Il prezzo deve essere un numero positivo")
+    .string()
     .optional()
-    .refine((val) => val === undefined || val >= 0, {
-      message: "Il prezzo non può essere negativo",
+    .refine((val) => {
+      if (val === undefined) return true;
+
+      // Converte in intero.
+      const intVal = parseInt(val, 10);
+
+      // Controlla che non sia NaN e non sia negativo.
+      if (isNaN(intVal) || intVal < 0) {
+        return false;
+      }
+
+      // Se `intVal.toString()` è uguale a `val`, significa che non c'erano decimali.
+      return intVal.toString() === val;
+    }, {
+      message: "Il prezzo deve essere un intero non negativo",
     }),
-  isFree: z
-    .boolean()
-    .optional()
-    .default(false),
-}).refine((data) => data.isFree || (data.price !== undefined && data.price > 0), {
-  message: "Se l'evento non è gratuito, il prezzo deve essere specificato",
-  path: ["price"],
 });
 
 
