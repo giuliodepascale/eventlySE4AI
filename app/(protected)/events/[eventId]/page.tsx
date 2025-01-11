@@ -1,3 +1,4 @@
+import { SafeEvent } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/altre/event-client";
 import { getEventById } from "@/data/event";
@@ -5,22 +6,23 @@ import  {currentUser}  from "@/lib/auth";
 
 
 interface EventPageProps {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    params: Promise<{ [key: string]: string | string[] | undefined }>;
   }
 
 
-export default async function EventPage({ searchParams }: EventPageProps) {
+export default async function EventPage({ params }: EventPageProps) {
     
-    const params = await searchParams;
+    const {eventId} = await params;
     
     // Estrai l'ID dai parametri di ricerca
 
-    const id = typeof params.id === 'string' ? params.id : "";
-
-    const event = await getEventById(id);
+  
+    const event = await getEventById(eventId as string || '');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const user = await currentUser();
+    
+ 
 
     if(!event) {
         return (
@@ -29,12 +31,10 @@ export default async function EventPage({ searchParams }: EventPageProps) {
     }
 
     return (
-            
                 <EventClient 
-                  //  event={event}
-                   // currentUser={user}
+                     event={event as SafeEvent}
+                     currentUser={user}
                 />
-           
     )
 }
 

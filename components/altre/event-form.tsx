@@ -162,6 +162,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
               setError(data.error);
             } else {
               setSuccess("Evento creato con successo!");
+              //TODO FARE PAGINA I MIEI EVENTI E POI PORTARE LI DA CLIENT O DA SERVER
             }
           })
           .catch((err) => {

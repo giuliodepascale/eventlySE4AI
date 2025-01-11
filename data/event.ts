@@ -7,7 +7,25 @@ export const getEventById = async (id: string) => {
             id
         }
     })
-    return event;
+    return {
+        ...event,
+        eventDate: event?.eventDate.toISOString(),
+        createdAt: event?.createdAt.toISOString(), // Converte la data in stringa ISO
+    };
+    } catch (error){
+        console.error(error);
+        return null;
+    }
+}
+
+export const getEvents = async () => {
+    try {
+    const events = await db.event.findMany({});
+    return events.map((event) => ({
+        ...event,
+        eventDate: event?.eventDate.toISOString(),
+        createdAt: event?.createdAt.toISOString(), // Converte la data in stringa ISO
+    }));
     } catch (error){
         console.error(error);
         return null;

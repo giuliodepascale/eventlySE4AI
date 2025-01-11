@@ -35,8 +35,8 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         category,
         eventDate,
         userId,
-        price: price ?? null,
-        isFree: isFree ?? false,
+        price: price ?? 0,
+        isFree: isFree ?? true,
       },
     });
 

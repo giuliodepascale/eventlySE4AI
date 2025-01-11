@@ -1,12 +1,26 @@
 import Container from "@/components/altre/container";
 import EmptyState from "@/components/altre/empty-state";
+import EventCard from "@/components/events/eventCard";
+import { getEvents } from "@/data/event";
+import { SafeEvent } from "./types";
+import { currentUser } from "@/lib/auth";
+import { getUserById } from "@/data/user";
 
 
 export default async function Home() {
-  const listings = undefined;
+  const events = await getEvents();
 
-  if (!listings)
+  const user = await currentUser();
+
+  let fullUser = null;
+  if(user && user.id){
+    fullUser = await getUserById(user.id);
+  }
+
+  if (!events || events.length === 0)
     return <EmptyState showReset></EmptyState>;
+
+  
 
   return (
     <main>
@@ -24,7 +38,15 @@ export default async function Home() {
             gap-8
           "
         >
-          {/* Qui puoi mappare i listings */}
+           {events.map((event: SafeEvent) => {
+                return (
+                  <EventCard 
+                  currentUser={fullUser || null}
+                  data={event}
+                  key={event.id}
+                  />
+                )
+              })}
         </div>
       </Container>
     </main>
