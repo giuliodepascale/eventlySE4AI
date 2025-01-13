@@ -49,9 +49,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import {FileUploader} from "./file-uploader";
 
-import { useUploadThing } from "@/lib/uploadthing";
+import {FileUploader} from "./file-uploader";
+import {useUploadThing} from "@/lib/uploadthing";
 
 
 
@@ -69,7 +69,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-  const { uploadFiles } = useUploadThing;
+  const { startUpload } = useUploadThing("imageUploader");
  
   
 
@@ -85,7 +85,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       location: "",
       eventDate: new Date(),
       userId: userIdprops,
-      price: "",
+      price: "0",
     },
   });
 
@@ -95,11 +95,11 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
     
     if (files.length > 0) {
  
-      const uploadedImages = await uploadFiles("imageUploader", { files });
+      const uploadedImages = await startUpload(files);
 
   
       if (!uploadedImages || uploadedImages.length === 0) {
-        throw new Error("Errore durante il caricamento delle immagini");
+          return;
       }
   
       // Assegna l'URL della prima immagine caricata
@@ -140,8 +140,10 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
     );
 
     
-      const uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
-  
+      let uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+      if(!uploadedImageUrl) {
+        uploadedImageUrl = values.imageSrc
+      }
     
      
       const updatedValues = {
