@@ -2,7 +2,7 @@ import { SafeEvent } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/altre/event-client";
 import { getEventById } from "@/data/event";
-import  {currentUser}  from "@/lib/auth";
+import { getUserById } from "@/data/user";
 
 
 interface EventPageProps {
@@ -19,8 +19,9 @@ export default async function EventPage({ params }: EventPageProps) {
   
     const event = await getEventById(eventId as string || '');
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const user = await currentUser();
+    const organizer = await getUserById(event?.userId as string || '');
+    
+
     
  
 
@@ -33,7 +34,7 @@ export default async function EventPage({ params }: EventPageProps) {
     return (
                 <EventClient 
                      event={event as SafeEvent}
-                     currentUser={user}
+                     organizer={organizer}
                 />
     )
 }

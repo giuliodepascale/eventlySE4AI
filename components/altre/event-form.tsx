@@ -53,6 +53,8 @@ import {
 import {FileUploader} from "./file-uploader";
 import {useUploadThing} from "@/lib/uploadthing";
 
+import { Checkbox } from "@/components/ui/checkbox";
+
 
 
 interface EventFormProps {
@@ -83,6 +85,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
       imageSrc: "",
       category: "",
       location: "",
+      isFree: true,
       eventDate: new Date(),
       userId: userIdprops,
       price: "0",
@@ -163,6 +166,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
               setError(data.error);
             } else {
               setSuccess("Evento creato con successo!");
+              form.reset();
               //TODO FARE PAGINA I MIEI EVENTI E POI PORTARE LI DA CLIENT O DA SERVER
             }
           })
@@ -285,8 +289,32 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                 </FormItem>
               )}
             />
+            
            </div>
+           <FormField
+              control={form.control}
+              name="isFree"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Ingresso libero</FormLabel>
+                  <FormControl>
+                  <div className="flex items-center gap-2 rounded-lg  py-2">
+                  
+                    <Checkbox
+                      onCheckedChange={field.onChange}
+                      checked={field.value}
+
+                  
+                    />
+                  </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
            <div className="flex flex-col gap-5 md:flex-row">
+           
+            
             <FormField
               control={form.control}
               name="location"

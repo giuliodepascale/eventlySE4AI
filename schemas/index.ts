@@ -74,6 +74,7 @@ export const CreateEventSchema = z.object({
     .min(3, "Il titolo deve contenere almeno 3 caratteri")
     .max(50, "Il titolo non può superare i 50 caratteri"),
   eventDate: z.date(), 
+  isFree: z.boolean(),
   eventTime: z.date({required_error: "Il campo orario dell'evento è obbligatorio",}),
   eventDateDay: z.date({required_error: "Il campo data dell'evento è obbligatorio",}).refine(
     (date) => {
@@ -102,7 +103,6 @@ export const CreateEventSchema = z.object({
     .string(),
   price: z
     .string()
-    .optional()
     .refine((val) => {
       if (val === undefined) return true;
 
@@ -118,8 +118,25 @@ export const CreateEventSchema = z.object({
       return intVal.toString() === val;
     }, {
       message: "Il prezzo deve essere un intero non negativo",
-    }),
-});
+    })
+}).refine((data) => {
+  if(data.isFree && parseInt(data.price) > 0) {
+      return false
+  }
+  return true
+}, {
+  message: "Il prezzo deve essere pari a 0 se l'evento ha ingresso libero",
+  path: ["price"]
+}).refine((data) => {
+  if(!data.isFree && parseInt(data.price) === 0) {
+      return false
+  }
+  return true
+}, {
+  message: "Se il prezzo è pari a 0 l'ingresso deve essere libero",
+  path: ["isFree"]
+})
+;
 
 
 
