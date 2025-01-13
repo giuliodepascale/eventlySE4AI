@@ -3,6 +3,7 @@ import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/altre/event-client";
 import { getEventById } from "@/data/event";
 import { getUserById } from "@/data/user";
+import { currentUser } from "@/lib/auth";
 
 
 interface EventPageProps {
@@ -21,9 +22,12 @@ export default async function EventPage({ params }: EventPageProps) {
 
     const organizer = await getUserById(event?.userId as string || '');
     
+    const user = await currentUser();
 
-    
- 
+    let fullUser = null;
+    if(user && user.id){
+    fullUser = await getUserById(user.id);
+    }
 
     if(!event) {
         return (
@@ -35,6 +39,7 @@ export default async function EventPage({ params }: EventPageProps) {
                 <EventClient 
                      event={event as SafeEvent}
                      organizer={organizer}
+                     currentUser= {fullUser || null}
                 />
     )
 }
