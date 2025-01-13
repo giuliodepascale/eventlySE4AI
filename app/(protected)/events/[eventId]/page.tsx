@@ -20,6 +20,14 @@ export default async function EventPage({ params }: EventPageProps) {
   
     const event = await getEventById(eventId as string || '');
 
+   
+
+    if(!event) {
+        return (
+                <EmptyState title="Evento non trovato" subtitle="La pagina che stai cercando non esiste " />
+        )
+    }
+
     const organizer = await getUserById(event?.userId as string || '');
     
     const user = await currentUser();
@@ -29,11 +37,8 @@ export default async function EventPage({ params }: EventPageProps) {
     fullUser = await getUserById(user.id);
     }
 
-    if(!event) {
-        return (
-                <EmptyState />
-        )
-    }
+
+    
 
     return (
                 <EventClient 

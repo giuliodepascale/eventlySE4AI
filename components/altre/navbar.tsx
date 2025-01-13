@@ -36,7 +36,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         ">
          <Logo />
          {pathname === '/' && (<Search/>)}
-         
+         { // crea spazio per schermo responsive anche senza funzionalità ricerca
+         pathname !== '/' && (<div className="w-full md:w-auto"> </div>)}
          <UserMenu currentUser={currentUser} />
         </div>
         </Container>

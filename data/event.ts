@@ -7,6 +7,7 @@ export const getEventById = async (id: string) => {
             id
         }
     })
+    if(!event) return null;
     return {
         ...event,
         eventDate: event?.eventDate.toISOString(),
@@ -21,6 +22,7 @@ export const getEventById = async (id: string) => {
 export const getEvents = async () => {
     try {
     const events = await db.event.findMany({});
+    if(!events) return null;
     return events.map((event) => ({
         ...event,
         eventDate: event?.eventDate.toISOString(),

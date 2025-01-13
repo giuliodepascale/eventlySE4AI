@@ -63,7 +63,7 @@ const EventCard:React.FC<EventCardProps> = ({
                             />
                     </div>
                 </div>
-                <div className="font-semibold text-lg">
+                <div className="font-semibold text-lg break-words">
                     {data.title}
                 </div>
                 <div className="font-light text-neutral-500">

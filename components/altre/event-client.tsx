@@ -25,12 +25,14 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-6xl">
-        <div className="relative w-full h-[60vh] overflow-hidden rounded-xl">
+        <div className="w-full h-[70vh] overflow-hidden
+        rounded-xl
+        relative">
           <Image
             src={event.imageSrc}
-            fill
             alt="Event Image"
-            className="h-full min-h-[300px] object-cover object-center"
+            fill
+            className="object-cover w-full"
           />
           <div className="absolute top-5 right-5">
             <HeartButton eventId={event.id} currentUser={currentUser} />
@@ -39,7 +41,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
   
         <div className="flex flex-col w-full gap-8 p-5 md:p-10">
           <div className="flex flex-col gap-6">
-            <h2 className="text-4xl font-bold text-black">{event.title}</h2>
+            <h2 className="text-4xl font-bold text-black break-words">{event.title}</h2>
   
             <div className="flex flex-col gap-3 sm:flex-row md:items-center">
               <div className="flex gap-3">
@@ -70,16 +72,16 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
             </div>
             <div className="flex items-center gap-3 text-sm">
               <CiLocationOn size={24} />
-              <p>{event.location}</p>
+              <p className="font-bold text-lg text-gray-600 break-words">{event.location}</p>
             </div>
           </div>
   
           <div className="flex flex-col gap-2 md:gap-3">
             <div className="flex items-center gap-2 md:gap-3">
-              <FaPen size={24} />
+              <FaPen size={20} />
               <p className="font-bold text-gray-600">Descrizione Evento</p>
             </div>
-            <p className="text-sm text-gray-700">{event.description}</p>
+            <p className="text-sm text-gray-700 break-words">{event.description}</p>
           </div>
         </div>
       </div>
