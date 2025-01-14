@@ -43,6 +43,7 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
       'image/png': ['.png'],
       'image/bmp': ['.bmp'],
       'image/svg+xml': ['.svg'],
+      'image/webp': ['.webp'],
     },
   });
 

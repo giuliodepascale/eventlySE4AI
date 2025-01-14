@@ -30,6 +30,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
         relative">
           <Image
             src={event.imageSrc}
+            priority
             alt="Event Image"
             fill
             className="object-cover w-full"
