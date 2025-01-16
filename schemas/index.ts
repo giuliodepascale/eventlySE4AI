@@ -79,7 +79,7 @@ export const CreateEventSchema = z.object({
   eventDateDay: z.date({required_error: "Il campo data dell'evento è obbligatorio",}).refine(
     (date) => {
       const now = new Date();
-      now.setHours(0, 0, 0, 0);
+      now.setHours(2, 2, 2, 2);
       return date >= now;
     },
     {

@@ -39,6 +39,7 @@ import {
 import { FileUploader } from "./file-uploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Loader } from "lucide-react";
 
 
 dayjs.locale("it");
@@ -131,8 +132,13 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
     });
   }
 
+if(isSubmitting){
   return (
-    
+    <Loader />
+  )
+}
+  return (
+   
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
