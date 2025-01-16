@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CreateEventSchema } from "@/schemas";
 import { categories } from "@/components/altre/categories";
-
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -39,7 +38,7 @@ import {
 import { FileUploader } from "./file-uploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Loader } from "lucide-react";
+import Loader from "../loader";
 
 
 dayjs.locale("it");
@@ -132,13 +131,14 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
     });
   }
 
-if(isPending){
   return (
-    <div className="center">
-      <Loader /></div>
-  )
-}
-  return (
+   <>
+    {isSubmitting && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Loader/> {/* Spinner per indicare caricamento */}
+        </div>
+      )}
+
    
       <Form {...form}>
         <form
@@ -375,7 +375,7 @@ if(isPending){
           </Button>
         </form>
       </Form>
-   
+      </>
   );
 };
 
