@@ -48,13 +48,13 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
       },
     });
   
-   
-    //return { success: "Evento creato con successo!", event: newEvent };
-    redirect(`/events/${newEvent.id}`);
-   }
-   catch (error) {
-    console.error(error);
-    return { error: "Errore durante la creazione dell'evento" };
+   // Effettua il redirect immediatamente dopo la creazione
+   redirect(`/events/${newEvent.id}`);
+  } catch (error) {
+    console.error('Errore durante la creazione dell\'evento:', error);
+
+    // Gestisci l'errore ritornando un oggetto o logica alternativa
+    throw new Error('Errore durante la creazione dell\'evento');
   }
   
 }

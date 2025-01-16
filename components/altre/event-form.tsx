@@ -40,6 +40,7 @@ import { FileUploader } from "./file-uploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 
+
 dayjs.locale("it");
 
 interface EventFormProps {
@@ -98,6 +99,7 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
   };
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
+    values.eventDate.setHours(23, 59, 59, 999);
     setIsSubmitting(true);
     setError("");
     setSuccess("");
