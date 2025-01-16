@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
@@ -13,28 +13,19 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Campi non validi" };
   }
 
-  
+  const { title, description, imageSrc, category, userId, price, eventDate, location } = validatedFields.data;
 
-  const { title, description, imageSrc, category, userId, price, eventDate, location} =
-    validatedFields.data;
+  const organizer = await getUserById(userId);
+  if (!organizer) {
+    return { error: "Organizzatore non trovato" };
+  }
 
-    
+  const finalPrice = price ? parseInt(price, 10) : 0;
+  const isFree = finalPrice === 0;
 
-    const organizer = await getUserById(userId);
-  
-    if (!organizer) throw new Error("Organizzatore non trovato");
-   
-   
-    const finalPrice = price ? parseInt(price, 10) : 0;
-
-    const isFree = finalPrice === 0
-    
-    
-
+  let newEvent;
   try {
-    
-
-    const newEvent = await db.event.create({
+    newEvent = await db.event.create({
       data: {
         title,
         description,
@@ -47,14 +38,11 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         isFree: isFree,
       },
     });
-  
-   // Effettua il redirect immediatamente dopo la creazione
-   redirect(`/events/${newEvent.id}`);
   } catch (error) {
-    console.error('Errore durante la creazione dell\'evento:', error);
-
-    // Gestisci l'errore ritornando un oggetto o logica alternativa
-    throw new Error('Errore durante la creazione dell\'evento');
+    console.error(error);
+    return { error: "Errore durante la creazione dell'evento" };
   }
-  
+
+  // Effettua il redirect al di fuori del blocco try...catch
+  redirect(`/events/${newEvent.id}`);
 }

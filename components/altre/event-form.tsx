@@ -99,7 +99,6 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
   };
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-    values.eventDate.setHours(23, 59, 59, 999);
     setIsSubmitting(true);
     setError("");
     setSuccess("");
@@ -124,14 +123,7 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
     startTransition(() => {
       createEvent(updatedValues)
         .then((data) => {
-          if (data.error) {
-            setError(data.error);
-          } else {
-            setSuccess("Evento creato con successo!");
-          }
-        })
-        .catch(() => {
-          setError("Si è verificato un errore durante la creazione dell'evento.");
+          setError(data?.error);
         })
         .finally(() => {
           setIsSubmitting(false);
