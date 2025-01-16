@@ -73,7 +73,7 @@ const EventCard:React.FC<EventCardProps> = ({
                 </div>
             
                         <div className="font-semibold">
-                            Ingresso € {data.price}
+                           {data.isFree ? "Ingresso libero" : `€${data.price}`}
                         </div>
                 
             </div>

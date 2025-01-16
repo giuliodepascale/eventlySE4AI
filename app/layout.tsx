@@ -9,7 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import Navbar from "@/components/altre/navbar";
 import { Suspense } from "react";
 import Loading from "./loading";
-
+import  Footer  from "@/components/footer";
 
 
 const geistSans = Geist({
@@ -58,13 +58,15 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="flex h-screen flex-col">
         <Navbar currentUser={session?.user}/>
         <Toaster/>
         <Suspense fallback={<Loading/>}>
-        <div className="pt-20 pt-28">
-        {children}
-        </div>
+        <main className="flex-1 pt-[7rem] md:pt-[9rem] py-4 px-4">{children}</main>
+        <Footer/>
         </Suspense>
+        </div>
+        
         <Analytics/>
         <SpeedInsights/>
       </body>

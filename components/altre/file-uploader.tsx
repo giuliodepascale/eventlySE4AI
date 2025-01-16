@@ -73,7 +73,7 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
           <Image
             src={imageUrl}
             width={250}
-            height={250}
+            height={500}
             alt="Anteprima"
             className="max-w-full max-h-48 rounded-lg shadow-md"
           />

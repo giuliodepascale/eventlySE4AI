@@ -24,16 +24,16 @@ interface EventClientProps {
 const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser }) => {
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-6xl">
+      <div className="grid grid-cols-1 md:grid-cols-[500px,1fr] 2xl:max-w-6xl">
         <div className="w-full h-[70vh] overflow-hidden
         rounded-xl
-        relative">
+        relative flex-shrink-0">
           <Image
             src={event.imageSrc}
             priority
             alt="Event Image"
             fill
-            className="object-cover w-full"
+            className="object-cover object-center w-full h-full"
           />
           <div className="absolute top-5 right-5">
             <HeartButton eventId={event.id} currentUser={currentUser} />

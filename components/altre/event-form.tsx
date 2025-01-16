@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CreateEventSchema } from "@/schemas";
 import { categories } from "@/components/altre/categories";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -18,65 +18,46 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { createEvent } from "@/actions/event"; // Import dell'action
+import { createEvent } from "@/actions/event";
 import { useState, useTransition } from "react";
 import { FaEuroSign } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
-
 import { Controller } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-
-
 import dayjs from "dayjs";
 import "dayjs/locale/it";
-
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
-
-// Imposta la localizzazione italiana per dayjs
-dayjs.locale("it");
-
-
-
-
-
-
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-
-import {FileUploader} from "./file-uploader";
-import {useUploadThing} from "@/lib/uploadthing";
-
+} from "@/components/ui/select";
+import { FileUploader } from "./file-uploader";
+import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 
-
+dayjs.locale("it");
 
 interface EventFormProps {
   userIdprops: string;
-  type: string
+  type: string;
 }
 
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const EventForm = ({userIdprops, type}: EventFormProps) => {
+export const EventForm = ({ userIdprops, type }: EventFormProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const action = type //todo
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-
   const { startUpload } = useUploadThing("imageUploader");
- 
-  
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [files, setFiles] = useState<File[]>([]);
+
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
     defaultValues: {
@@ -94,102 +75,76 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
 
   async function handleImageUpload(files: File[], defaultImageSrc: string) {
     let uploadedImageUrl = defaultImageSrc;
-  
-    
     if (files.length > 0) {
- 
       const uploadedImages = await startUpload(files);
-
-  
       if (!uploadedImages || uploadedImages.length === 0) {
-          return;
+        return;
       }
-  
-      // Assegna l'URL della prima immagine caricata
       uploadedImageUrl = uploadedImages[0].url;
     }
-  
     return uploadedImageUrl;
   }
-  
-  
-  const handleEventDateTime = (date: Date, time: Date):Date => {
+
+  const handleEventDateTime = (date: Date, time: Date): Date => {
     if (!date || !time) {
       throw new Error("Sia la data che l'orario sono obbligatori.");
     }
-  
-   
-  // Crea un nuovo oggetto Date partendo da `date` (giorno, mese, anno)
-  const combined = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-  // Imposta ore e minuti dall'oggetto `time`
-  combined.setHours(time.getHours());
-  combined.setMinutes(time.getMinutes());
-  combined.setSeconds(0); // Imposta i secondi a zero per evitare dettagli non necessari
-
-  return combined; // Restituisce l'oggetto Date combinato
-};
-  
-  
+    const combined = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    combined.setHours(time.getHours());
+    combined.setMinutes(time.getMinutes());
+    combined.setSeconds(0);
+    return combined;
+  };
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
     setIsSubmitting(true);
     setError("");
     setSuccess("");
-    
+
     const combinedDateTime = handleEventDateTime(
-      new Date(values.eventDateDay), 
+      new Date(values.eventDateDay),
       new Date(values.eventTime)
     );
 
-    
-      let uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
-      if(!uploadedImageUrl) {
-        uploadedImageUrl = values.imageSrc
-      }
-    
-     
-      const updatedValues = {
-        ...values,
-        eventDate: combinedDateTime, 
-        imageSrc: uploadedImageUrl,
-        userId: userIdprops
-      };
-  
-      startTransition(() => {
+    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+    if (!uploadedImageUrl) {
+      uploadedImageUrl = values.imageSrc;
+    }
 
+    const updatedValues = {
+      ...values,
+      eventDate: combinedDateTime,
+      imageSrc: uploadedImageUrl,
+      userId: userIdprops,
+    };
 
-        console.log(updatedValues);
-        createEvent(updatedValues)
-          .then((data) => {
-            if (data.error) {
-              setError(data.error);
-            } else {
-              setSuccess("Evento creato con successo!");
-              form.reset();
-              //TODO FARE PAGINA I MIEI EVENTI E POI PORTARE LI DA CLIENT O DA SERVER
-            }
-          })
-          .catch((err) => {
-            setError("Si è verificato un errore durante la creazione dell'evento.");
-            console.error(err);
-          })
-          .finally (() => {
-              setIsSubmitting(false)
-          })
-      });
+    startTransition(() => {
+      createEvent(updatedValues)
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          } else {
+            setSuccess("Evento creato con successo!");
+            form.reset();
+          }
+        })
+        .catch(() => {
+          setError("Si è verificato un errore durante la creazione dell'evento.");
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
+    });
   }
-  
 
   return (
-    <CardWrapper
-      headerLabel="Crea Evento"
-      backButtonLabel="Torna alla home"
-      backButtonHref="/"
-    >
+    
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6 p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="title"
@@ -202,41 +157,7 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                       placeholder="Inserisci il titolo dell'evento"
                       type="text"
                       disabled={isPending}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrizione</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Descrizione dell'evento"
-                      type="text"
-                      disabled={isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="imageSrc"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Immagine</FormLabel>
-                  <FormControl>
-                    <FileUploader 
-                      onFieldChange={field.onChange}
-                      imageUrl={field.value}
-                      setFiles={setFiles}
+                      className="rounded-md border-gray-300 focus:ring focus:ring-blue-500"
                     />
                   </FormControl>
                   <FormMessage />
@@ -249,7 +170,10 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Categoria</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Seleziona una categoria" />
@@ -257,7 +181,11 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                     </FormControl>
                     <SelectContent>
                       {categories.map((item) => (
-                        <SelectItem key={item.label} value={item.label} disabled={isSubmitting}>
+                        <SelectItem
+                          key={item.label}
+                          value={item.label}
+                          disabled={isSubmitting}
+                        >
                           {item.label}
                         </SelectItem>
                       ))}
@@ -267,212 +195,186 @@ export const EventForm = ({userIdprops, type}: EventFormProps) => {
                 </FormItem>
               )}
             />
-          <div className="flex flex-col gap-5 md:flex-row">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Prezzo</FormLabel>
-                  <FormControl>
-                  <div className="flex items-center gap-2 rounded-lg  py-2">
-                  <FaEuroSign size={16} className="text-gray-500" />
-                    <Input
-                      {...field}
-                      placeholder="Prezzo dell'evento"
-                      type="text"
-                      disabled={isSubmitting}
-                    />
-                  </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-           </div>
-           <FormField
-              control={form.control}
-              name="isFree"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Ingresso libero</FormLabel>
-                  <FormControl>
-                  <div className="flex items-center gap-2 rounded-lg  py-2">
-                  
-                    <Checkbox
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-
-                  
-                    />
-                  </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-           <div className="flex flex-col gap-5 md:flex-row">
            
-            
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem className="flex flex-col w-full">
-                  <FormLabel>Luogo</FormLabel>
-                  <FormControl>
-                  <div className="flex items-center gap-2 rounded-lg  py-2 w-full">
-                  <FiMapPin  size={16} className="text-gray-500" />
-                    <Input
-                      {...field}
-                      placeholder="Luogo dell'evento"
-                      type="text"
-                      disabled={isSubmitting}
-                       className="flex-1 focus:ring-0 w-full"
-                    />
-                  </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-           </div>
-           <FormField
-  control={form.control}
-  name="eventDateDay"
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render={({ field }) => (
-    <FormItem className="flex flex-col w-full">
-      <FormLabel>Seleziona la data</FormLabel>
-      <FormControl>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
-          <Controller disabled={isSubmitting}
-            name="eventDateDay"
-            control={form.control}
-            render={({ field: controllerField }) => (
-              <MobileDatePicker
-                label="Data"
-                value={controllerField.value ? dayjs(controllerField.value) : null}
-                onChange={(newValue) => controllerField.onChange(newValue?.toDate())}
-                views={['year', 'month', 'day']}
-                slotProps={{
-                  textField: {
-                    sx: {
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: '12px',
-                        padding: '10px',
-                        borderColor: '#ccc',
-                        '&:hover': {
-                          borderColor: '#007aff',
-                        },
-                      },
-                    },
-                  },
-                  dialog: {
-                    sx: {
-                      borderRadius: '16px',
-                      '& .MuiPickersCalendarHeader-root': {
-                        backgroundColor: '#007aff',
-                        color: '#fff',
-                      },
-                      '& .MuiPickersDay-root': {
-                        borderRadius: '50%',
-                        '&.Mui-selected': {
-                          backgroundColor: '#007aff',
-                          color: '#fff',
-                        },
-                        '&:hover': {
-                          backgroundColor: '#f0f0f0',
-                        },
-                      },
-                    },
-                  },
-                }}
-              />
-            )}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <FormField
+    control={form.control}
+    name="imageSrc"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>Immagine</FormLabel>
+        <FormControl >
+          <FileUploader 
+            onFieldChange={field.onChange}
+            imageUrl={field.value}
+            setFiles={setFiles}
           />
-        </LocalizationProvider>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
-<FormField
-  control={form.control}
-  name="eventTime"
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  render={({ field }) => (
-    <FormItem className="flex flex-col w-full mt-4">
-      <FormLabel>Seleziona l&apos;orario</FormLabel>
-      <FormControl>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
-          <Controller disabled={isSubmitting}
-            name="eventTime"
-            control={form.control}
-            render={({ field: controllerField }) => (
-              <MobileTimePicker
-                label="Orario"
-                value={controllerField.value ? dayjs(controllerField.value) : null}
-                onChange={(newValue) => controllerField.onChange(newValue?.toDate())}
-                ampm={false} // Formato 24 ore
-                minutesStep={5} // Limita la selezione agli intervalli di 5 minuti
-                slotProps={{
-                  textField: {
-                    sx: {
-                      '& .MuiOutlinedInput-root': {
-                        borderRadius: '12px',
-                        padding: '10px',
-                        borderColor: '#ccc',
-                        '&:hover': {
-                          borderColor: '#007aff',
-                        },
-                      },
-                    },
-                  },
-                  dialog: {
-                    sx: {
-                      borderRadius: '16px',
-                      '& .MuiTypography-root': {
-                        fontSize: '14px',
-                      },
-                      '& .MuiPickersClock-pointer': {
-                        backgroundColor: '#007aff',
-                      },
-                      '& .MuiPickersClock-pin': {
-                        backgroundColor: '#007aff',
-                      },
-                      '& .MuiButtonBase-root:hover': {
-                        backgroundColor: '#f0f0f0',
-                      },
-                    },
-                  },
-                }}
-              />
-            )}
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+  <FormField
+    control={form.control}
+    name="description"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>Descrizione</FormLabel>
+        <FormControl>
+       
+          <textarea
+            {...field}
+            placeholder="Inserisci la descrizione dell'evento"
+            disabled={isSubmitting}
+            className="flex items-center gap-2 border rounded-md px-3 py-2 w-full h-24 resize-none"
           />
-        </LocalizationProvider>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+</div>
 
-
-           {//checkbox isFree TODO
-            }
-            
-            <FormError message={error} />
-            <FormSuccess message={success} />
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              Crea evento
-            </Button>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Prezzo e Ingresso libero */}
+  <div className="flex items-center gap-6">
+    <FormField
+      control={form.control}
+      name="price"
+      render={({ field }) => (
+        <FormItem className="flex-1">
+          <FormLabel>Prezzo</FormLabel>
+          <FormControl>
+            <div className="flex items-center gap-2 border rounded-md px-3 py-2">
+              <FaEuroSign size={16} className="text-gray-500" />
+              <Input
+                {...field}
+                placeholder="Prezzo dell'evento"
+                type="text"
+                disabled={isSubmitting}
+                className="flex-1 border-none focus:ring-0"
+              />
             </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+    <FormField
+      control={form.control}
+      name="isFree"
+      render={({ field }) => (
+        <FormItem className="flex items-center">
+          <FormLabel className="mr-4">Ingresso libero</FormLabel>
+          <FormControl>
+            <Checkbox
+              onCheckedChange={field.onChange}
+              checked={field.value}
+              className="h-5 w-5"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  </div>
+
+  {/* Campo Luogo */}
+  <FormField
+    control={form.control}
+    name="location"
+    render={({ field }) => (
+      <FormItem>
+        <FormLabel>Luogo</FormLabel>
+        <FormControl>
+          <div className="flex items-center gap-2 border rounded-md px-3 py-2">
+            <FiMapPin size={16} className="text-gray-500" />
+            <Input
+              {...field}
+              placeholder="Luogo dell'evento"
+              type="text"
+              disabled={isSubmitting}
+              className="flex-1 border-none focus:ring-0"
+            />
+          </div>
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    )}
+  />
+</div>
+
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="eventDateDay"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Seleziona la data</FormLabel>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+                  <Controller
+                    name="eventDateDay"
+                    control={form.control}
+                    render={({ field: controllerField }) => (
+                      <MobileDatePicker
+                        label="Data"
+                        value={controllerField.value ? dayjs(controllerField.value) : null}
+                        onChange={(newValue) =>
+                          controllerField.onChange(newValue?.toDate())
+                        }
+                        className="w-full border rounded-md"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="eventTime"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Seleziona l&apos;orario</FormLabel>
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+                  <Controller
+                    name="eventTime"
+                    control={form.control}
+                    render={({ field: controllerField }) => (
+                      <MobileTimePicker
+                        label="Orario"
+                        value={controllerField.value ? dayjs(controllerField.value) : null}
+                        onChange={(newValue) =>
+                          controllerField.onChange(newValue?.toDate())
+                        }
+                        ampm={false}
+                        minutesStep={5}
+                        className="w-full border rounded-md"
+                      />
+                    )}
+                  />
+                </LocalizationProvider>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          </div>
+          <FormError message={error} />
+          <FormSuccess message={success} />
+          <Button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+            disabled={isSubmitting}
+          >
+            Crea evento
+          </Button>
         </form>
       </Form>
-    </CardWrapper>
-    
+   
   );
 };
 

@@ -31,7 +31,6 @@ export default async function Home() {
       <Container>
         <div
           className="
-            mt-20
             pt-24
             grid
             grid-cols-1
