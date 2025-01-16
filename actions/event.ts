@@ -47,10 +47,14 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         isFree: isFree,
       },
     });
+  
+   
+    //return { success: "Evento creato con successo!", event: newEvent };
     redirect(`/events/${newEvent.id}`);
-    return { success: "Evento creato con successo!", event: newEvent };
-  } catch (error) {
+   }
+   catch (error) {
     console.error(error);
     return { error: "Errore durante la creazione dell'evento" };
   }
+  
 }
