@@ -3,6 +3,7 @@
 import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 import { CreateEventSchema } from "@/schemas";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
@@ -46,7 +47,7 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         isFree: isFree,
       },
     });
-
+    redirect(`/events/${newEvent.id}`);
     return { success: "Evento creato con successo!", event: newEvent };
   } catch (error) {
     console.error(error);
