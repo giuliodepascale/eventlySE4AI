@@ -132,9 +132,10 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
     });
   }
 
-if(isSubmitting){
+if(isPending){
   return (
-    <Loader />
+    <div className="center">
+      <Loader /></div>
   )
 }
   return (
