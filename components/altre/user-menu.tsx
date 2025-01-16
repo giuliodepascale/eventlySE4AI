@@ -12,6 +12,7 @@ import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ExtendedUser } from '@/next-auth';
 import { FaUser } from "react-icons/fa";
+import Link from 'next/link';
 
 
 interface UserMenuProps {
@@ -35,21 +36,23 @@ const UserMenu: React.FC<UserMenuProps> = ({
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-               {currentUser && ( <div onClick={() => {router.push('/crea-evento')}}
-                    className="
-                    hidden
-                    md:block
-                    text-sm
-                    font-semibold
-                    py-3
-                    px-4
-                    rounded-full
-                    hover:bg-neutral-100
-                    transition
-                    cursor-pointer
-                    ">
-                        Crea Evento
-                </div>
+               {currentUser && ( <Link href="/crea-evento"
+      
+        className="
+          hidden
+          md:block
+          text-sm
+          font-semibold
+          py-3
+          px-4
+          rounded-full
+          hover:bg-neutral-100
+          transition
+          cursor-pointer
+        ">
+        Crea Evento
+      
+    </Link>
                 )}
                 <div
                 onClick={toggleOpen}
@@ -107,11 +110,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                     />
                                 </>
                             ) : 
-                                <>
+                                <>  
+                                <Link href="/auth/login">
                                     <MenuItem
                                         onClick={() => router.push('/auth/login')}
                                         label="Login"
                                     />
+                                    </Link>
                                 
                                 </>
                             }

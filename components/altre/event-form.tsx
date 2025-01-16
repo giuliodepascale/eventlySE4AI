@@ -39,6 +39,7 @@ import {
 import { FileUploader } from "./file-uploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useRouter } from "next/navigation";
 
 dayjs.locale("it");
 
@@ -57,6 +58,7 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { startUpload } = useUploadThing("imageUploader");
   const [files, setFiles] = useState<File[]>([]);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
@@ -125,6 +127,9 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
             setError(data.error);
           } else {
             setSuccess("Evento creato con successo!");
+            if(data.event){
+            router.push(`/events/${data.event.id}`);
+          }
             form.reset();
           }
         })

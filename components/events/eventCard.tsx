@@ -1,12 +1,12 @@
 'use client';
 
-import { useRouter } from "next/navigation";
 import { SafeEvent } from "@/app/types";
 import HeartButton from "../altre/heart-button";
 import Image from "next/image";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
 import { Suspense } from "react";
+import Link from "next/link";
 
 
 interface EventCardProps {
@@ -19,7 +19,6 @@ const EventCard:React.FC<EventCardProps> = ({
     currentUser
 }) => {
 
-    const router = useRouter()
 
 
 // Crea un oggetto Date a partire dalla stringa ISO
@@ -28,8 +27,8 @@ const EventCard:React.FC<EventCardProps> = ({
 
     return (
         <Suspense>
-        <div 
-        onClick={()=> router.push(`/events/${data.id}`)}
+      
+        <Link href={`/events/${data.id}`}
         className="
             col-span-1 cursor-pointer group p-4  border transition rounded-xl
         ">
@@ -77,7 +76,7 @@ const EventCard:React.FC<EventCardProps> = ({
                         </div>
                 
             </div>
-        </div>
+        </Link>
         
         </Suspense>
     )
