@@ -15,13 +15,20 @@ const HeartButton: React.FC<HeartButtonProps> = ({ eventId, currentUser }) => {
     currentUser,
   });
 
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Impedisce la propagazione dell'evento al genitore
+   
+  };
+
+
   return (
     <div
-      onClick={!isPending ? toggleFavorite : undefined}
+      onClick={!isPending ? toggleFavorite :  handleClick}
       className={`
         relative 
         transition
-        ${isPending ? "cursor-not-allowed" : "cursor-pointer hover:opacity-80"}
+        ${isPending ? "cursor-wait" : "cursor-pointer hover:opacity-80"}
       `}
     >
       {/* Icona di contorno */}

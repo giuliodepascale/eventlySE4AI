@@ -19,3 +19,6 @@ export type SafeReservation = Omit <
     event: SafeEvent;
 }
 
+export type SearchParams = Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;

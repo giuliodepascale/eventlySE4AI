@@ -69,21 +69,22 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
           )}
         </div>
       ) : (
-        <div className="relative">
-          <Image
-            src={imageUrl}
-            width={250}
-            height={500}
-            alt="Anteprima"
-            className="max-w-full max-h-48 rounded-lg shadow-md"
-          />
-          <button
-            onClick={handleRemoveImage}
-            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-          >
-            ✕
-          </button>
-        </div>
+        <div className="relative flex h-full w-full flex-1 justify-center">
+        <Image
+          src={imageUrl}
+          width={250}
+          height={250}
+          alt="Anteprima"
+          className="w-full object-cover object-center"
+        />
+        <button
+          onClick={handleRemoveImage}
+          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 shadow-lg"
+        >
+          X
+        </button>
+      </div>
+      
       )}
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>

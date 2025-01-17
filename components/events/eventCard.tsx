@@ -21,10 +21,6 @@ const EventCard:React.FC<EventCardProps> = ({
 
 
 
-// Crea un oggetto Date a partire dalla stringa ISO
-
-
-
     return (
         <Suspense>
       

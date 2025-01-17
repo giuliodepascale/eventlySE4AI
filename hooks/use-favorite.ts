@@ -44,7 +44,7 @@ export const useFavorite = ({ eventId, currentUser }: UseFavoriteProps) => {
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
-
+      e.preventDefault()
       // Se l'utente non è loggato, reindirizziamo alla login.
       if (!currentUser) {
         router.push("/auth/login");
