@@ -124,10 +124,8 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
       createEvent(updatedValues)
         .then((data) => {
           setError(data?.error);
-        })
-        .finally(() => {
           setIsSubmitting(false);
-        });
+        })
     });
   }
 
