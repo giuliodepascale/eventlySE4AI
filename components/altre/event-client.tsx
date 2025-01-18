@@ -35,9 +35,9 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
             fill
             className="object-cover object-center w-full h-full"
           />
-          <div className="absolute top-5 right-5 flex items-center space-x-2">
+          <div className="absolute top-5 right-5 flex items-center space-x-2  bg-black bg-opacity-75  rounded-full px-2 py-1">
               <HeartButton eventId={event.id} currentUser={currentUser} />
-              <p className="text-black font-medium text-lg">{event.favoriteCount}</p>
+              <p className="text-white  text-sm font-medium">{event.favoriteCount}</p>
           </div>
         </div>
   

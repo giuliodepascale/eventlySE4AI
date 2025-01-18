@@ -1,81 +1,113 @@
-'use client';
+"use client";
 
-import { SafeEvent } from "@/app/types";
-import HeartButton from "../altre/heart-button";
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
+import HeartButton from "../altre/heart-button";
+import { SafeEvent } from "@/app/types";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
-import { Suspense } from "react";
-import Link from "next/link";
-
 
 interface EventCardProps {
-    data: SafeEvent;
-    currentUser?: User | null
+  data: SafeEvent;
+  currentUser?: User | null;
 }
 
-const EventCard:React.FC<EventCardProps> = ({
-    data,
-    currentUser
-}) => {
+const EventCard: React.FC<EventCardProps> = ({ data, currentUser }) => {
+  const searchParams = useSearchParams();
 
+  // Recuperiamo l'eventuale categoria presente nei parametri
+  const currentCategory = searchParams.get("category");
+  // Se la categoria corrisponde a quella dell'evento e ci clicchiamo di nuovo,
+  // resettiamo andando su "/", altrimenti imposta la categoria.
+  const categoryLink =
+    currentCategory === data.category ? "/" : `/?category=${data.category}`;
 
-
-    return (
-        <Suspense>
-      
-        <Link href={`/events/${data.id}`}
+  return (
+    <Suspense>
+      {/* Contenitore principale: un DIV, non un Link */}
+      <div
         className="
-            col-span-1 cursor-pointer group p-4  border transition rounded-xl
-        ">
-            <div className="flex flex-col gap-2 w-full">
-                <div className="
-                    aspect-square
-                    w-full
-                    relative
-                    overflow-hidden
-                    rounded-xl
-                ">
-                    
-                    <Image 
-                    alt="Evento"
-                    src={data.imageSrc}
-                    priority
-                    fill
-                    className="
-                        object-cover
-                        h-full
-                        w-full
-                        group-hover:scale-110
-                        transition
-
-                    "/>
-                   
-                    <div className="absolute top-3 right-3">
-                        <HeartButton 
-                            eventId={data.id}
-                            currentUser={currentUser}
-                            
-                            />
-                    </div>
-                </div>
-                <div className="font-semibold text-lg break-words">
-                    {data.title}
-                </div>
-                <div className="font-light text-neutral-500">
-                        <DateFormatter dateISO={data.eventDate} />
-                       
-                </div>
-            
-                        <div className="font-semibold">
-                           {data.isFree ? "Ingresso libero" : `€${data.price}`}
-                        </div>
-                
+          group 
+          block 
+          overflow-hidden 
+          rounded-xl 
+          border 
+          border-neutral-200 
+          shadow-sm
+          hover:shadow-md 
+          transition-shadow 
+          p-4
+          bg-white 
+          text-neutral-800
+        "
+      >
+        {/* Link per l’evento (immagine + titolo) */}
+        <Link href={`/events/${data.id}`}>
+          <div
+            className="
+              relative 
+              aspect-square 
+              w-full 
+              overflow-hidden 
+              rounded-lg
+              mb-4
+            "
+          >
+            <Image
+              alt="Evento"
+              src={data.imageSrc}
+              priority
+              fill
+              className="
+                object-cover 
+                transition-transform 
+                duration-300 
+                group-hover:scale-110
+              "
+            />
+            <div className="absolute top-3 right-3">
+              <HeartButton eventId={data.id} currentUser={currentUser} />
             </div>
+          </div>
+          <h3 className="text-lg font-semibold mb-1 break-words line-clamp-2">
+            {data.title}
+          </h3>
         </Link>
-        
-        </Suspense>
-    )
-}
+
+        {/* Link per la categoria */}
+        <Link
+          href={categoryLink}
+          className="
+            inline-block 
+            mb-2 
+            px-3 
+            py-1 
+            rounded-full 
+            text-sm 
+            font-medium 
+            bg-gray-100 
+            text-gray-600 
+            hover:bg-gray-200
+          "
+        >
+          {data.category}
+        </Link>
+        <Link href={`/events/${data.id}`}>
+        {/* Data evento */}
+        <div className="text-sm text-neutral-500 mb-2">
+          <DateFormatter dateISO={data.eventDate} showDayName/>
+        </div>
+
+        {/* Prezzo o ingresso libero */}
+        <div className="text-base font-semibold">
+          {data.isFree ? "Ingresso libero" : `€${data.price}`}
+        </div>
+        </Link>
+      </div>
+    </Suspense>
+  );
+};
 
 export default EventCard;

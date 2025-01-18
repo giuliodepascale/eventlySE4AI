@@ -24,7 +24,7 @@ interface DateFormatterProps {
   
     // Formattazione della stringa con o senza giorno della settimana
     const formattedDate = showDayName 
-      ? `${dayName} ${day}/${month} ${hours}:${minutes}`
+      ? `${dayName}, ${day}/${month} ${hours}:${minutes}`
       : `${day}/${month} ${hours}:${minutes}`;
   
     return <>{formattedDate}</>;
