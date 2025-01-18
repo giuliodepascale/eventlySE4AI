@@ -36,7 +36,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-               {currentUser && ( <Link href="/crea-evento"
+               {currentUser && ( <div><Link href="/crea-evento"
       
         className="
           hidden
@@ -51,9 +51,27 @@ const UserMenu: React.FC<UserMenuProps> = ({
           cursor-pointer
         ">
         Crea Evento
-      
     </Link>
+   
+    </div>
                 )}
+                <div>
+        <Link href="/my-favorites"
+      
+      className="
+        hidden
+        md:block
+        text-sm
+        font-semibold
+        py-3
+        px-4
+        rounded-full
+        hover:bg-neutral-100
+        transition
+        cursor-pointer
+      ">
+      I miei preferiti
+      </Link></div>
                 <div
                 onClick={toggleOpen}
                 className="

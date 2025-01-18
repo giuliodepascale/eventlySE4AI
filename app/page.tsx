@@ -59,9 +59,8 @@ export default async function Home(props: {searchParams: SearchParams}) {
           "
         >
            <Suspense fallback={<Loading />}>
-            <EventList events={result.events} currentUser={fullUser as User || null} />
+            <EventList events={result.events} currentUser={fullUser as User || null} /> 
           </Suspense>
-              
         </div>
       </Container>
     </main>

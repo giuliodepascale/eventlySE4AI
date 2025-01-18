@@ -12,7 +12,7 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = ({ events, currentUser }) => {
   return (
     <>
-      
+          
       {events.map((event: SafeEvent) => (
         <EventCard key={event.id} data={event} currentUser={currentUser} />
       ))}
