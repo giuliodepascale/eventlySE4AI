@@ -142,3 +142,30 @@ export const CreateEventSchema = z.object({
 
 
 
+export const organizationSchema = z.object({
+  name: z.string()
+  .min(3, "Il titolo deve contenere almeno 3 caratteri")
+  .max(50, "Il titolo non può superare i 50 caratteri"),
+  description: z
+  .string()
+  .min(10, "La descrizione deve contenere almeno 10 caratteri")
+  .max(300, "La descrizione non può superare i 300 caratteri"),
+  address: z.string()
+  .min(3, "Il luogo deve contenere almeno 3 caratteri")
+  .max(50, "Il luogo non può superare i 50 caratteri")
+  .optional(),
+  phone: z
+    .string()
+    .optional(),
+  email: z
+    .string()
+    .email('Email non valida')
+    .optional(),
+    
+  linkEsterno: z
+    .string()
+    .optional(),
+  imageSrc: z
+    .string()
+    .optional()
+});

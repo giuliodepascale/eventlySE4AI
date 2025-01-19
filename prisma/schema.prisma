@@ -39,27 +39,63 @@ model Account {
  
  enum UserRole {
   USER
-  ORGANIZATION
+  ORGANIZER
   ADMIN
+}
+
+enum OrganizationRole {
+  ADMIN_ORGANIZZATORE
+  GESTORE
 }
  
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  password      String?  //opzionale perchè in OAuth non abbiamo password
-  role          UserRole  @default(USER)
+  id                String              @id @default(cuid())
+  name              String?
+  email             String?             @unique
+  emailVerified     DateTime?           @map("email_verified")
+  image             String?
+  password          String?             // Opzionale perché in OAuth non abbiamo password
+  role              UserRole            @default(USER)
 
-  location      String?
-  
-  favoriteIds   String[]
-  accounts      Account[]
-  events        Event[]
-  reservation   Reservation[]
+  location          String?
+
+  favoriteIds       String[]
+  accounts          Account[]
+  reservations      Reservation[]
+  organizationUsers OrganizationUser[]
 
   @@map("users")
+}
+
+model Organization {
+  id                  String              @id @default(cuid())
+  name                String
+  description         String?
+  address             String?
+  phone               String?
+  email               String?
+  linkEsterno         String?
+  createdAt           DateTime            @default(now())
+  imageSrc            String?
+  // Relazioni con OrganizationUser
+  organizationUsers   OrganizationUser[]
+
+  // Relazioni con Event e Reservation
+  events              Event[]             @relation("OrganizationEvents")
+  reservations        Reservation[]       @relation("OrganizationReservations")
+
+  @@map("organizations")
+}
+model OrganizationUser {
+  userId              String
+  organizationId      String
+  role                OrganizationRole
+
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization        Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@id([userId, organizationId])
+  @@map("organization_users")
 }
 
 model VerificationToken {   //per la verifica della mail
@@ -82,31 +118,37 @@ model PasswordResetToken {   //per il reset della password
 
 
 model Event {
-  id String @id @default(cuid())
-  title String
-  description String
-  imageSrc String
-  createdAt DateTime @default(now())
-  category String
-  userId String @map("user_id")
-  price Int?
-  isFree Boolean?
-  favoriteCount Int @default(0)
-  eventDate DateTime
-  location String
+  id               String        @id @default(cuid())
+  title            String
+  description      String
+  imageSrc         String
+  createdAt        DateTime      @default(now())
+  category         String
+  userId           String        @map("user_id")
+  price            Int?
+  isFree           Boolean?
+  favoriteCount    Int           @default(0)
+  eventDate        DateTime
+  location         String
+  organizationId   String
 
-  user User @relation(fields: [userId], references: [id], onDelete:Cascade)
-  reservations Reservation[]
+  organization     Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
+  reservations     Reservation[]
+
+  @@map("events")
 }
 
 model Reservation {
-  id String @id @default(cuid())
-  userId String 
-  eventId String 
-  totalPrice Int
-  createdAt DateTime @default(now())
+  id              String          @id @default(cuid())
+  userId          String 
+  eventId         String 
+  organizationId  String
+  totalPrice      Int
+  createdAt       DateTime        @default(now())
 
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event           Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  organization     Organization    @relation("OrganizationReservations", fields: [organizationId], references: [id], onDelete: Cascade)
 
-  user User @relation(fields: [userId], references: [id], onDelete:Cascade)
-  event Event @relation(fields: [eventId],references: [id],onDelete:Cascade)
+  @@map("reservations")
 }

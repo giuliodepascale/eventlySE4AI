@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react";
+import React, { Suspense } from "react";
 import { SafeEvent } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { FcCalendar } from "react-icons/fc";
 import { CiLocationOn } from "react-icons/ci";
 import { FaPen } from "react-icons/fa6";
 import HeartButton from "./heart-button";
+import Loader from "../loader";
 
 
 
@@ -24,7 +25,9 @@ interface EventClientProps {
 const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser }) => {
   return (
     <>
+     
       <div className="grid grid-cols-1 md:grid-cols-[500px,1fr] 2xl:max-w-6xl">
+      <Suspense fallback={<Loader/>}>
         <div className="w-full h-[70vh] overflow-hidden
         rounded-xl
         relative flex-shrink-0">
@@ -40,7 +43,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
               <p className="text-white  text-sm font-medium">{event.favoriteCount}</p>
           </div>
         </div>
-  
+        </Suspense>
         <div className="flex flex-col w-full gap-8 p-5 md:p-10">
           <div className="flex flex-col gap-6">
             <h2 className="text-4xl font-bold text-black break-words">{event.title}</h2>
