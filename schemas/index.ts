@@ -96,11 +96,13 @@ export const CreateEventSchema = z.object({
     .max(300, "La descrizione non può superare i 300 caratteri"),
   imageSrc: z
     .string()
-    .url("L'immagine deve essere un URL valido"),
+    .url("L'immagine deve essere un URL valido")
+    .optional()
+    .nullable(),
   category: z
     .string()
     .nonempty("La categoria è obbligatoria"),
-  userId: z
+  organizationId: z
     .string(),
   price: z
     .string()
@@ -158,14 +160,19 @@ export const organizationSchema = z.object({
     .string()
     .optional(),
   email: z
-    .string()
-    .email('Email non valida')
-    .optional(),
+  .string()
+  .email('Email non valida')
+  .optional()
+  .nullable(),
     
   linkEsterno: z
     .string()
-    .optional(),
+    .url('Link non valido')
+    .optional()
+    .nullable(),
   imageSrc: z
     .string()
+    .url("L'immagine deve essere un URL valido")
     .optional()
+    .nullable()
 });

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { Suspense } from "react";
-import { SafeEvent } from "@/app/types";
+import { SafeEvent, SafeOrganization } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import { User } from "@prisma/client";
@@ -17,7 +17,7 @@ import Loader from "../loader";
 
 
 interface EventClientProps {
-  organizer: User | null// user con il ruolo (Extended user definito nel file next-auth.d.ts)
+  organizer: SafeOrganization// user con il ruolo (Extended user definito nel file next-auth.d.ts)
   event: SafeEvent;
   currentUser?: User | null
 }
@@ -32,7 +32,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
         rounded-xl
         relative flex-shrink-0">
           <Image
-            src={event.imageSrc}
+            src={event.imageSrc || organizer.imageSrc || "/images/NERO500.jpg"}
             priority
             alt="Event Image"
             fill
@@ -61,7 +61,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
               </div>
               <p className="mt-2 ml-2 text-sm text-gray-700 sm:mt-0">
                 By{" "}
-                <Link href={`/profile/${organizer?.id}`} className="text-primary-500">
+                <Link href={`/organization/${organizer?.id}`} className="text-primary-500">
                   {organizer?.name}
                 </Link>
               </p>

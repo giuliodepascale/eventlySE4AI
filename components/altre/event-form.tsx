@@ -40,16 +40,18 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
 
+import { SafeOrganization } from "@/app/types";
+
 
 dayjs.locale("it");
 
 interface EventFormProps {
-  userIdprops: string;
+  organization: SafeOrganization;
   type: string;
 }
 
 
-export const EventForm = ({ userIdprops, type }: EventFormProps) => {
+export const EventForm = ({ organization, type }: EventFormProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const action = type //todo
   const [error, setError] = useState<string | undefined>("");
@@ -70,7 +72,7 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
       location: "",
       isFree: true,
       eventDate: new Date(),
-      userId: userIdprops,
+      organizationId: organization.id,
       price: "0",
     },
   });
@@ -117,7 +119,7 @@ export const EventForm = ({ userIdprops, type }: EventFormProps) => {
       ...values,
       eventDate: combinedDateTime,
       imageSrc: uploadedImageUrl,
-      userId: userIdprops,
+      userId: organization.id,
     };
 
     startTransition(() => {

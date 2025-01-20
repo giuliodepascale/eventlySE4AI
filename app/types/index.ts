@@ -1,4 +1,4 @@
-import {Event, Reservation} from "@prisma/client"
+import {Event, Organization, Reservation} from "@prisma/client"
 
 
 
@@ -17,6 +17,13 @@ export type SafeReservation = Omit <
 > & {
     createdAt: string;
     event: SafeEvent;
+}
+
+export type SafeOrganization = Omit <
+Organization,
+'createdAt' 
+> & {
+createdAt: string;
 }
 
 export type SearchParams = Promise<{

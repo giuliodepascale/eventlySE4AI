@@ -121,10 +121,9 @@ model Event {
   id               String        @id @default(cuid())
   title            String
   description      String
-  imageSrc         String
+  imageSrc         String?
   createdAt        DateTime      @default(now())
   category         String
-  userId           String        @map("user_id")
   price            Int?
   isFree           Boolean?
   favoriteCount    Int           @default(0)
@@ -148,7 +147,7 @@ model Reservation {
 
   user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   event           Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  organization     Organization    @relation("OrganizationReservations", fields: [organizationId], references: [id], onDelete: Cascade)
+  organization    Organization    @relation("OrganizationReservations", fields: [organizationId], references: [id], onDelete: Cascade)
 
   @@map("reservations")
 }

@@ -62,7 +62,7 @@ interface OrganizationFormProps {
         setError("");
         setSuccess("");
       
-        let uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+        let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
         if (!uploadedImageUrl) {
           uploadedImageUrl = values.imageSrc;
         }
@@ -216,7 +216,7 @@ interface OrganizationFormProps {
                   name="linkEsterno"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Link Esterno</FormLabel>
+                      <FormLabel>Link Pubblico</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -242,7 +242,7 @@ interface OrganizationFormProps {
                       <FormControl>
                       <FileUploader 
                          onFieldChange={field.onChange}
-                             imageUrl={field.value}
+                            imageUrl={field.value || ""}
                             setFiles={setFiles}
                         />
                       </FormControl>

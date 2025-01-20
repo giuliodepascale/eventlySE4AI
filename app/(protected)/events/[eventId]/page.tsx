@@ -1,4 +1,5 @@
-import { SafeEvent } from "@/app/types";
+import { getOrganizationById } from "@/actions/organization";
+import { SafeEvent, SafeOrganization } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/altre/event-client";
 import { getEventById } from "@/data/event";
@@ -28,7 +29,7 @@ export default async function EventPage({ params }: EventPageProps) {
         )
     }
 
-    const organizer = await getUserById(event?.userId as string || '');
+    const organizer = await getOrganizationById(event?.organizationId)
     
     const user = await currentUser();
 
@@ -36,6 +37,11 @@ export default async function EventPage({ params }: EventPageProps) {
     if(user && user.id){
     fullUser = await getUserById(user.id);
     }
+     else {
+        return (
+            <EmptyState title="Effettua il login" subtitle="Qualcosa è andato storto" showToHome />
+    )
+     }
 
 
     
@@ -43,7 +49,7 @@ export default async function EventPage({ params }: EventPageProps) {
     return (
                 <EventClient 
                      event={event as SafeEvent}
-                     organizer={organizer}
+                     organizer={organizer.organization as SafeOrganization}
                      currentUser= {fullUser || null}
                 />
     )

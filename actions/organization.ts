@@ -44,7 +44,7 @@ export async function createOrganization(
     return { error: "Assicurati di essere un organizzatore." };
   }
 
-  const finalImageSrc = imageSrc?.trim() === "" ? "images/evently-logo.png" : imageSrc;
+  const finalImageSrc = imageSrc?.trim() === "" ? undefined : imageSrc;
   // 3. Creazione dell'organizzazione
   let newOrganization;
   try {
@@ -82,4 +82,94 @@ export async function createOrganization(
 
   // 5. Restituzione del Successo
   return { success: "Organizzazione creata con successo!" };
+}
+
+
+/**
+ * Recupera l'organizzatore (o gli organizzatori) di una specifica organizzazione.
+ *
+ * @param organizationId - L'ID dell'organizzazione di cui recuperare l'organizzatore.
+ * @returns Un oggetto contenente gli organizzatori o un messaggio di errore.
+ */
+export async function getOrganizationOrganizers(organizationId: string) {
+  try {
+    // Verifica che l'ID dell'organizzazione sia valido
+    if (!organizationId) {
+      return { error: "ID organizzazione non fornito." };
+    }
+
+    // Query per trovare tutti i record in OrganizationUser con ruolo ADMIN per l'organizzazione specificata
+    const organizationUsers = await db.organizationUser.findMany({
+      where: {
+        organizationId: organizationId,
+      },
+      include: {
+        user: true, // Includi i dettagli dell'utente
+      },
+    });
+
+    if (organizationUsers.length === 0) {
+      return { error: "Nessun organizzatore trovato per questa organizzazione." };
+    }
+
+    // Estrai i dettagli degli utenti organizzatori
+    const organizers = organizationUsers.map((orgUser) => orgUser.user);
+
+    return { organizers };
+  } catch (error) {
+    console.error("Errore nel recuperare gli organizzatori:", error);
+    return { error: "Errore nel recuperare gli organizzatori. Riprova più tardi." };
+  }
+}
+
+
+/**
+ * Recupera i dettagli di un'organizzazione specifica, inclusi gli organizzatori.
+ *
+ * @param organizationId - L'ID dell'organizzazione da recuperare.
+ * @returns Un oggetto contenente l'organizzazione e i suoi organizzatori o un messaggio di errore.
+ */
+export async function getOrganizationById(organizationId: string) {
+  try {
+    // 1. Validazione dell'ID dell'organizzazione
+    if (!organizationId || typeof organizationId !== "string") {
+      return { error: "ID organizzazione non valido o non fornito." };
+    }
+
+    // 2. Recupero dell'organizzazione con i suoi organizzatori
+    const organization = await db.organization.findUnique({
+      where: { id: organizationId },
+      include: {
+        organizationUsers: {
+          include: { user: true },
+        },
+      },
+    });
+
+    if (!organization) {
+      return { error: "Organizzazione non trovata." };
+    }
+
+    // 3. Estrazione degli organizzatori
+    const organizers = organization.organizationUsers.map((ou) => ou.user);
+
+    // 4. Creazione di un oggetto sicuro per l'organizzazione (escludendo dati sensibili)
+    const safeOrganization = {
+      id: organization.id,
+      name: organization.name,
+      description: organization.description,
+      address: organization.address,
+      phone: organization.phone,
+      email: organization.email,
+      linkEsterno: organization.linkEsterno,
+      createdAt: organization.createdAt.toISOString(),
+      imageSrc: organization.imageSrc,
+      // Aggiungi altri campi se necessario
+    };
+
+    return { organization: safeOrganization, organizers };
+  } catch (error) {
+    console.error("Errore nel recuperare l'organizzazione:", error);
+    return { error: "Errore nel recuperare l'organizzazione. Riprova più tardi." };
+  }
 }

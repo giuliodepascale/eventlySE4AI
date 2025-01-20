@@ -6,7 +6,7 @@ import OrganizationForm from '@/components/organization/organization-form';
 import { useCurrentUser } from '@/hooks/use-current-user';
 
 
-const CreateEventPage = () => {
+const CreateOrganizationPage = () => {
 
     const user = useCurrentUser();
     if(user?.role === 'USER' || !user)
@@ -33,4 +33,4 @@ const CreateEventPage = () => {
     )
 }
 
-export default CreateEventPage;
+export default CreateOrganizationPage;
