@@ -23,6 +23,7 @@ interface EventClientProps {
 }
 
 const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser }) => {
+ 
   return (
     <>
      

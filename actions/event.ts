@@ -1,10 +1,10 @@
 "use server";
 
-import { getUserById } from "@/data/user";
 import { db } from "@/lib/db";
 import { CreateEventSchema } from "@/schemas";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { getOrganizationById, getOrganizationOrganizers } from "./organization";
 
 export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
   const validatedFields = await CreateEventSchema.safeParseAsync(values);
@@ -13,12 +13,19 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Campi non validi" };
   }
 
-  const { title, description, imageSrc, category, userId, price, eventDate, location } = validatedFields.data;
+  const { title, description, imageSrc, category, organizationId, price, eventDate, location } = validatedFields.data;
 
-  const organizer = await getUserById(userId);
-  if (!organizer) {
+  const organizer = await getOrganizationOrganizers(organizationId);
+  if (!organizer || !organizer.organizers) {
     return { error: "Organizzatore non trovato" };
   }
+  
+  const organization = await getOrganizationById(organizationId);
+  if (!organization || !organization.organization) {
+    return { error: "Organizzazione non trovata" };
+  }
+
+  const finalImageSrc = imageSrc?.trim() === "" ? undefined : imageSrc;
 
   const finalPrice = price ? parseInt(price, 10) : 0;
   const isFree = finalPrice === 0;
@@ -27,13 +34,13 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
   try {
     newEvent = await db.event.create({
       data: {
-        title,
-        description,
-        imageSrc,
-        location,
-        category,
-        eventDate,
-        userId,
+        title: title,
+        description: description,
+        imageSrc: finalImageSrc,
+        location: location,
+        category: category,
+        eventDate: eventDate,
+        organizationId: organizationId,
         price: finalPrice,
         isFree: isFree,
       },
