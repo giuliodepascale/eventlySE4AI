@@ -64,7 +64,7 @@ interface OrganizationFormProps {
       
         let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
         if (!uploadedImageUrl) {
-          uploadedImageUrl = values.imageSrc;
+          uploadedImageUrl = values.imageSrc || "";
         }
       
         const updatedValues = {
@@ -203,6 +203,9 @@ interface OrganizationFormProps {
                           placeholder="Inserisci l'email"
                           type="email"
                           disabled={isSubmitting}
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          onBlur={field.onBlur}
                         />
                       </FormControl>
                       <FormMessage />
@@ -220,6 +223,7 @@ interface OrganizationFormProps {
                       <FormControl>
                         <Input
                           {...field}
+                          value={field.value || ""}
                           placeholder="Inserisci un URL"
                           type="url"
                           disabled={isSubmitting}

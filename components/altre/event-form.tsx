@@ -110,9 +110,9 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       new Date(values.eventTime)
     );
 
-    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc);
+    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
     if (!uploadedImageUrl) {
-      uploadedImageUrl = values.imageSrc;
+      uploadedImageUrl = values.imageSrc || "";
     }
 
     const updatedValues = {
@@ -208,7 +208,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
         <FormControl >
           <FileUploader 
             onFieldChange={field.onChange}
-            imageUrl={field.value}
+            imageUrl={field.value || ""}
             setFiles={setFiles}
           />
         </FormControl>
