@@ -57,7 +57,7 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser }) => {
           >
             <Image
               alt="Evento"
-              src={data.imageSrc}
+              src={data.imageSrc || "/images/NERO500.jpg"}
               priority
               fill
               className="
