@@ -6,7 +6,7 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { User } from "@prisma/client";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaExternalLinkAlt, FaPen } from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaExternalLinkAlt } from "react-icons/fa";
 import Loader from "../loader";
 import { SafeOrganization } from "@/app/types";
 
@@ -73,13 +73,6 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
           </div>
         </div>
 
-        <div className="flex flex-col gap-5">
-          <div className="flex gap-2 md:gap-3">
-            <FaPen size={20} className="text-gray-600" />
-            <p className="font-bold text-gray-600">Informazioni Aggiuntive</p>
-          </div>
-          
-        </div>
 
         <div className="flex flex-col gap-4">
           <h3 className="text-2xl font-semibold text-black">Organizzatori</h3>
