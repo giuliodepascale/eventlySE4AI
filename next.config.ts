@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         hostname: 'utfs.io',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'lbylqyzfhepclyppwdtx.supabase.co',
+        pathname: '/**',
+        
+      }
     ],
   },
 };

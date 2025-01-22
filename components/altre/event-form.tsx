@@ -36,10 +36,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FileUploader } from "./file-uploader";
-import { useUploadThing } from "@/lib/uploadthing";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
-
+import { supabase } from "@/lib/supabaseClient";
 import { SafeOrganization } from "@/app/types";
 
 
@@ -58,7 +57,6 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { startUpload } = useUploadThing("imageUploader");
   const [files, setFiles] = useState<File[]>([]);
 
 
@@ -76,16 +74,37 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       price: "0",
     },
   });
-
-  async function handleImageUpload(files: File[], defaultImageSrc: string) {
+  async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
     let uploadedImageUrl = defaultImageSrc;
+
     if (files.length > 0) {
-      const uploadedImages = await startUpload(files);
-      if (!uploadedImages || uploadedImages.length === 0) {
-        return;
-      }
-      uploadedImageUrl = uploadedImages[0].url;
+      const file = files[0];
+      const filePath = `events/${Date.now()}-${file.name}`;
+
+      const { error: uploadError } = await supabase.storage
+      .from('immagini') // Assicurati che il bucket "immagini" esista
+      .upload(filePath, file);
+    
+    if (uploadError) {
+      console.error("Errore durante il caricamento dell'immagine:", uploadError.message);
+      setError("Errore durante il caricamento dell'immagine. Riprova.");
+      return uploadedImageUrl;
     }
+    
+    // Ottieni l'URL pubblico
+    const { data } = supabase.storage.from('immagini').getPublicUrl(filePath);
+    
+    if (!data?.publicUrl) {
+      console.error("Errore nel recupero dell'URL pubblico");
+      setError("Errore nel recupero dell'URL pubblico.");
+      return uploadedImageUrl;
+    }
+    
+    const publicUrl = data.publicUrl;
+
+      uploadedImageUrl = publicUrl;
+    }
+
     return uploadedImageUrl;
   }
 

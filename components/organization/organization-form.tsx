@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FileUploader } from "@/components/altre/file-uploader";
-import { useUploadThing } from "@/lib/uploadthing";
+import { supabase } from "@/lib/supabaseClient";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Button } from "../ui/button";
@@ -31,7 +31,6 @@ interface OrganizationFormProps {
     const [success, setSuccess] = useState<string | undefined>("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
-    const { startUpload } = useUploadThing("imageUploader");
 
     const form = useForm<z.infer<typeof organizationSchema>>({
         resolver: zodResolver(organizationSchema),
@@ -45,16 +44,37 @@ interface OrganizationFormProps {
           imageSrc: "",
         },
       });
-
-      async function handleImageUpload(files: File[], defaultImageSrc: string) {
+      async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
         let uploadedImageUrl = defaultImageSrc;
+    
         if (files.length > 0) {
-          const uploadedImages = await startUpload(files); // Implementa questa funzione o usa una libreria di upload
-          if (!uploadedImages || uploadedImages.length === 0) {
-            return;
-          }
-          uploadedImageUrl = uploadedImages[0].url;
+          const file = files[0];
+          const filePath = `organization/${Date.now()}-${file.name}`;
+    
+          const { error: uploadError } = await supabase.storage
+          .from('immagini') // Assicurati che il bucket "immagini" esista
+          .upload(filePath, file);
+        
+        if (uploadError) {
+          console.error("Errore durante il caricamento dell'immagine:", uploadError.message);
+          setError("Errore durante il caricamento dell'immagine. Riprova.");
+          return uploadedImageUrl;
         }
+        
+        // Ottieni l'URL pubblico
+        const { data } = supabase.storage.from('immagini').getPublicUrl(filePath);
+        
+        if (!data?.publicUrl) {
+          console.error("Errore nel recupero dell'URL pubblico");
+          setError("Errore nel recupero dell'URL pubblico.");
+          return uploadedImageUrl;
+        }
+        
+        const publicUrl = data.publicUrl;
+    
+          uploadedImageUrl = publicUrl;
+        }
+    
         return uploadedImageUrl;
       }
       async function onSubmit(values: z.infer<typeof organizationSchema>) {
