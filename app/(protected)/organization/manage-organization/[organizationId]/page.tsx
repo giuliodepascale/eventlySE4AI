@@ -1,7 +1,11 @@
 import { getOrganizationById } from "@/actions/organization";
 import EmptyState from "@/components/altre/empty-state";
+import EventList from "@/components/events/events-list";
 import OrganizationManagement from "@/components/organization/organization-management";
 import { currentUser } from "@/lib/auth";
+import { getEventsByOrganization } from './../../../../../actions/event';
+import { User } from "@prisma/client";
+import { getUserById } from "@/data/user";
 
 interface OrganizationPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -68,10 +72,33 @@ export default async function OrganizationPage({ params }: OrganizationPageProps
         );
     }
 
+    const events = await getEventsByOrganization(organization.id);
    
-
+    let fullUser = null;
+    if(user && user.id){
+      fullUser = await getUserById(user.id);
+    }
     return (
+        <>
+       
             <OrganizationManagement organization={organization} />
+
+        <div>I miei eventi</div>
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm-grid-cols-2
+            md:grid-cols-3
+            lg:grid-cols-4
+            xl:grid-cols-5
+            2xl:grid-cols-6
+            gap-8
+          "
+        >
+            <EventList events={events.events || []} currentUser={fullUser as User}/>
+            </div>
+        </>
     )
 }
 

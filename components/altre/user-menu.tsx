@@ -37,7 +37,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
                {//currentUser && currentUser.role !== "USER" && 
-               ( <div><Link href="/crea-evento"
+               ( <div><Link href="/organization/my-organizations"
       
         className="
           hidden
@@ -51,7 +51,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           transition
           cursor-pointer
         ">
-        Crea Evento
+        Gestisci organizzazioni
     </Link>
    
     </div>

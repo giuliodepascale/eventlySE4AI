@@ -173,3 +173,54 @@ export async function getOrganizationById(organizationId: string) {
     return { error: "Errore nel recuperare l'organizzazione. Riprova più tardi." };
   }
 }
+
+
+/**
+ * Recupera tutte le organizzazioni gestite da un utente specifico.
+ *
+ * @param userId - L'ID dell'utente di cui recuperare le organizzazioni gestite.
+ * @returns Un oggetto contenente un array di organizzazioni o un messaggio di errore.
+ */
+export async function getOrganizationsByUser(userId : string) {
+  try {
+    // 1. Validazione dell'ID utente
+    if (!userId || typeof userId !== "string") {
+      return { error: "ID utente non valido o non fornito." };
+    }
+
+    // 2. Recupero delle organizzazioni associate all'utente come amministratore o organizzatore
+    const userOrganizations = await db.organizationUser.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        organization: true, // Include i dettagli delle organizzazioni
+      },
+    });
+
+    if (userOrganizations.length === 0) {
+      return { error: "Nessuna organizzazione trovata per questo utente." };
+    }
+
+    // 3. Creazione di un array di organizzazioni sicure (escludendo dati sensibili)
+    const organizations = userOrganizations.map((orgUser) => {
+      const organization = orgUser.organization;
+      return {
+        id: organization.id,
+        name: organization.name,
+        description: organization.description,
+        address: organization.address,
+        phone: organization.phone,
+        email: organization.email,
+        linkEsterno: organization.linkEsterno,
+        createdAt: organization.createdAt.toISOString(),
+        imageSrc: organization.imageSrc,
+      };
+    });
+
+    return { organizations };
+  } catch (error) {
+    console.error("Errore nel recuperare le organizzazioni dell'utente:", error);
+    return { error: "Errore nel recuperare le organizzazioni. Riprova più tardi." };
+  }
+}
