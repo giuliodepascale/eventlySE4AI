@@ -9,16 +9,24 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Button } from "../ui/button";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import Loader from "../loader";
 import { Input } from "@/components/ui/input";
 import { createOrganization } from "@/actions/organization";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { cities } from "../altre/cities";
 
 
 interface OrganizationFormProps {
@@ -40,7 +48,9 @@ interface OrganizationFormProps {
           address: "",
           phone: "",
           email: "",
+          city: "",
           linkEsterno: "",
+          linkMaps: "",
           imageSrc: "",
         },
       });
@@ -255,6 +265,26 @@ interface OrganizationFormProps {
                 />
               </div>
     
+                {/* Link Maps */}
+                <FormField
+                  control={form.control}
+                  name="linkMaps"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link Maps</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          value={field.value || ""}
+                          placeholder="Inserisci IFrame"
+                          type="text"
+                          disabled={isSubmitting}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Immagine */}
                 <FormField
@@ -274,10 +304,41 @@ interface OrganizationFormProps {
                     </FormItem>
                   )}
                 />
-    
-              
+             <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Città</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleziona una città" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {cities.map((item) => (
+                        <SelectItem
+                          key={item.label}
+                          value={item.label}
+                          disabled={isSubmitting}
+                        >
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+   
+           
               </div>
-    
+             
               {/* Messaggi di Errore e Successo */}
               <FormError message={error} />
               <FormSuccess message={success} />

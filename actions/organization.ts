@@ -34,9 +34,20 @@ export async function createOrganization(
     phone,
     email,
     linkEsterno,
+    city,
+    linkMaps,
     imageSrc,
     // location, // Se necessario, aggiungi questo campo nel tuo modello Prisma
   } = validatedFields.data;
+
+  // Parsing link maps
+let parsedLinkMaps = null;
+
+if (linkMaps) {
+  // Prova a estrarre il valore di src
+  parsedLinkMaps = linkMaps.match(/src="([^"]+)"/)?.[1];
+}
+  
 
   // 2. Verifica che l'utente esista
   const user = await getUserById(userId);
@@ -55,7 +66,9 @@ export async function createOrganization(
         address,
         phone,
         email,
+        city,
         linkEsterno,
+        linkMaps: parsedLinkMaps,
         imageSrc: finalImageSrc,
       },
     });
@@ -161,7 +174,9 @@ export async function getOrganizationById(organizationId: string) {
       address: organization.address,
       phone: organization.phone,
       email: organization.email,
+      city: organization.city,
       linkEsterno: organization.linkEsterno,
+      linkMaps: organization.linkMaps,
       createdAt: organization.createdAt.toISOString(),
       imageSrc: organization.imageSrc,
       // Aggiungi altri campi se necessario
@@ -212,7 +227,9 @@ export async function getOrganizationsByUser(userId : string) {
         address: organization.address,
         phone: organization.phone,
         email: organization.email,
+        city: organization.city,
         linkEsterno: organization.linkEsterno,
+        linkMaps: organization.linkMaps,
         createdAt: organization.createdAt.toISOString(),
         imageSrc: organization.imageSrc,
       };

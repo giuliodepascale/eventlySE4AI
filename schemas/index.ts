@@ -104,6 +104,9 @@ export const CreateEventSchema = z.object({
     .nonempty("La categoria è obbligatoria"),
   organizationId: z
     .string(),
+  city: z
+    .string()
+    .nonempty("La città è obbligatoria"),
   price: z
     .string()
     .refine((val) => {
@@ -159,6 +162,9 @@ export const organizationSchema = z.object({
   phone: z
     .string()
     .optional(),
+  city: z
+    .string()
+    .optional(),
   email: z
   .string()
   .email('Email non valida')
@@ -174,5 +180,11 @@ export const organizationSchema = z.object({
     .string()
     .url("L'immagine deve essere un URL valido")
     .optional()
-    .nullable()
+    .nullable(),
+  
+  linkMaps: z
+    .string()
+    .optional(),
+
+  
 });

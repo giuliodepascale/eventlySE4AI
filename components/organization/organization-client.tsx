@@ -9,12 +9,14 @@ import { User } from "@prisma/client";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaExternalLinkAlt } from "react-icons/fa";
 import Loader from "../loader";
 import { SafeOrganization } from "@/app/types";
+import Map from "@/components/altre/map";
 
 interface OrganizationClientProps {
   organizers: User[]; // Lista di organizzatori
   organization: SafeOrganization;
   currentUser?: User | null;
 }
+
 
 const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, organization, currentUser }) => {
   return (
@@ -28,7 +30,6 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
             fill
             className="object-cover object-center w-full h-full"
           />
-
         </div>
       </Suspense>
       <div className="flex flex-col w-full gap-8 p-5 md:p-10">
@@ -73,6 +74,7 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
           </div>
         </div>
 
+       
 
         <div className="flex flex-col gap-4">
           <h3 className="text-2xl font-semibold text-black">Organizzatori</h3>
@@ -81,7 +83,7 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
               organizers.map((organizer) => (
                 <li key={organizer.id} className="flex items-center gap-3">
                   <div>
-                      {organizer.name || "Senza Nome"}
+                    {organizer.name || "Senza Nome"}
                     <p className="text-sm text-gray-600">{organizer.email}</p>
                   </div>
                 </li>
@@ -92,7 +94,6 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
           </ul>
         </div>
 
-        {/* Eventuali pulsanti di azione, come modificare l'organizzazione */}
         {currentUser && organizers.some((org) => org.id === currentUser.id) && (
           <Link href={`/organizations/edit/${organization.id}`}>
             <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
@@ -100,6 +101,10 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
             </button>
           </Link>
         )}
+        
+        {organization.linkMaps &&
+          <Map src={organization.linkMaps}/>
+        }
       </div>
     </div>
   );

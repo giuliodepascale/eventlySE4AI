@@ -75,6 +75,8 @@ model Organization {
   phone               String?
   email               String?
   linkEsterno         String?
+  linkMaps            String?
+  city                String?             @default("Salerno")
   createdAt           DateTime            @default(now())
   imageSrc            String?
   // Relazioni con OrganizationUser
@@ -125,6 +127,8 @@ model Event {
   createdAt        DateTime      @default(now())
   category         String
   price            Int?
+  city             String        @default("Salerno")
+  linkMaps         String?
   isFree           Boolean?
   favoriteCount    Int           @default(0)
   eventDate        DateTime

@@ -40,6 +40,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
 import { supabase } from "@/lib/supabaseClient";
 import { SafeOrganization } from "@/app/types";
+import { cities } from "./cities";
 
 
 dayjs.locale("it");
@@ -70,6 +71,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       location: "",
       isFree: true,
       eventDate: new Date(),
+      city: organization.city || undefined,
       organizationId: organization.id,
       price: "0",
     },
@@ -381,7 +383,39 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
                 <FormMessage />
               </FormItem>
             )}
+            
           />
+           <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Città</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Seleziona una città" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {cities.map((item) => (
+                        <SelectItem
+                          key={item.label}
+                          value={item.label}
+                          disabled={isSubmitting}
+                        >
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
