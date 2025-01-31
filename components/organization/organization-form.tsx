@@ -1,13 +1,14 @@
 import { organizationSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import {useMemo, useState } from "react";
+import {  useForm } from "react-hook-form";
 import * as z from "zod";
 import { FileUploader } from "@/components/altre/file-uploader";
 import { supabase } from "@/lib/supabaseClient";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Button } from "../ui/button";
+import italia from "italia";
 import {
   Form,
   FormControl,
@@ -26,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cities } from "../altre/cities";
+
 
 
 interface OrganizationFormProps {
@@ -35,23 +36,100 @@ interface OrganizationFormProps {
   
 
   export const OrganizationForm = ({ userIdprops }: OrganizationFormProps) => {
+
+    const { regioni } = italia; // Estrai regioni direttamente
+
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
 
+    
+      // Stati per regione e provincia selezionata
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
+
+  const province = useMemo(() => {
+    if (!selectedRegion || !regioni) {
+        return [];
+    }
+
+    console.log("Regione selezionata:", selectedRegion);
+
+    // Trova la regione corrispondente
+    const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
+
+    if (!region) {
+       
+        return [];
+    }
+
+    if (!region.province || region.province.length === 0) {
+        return [];
+    }
+
+    console.log(`Province trovate per ${selectedRegion}:`, region.province);
+
+    // 🔹 Ritorniamo direttamente le sigle
+    return region.province.map((sigla:{sigla:string}) => ({
+        nome: sigla, // Nome e sigla saranno uguali
+        sigla: sigla
+    }));
+}, [selectedRegion, regioni]);
+
+const comuni = useMemo(() => {
+  if (!selectedProvince || !italia.comuni || !italia.comuni.regioni) {
+      
+      return [];
+  }
+
+
+
+  // 🔹 Troviamo la regione che contiene la provincia selezionata
+  const regione = italia.comuni.regioni.find((regione: { province: { code: string; }[]; }) =>
+      regione.province.some((prov: { code: string }) => prov.code === selectedProvince)
+  );
+
+  if (!regione) {
+    
+      return [];
+  }
+
+
+
+  // 🔹 Troviamo la provincia dentro la regione usando `code` invece di `sigla`
+  const provincia = regione.province.find((prov: { code: string }) => prov.code === selectedProvince);
+
+  if (!provincia || !provincia.comuni) {
+      return [];
+  }
+
+  
+
+  // 🔹 Restituiamo i comuni trovati
+  return provincia.comuni.map((comune: { nome: string }) => ({
+      nome: comune.nome,
+  }));
+}, [selectedProvince]);
+
+
+
+  
     const form = useForm<z.infer<typeof organizationSchema>>({
         resolver: zodResolver(organizationSchema),
         defaultValues: {
           name: "",
           description: "",
-          address: "",
+          indirizzo: "",
+          comune:"",
+          provincia: "",
           phone: "",
+          regione:"",
           email: "",
-          city: "",
           linkEsterno: "",
           linkMaps: "",
           imageSrc: "",
+          seoUrl: ""
         },
       });
       async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
@@ -181,7 +259,7 @@ interface OrganizationFormProps {
                 {/* Indirizzo */}
                 <FormField
                   control={form.control}
-                  name="address"
+                  name="indirizzo"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Indirizzo</FormLabel>
@@ -304,38 +382,113 @@ interface OrganizationFormProps {
                     </FormItem>
                   )}
                 />
-             <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Città</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleziona una città" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {cities.map((item) => (
-                        <SelectItem
-                          key={item.label}
-                          value={item.label}
-                          disabled={isSubmitting}
-                        >
-                          {item.label}
+             {/* Selezione Provincia */}
+      <div>
+        
+      {/* 🔹 SELEZIONE REGIONE */}
+      {/* 🔹 REGIONE - Stato Locale (NON parte del form) */}
+      <div>
+      <FormField
+      control={form.control}
+      name="regione"
+      render={({ field }) => (
+    <FormItem>
+      <FormLabel>Regione</FormLabel>
+      <FormControl>
+          <Select
+            onValueChange={(val: string) => {
+              field.onChange(val);
+              setSelectedRegion(val);
+              setSelectedProvince(null); // Reset provincia
+            }}
+            value={selectedRegion || ""}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleziona una Regione" />
+            </SelectTrigger>
+            <SelectContent>
+              {regioni.map((reg: {nome: string}) => (
+                <SelectItem key={reg.nome} value={reg.nome}>
+                  {reg.nome}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+        </div>
+
+
+        {/* 🔹 SELEZIONE PROVINCIA */}
+        <FormField
+  control={form.control}
+  name="provincia"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Provincia</FormLabel>
+      <FormControl>
+        <Select
+          onValueChange={(val: string) => {
+            field.onChange(val);
+            setSelectedProvince(val);
+          }}
+          value={field.value || ""} // Assicura che il valore non sia undefined
+          disabled={!selectedRegion}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Seleziona una Provincia" />
+          </SelectTrigger>
+          <SelectContent>
+            {province.map((prov: {sigla:string}) => (
+              <SelectItem key={prov.sigla} value={prov.sigla}>
+                {prov.sigla}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+             
+        {/* 🔹 SELEZIONE COMUNE */}
+        <FormField
+          control={form.control}
+          name="comune"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comune</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={!selectedProvince}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={selectedProvince ? "Seleziona un Comune" : "Seleziona prima una Provincia"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                  {
+                      comuni.map((comune: {nome: string}) => (
+                        <SelectItem key={comune.nome} value={comune.nome}>
+                          {comune.nome}
                         </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-   
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+      </div>
            
               </div>
              

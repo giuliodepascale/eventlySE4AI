@@ -86,10 +86,10 @@ export const CreateEventSchema = z.object({
       message: "La data dell'evento non può essere nel passato",
     }
   ),
-  location: z
+  indirizzo: z
   .string()
-    .min(3, "Il luogo deve contenere almeno 3 caratteri")
-    .max(50, "Il luogo non può superare i 50 caratteri"),
+    .min(3, "L'indirizzo deve contenere almeno 3 caratteri")
+    .max(50, "L'indirizzo non può superare i 50 caratteri"),
   description: z
     .string()
     .min(10, "La descrizione deve contenere almeno 10 caratteri")
@@ -146,45 +146,56 @@ export const CreateEventSchema = z.object({
 
 
 
-
-export const organizationSchema = z.object({
-  name: z.string()
-  .min(3, "Il titolo deve contenere almeno 3 caratteri")
-  .max(50, "Il titolo non può superare i 50 caratteri"),
-  description: z
-  .string()
-  .min(10, "La descrizione deve contenere almeno 10 caratteri")
-  .max(300, "La descrizione non può superare i 300 caratteri"),
-  address: z.string()
-  .min(3, "Il luogo deve contenere almeno 3 caratteri")
-  .max(50, "Il luogo non può superare i 50 caratteri")
-  .optional(),
-  phone: z
-    .string()
-    .optional(),
-  city: z
-    .string()
-    .optional(),
-  email: z
-  .string()
-  .email('Email non valida')
-  .optional()
-  .nullable(),
-    
-  linkEsterno: z
-    .string()
-    .url('Link non valido')
-    .optional()
-    .nullable(),
-  imageSrc: z
-    .string()
-    .url("L'immagine deve essere un URL valido")
-    .optional()
-    .nullable(),
+  export const organizationSchema = z.object({
+    name: z
+      .string()
+      .min(3, "Il titolo deve contenere almeno 3 caratteri")
+      .max(50, "Il titolo non può superare i 50 caratteri"),
+    description: z
+      .string()
+      .min(10, "La descrizione deve contenere almeno 10 caratteri")
+      .max(300, "La descrizione non può superare i 300 caratteri"),
+    indirizzo: z
+      .union([z.string().min(3, "Il luogo deve contenere almeno 3 caratteri")
+        .max(50, "Il luogo non può superare i 50 caratteri"), z.literal('')])
+      .optional()
+      .default(''),
+    phone: z
+      .union([z.string().regex(/^[0-9+\-\s]+$/, "Numero di telefono non valido"), z.literal('')])
+      .optional()
+      .default(''),
+    email: z
+      .union([z.string().email("Email non valida"), z.literal('')]) // Permette stringa vuota o email valida
+      .optional()
+      .default(''),
+    linkEsterno: z
+      .union([z.string().url("Link non valido"), z.literal('')]) // Permette stringa vuota o URL valido
+      .optional()
+      .default(''),
+    imageSrc: z
+      .union([z.string().url("L'immagine deve essere un URL valido"), z.literal('')])
+      .optional()
+      .default(''),
+    linkMaps: z
+      .string()
+      .optional()
+      .default(''),
   
-  linkMaps: z
-    .string()
-    .optional(),
-
-  
-});
+    // Nuovi campi per comune, provincia e seoUrl
+    comune: z
+      .string()
+      .optional()
+      .default(''),
+    provincia: z
+      .string()
+      .optional()
+      .default(''),
+    regione: z
+      .string()
+      .optional()
+      .default(''),
+    seoUrl: z
+      .union([z.string().regex(/^[a-z0-9-]+$/i, "SEO URL non valido"), z.literal('')]) // Permette stringa vuota o slug valido
+      .optional()
+      .default(''),
+  });

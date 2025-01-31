@@ -13,6 +13,8 @@ import { SearchParams } from "./types";
 
 export default async function Home(props: {searchParams: SearchParams}) {
   
+ 
+
 
   const searchParams = await props.searchParams;
   const page = Number(searchParams?.page) || 1;

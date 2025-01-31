@@ -13,7 +13,7 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Campi non validi" };
   }
 
-  const { title, description, imageSrc, category, organizationId, price, eventDate, location } = validatedFields.data;
+  const { title, description, imageSrc, category, organizationId, price, eventDate, indirizzo } = validatedFields.data;
 
   const organizer = await getOrganizationOrganizers(organizationId);
   if (!organizer || !organizer.organizers) {
@@ -37,7 +37,7 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         title: title,
         description: description,
         imageSrc: finalImageSrc,
-        location: location,
+        indirizzo: indirizzo,
         category: category,
         eventDate: eventDate,
         organizationId: organizationId,

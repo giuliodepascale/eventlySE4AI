@@ -53,10 +53,10 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
                 </a>
               </div>
             )}
-            {organization.address && (
+            {organization.indirizzo && (
               <div className="flex items-center gap-2">
                 <FaMapMarkerAlt size={20} className="text-gray-600" />
-                <span className="text-gray-700">{organization.address}</span>
+                <span className="text-gray-700">{organization.indirizzo}</span>
               </div>
             )}
             {organization.linkEsterno && (

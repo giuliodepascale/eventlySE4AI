@@ -70,15 +70,18 @@ model User {
 model Organization {
   id                  String              @id @default(cuid())
   name                String
-  description         String?
-  address             String?
+  description         String
+  indirizzo           String?
+  comune              String?             // Aggiunto campo comune
+  provincia           String?
+  regione             String?  
   phone               String?
   email               String?
   linkEsterno         String?
   linkMaps            String?
-  city                String?             @default("Salerno")
   createdAt           DateTime            @default(now())
   imageSrc            String?
+  seoUrl              String?              
   // Relazioni con OrganizationUser
   organizationUsers   OrganizationUser[]
 
@@ -127,14 +130,16 @@ model Event {
   createdAt        DateTime      @default(now())
   category         String
   price            Int?
-  city             String        @default("Salerno")
+  comune           String        
+  provincia        String       
   linkMaps         String?
   isFree           Boolean?
   favoriteCount    Int           @default(0)
   eventDate        DateTime
-  location         String
+  indirizzo        String
   organizationId   String
-
+  seoUrl           String        @unique
+  
   organization     Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
   reservations     Reservation[]
 
