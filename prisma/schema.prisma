@@ -131,14 +131,15 @@ model Event {
   category         String
   price            Int?
   comune           String        
-  provincia        String       
+  provincia        String
+  regione          String       
   linkMaps         String?
   isFree           Boolean?
   favoriteCount    Int           @default(0)
   eventDate        DateTime
   indirizzo        String
   organizationId   String
-  seoUrl           String        @unique
+  seoUrl           String?        
   
   organization     Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
   reservations     Reservation[]

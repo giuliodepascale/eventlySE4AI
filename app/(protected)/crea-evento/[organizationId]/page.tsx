@@ -2,7 +2,7 @@
 
 import { getOrganizationById } from '@/actions/organization';
 import EmptyState from '@/components/altre/empty-state';
-import EventForm from '@/components/altre/event-form';
+import EventForm from '@/components/events/event-form';
 import { currentUser } from '@/lib/auth';
 
 

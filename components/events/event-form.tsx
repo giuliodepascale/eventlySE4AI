@@ -18,9 +18,9 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createEvent } from "@/actions/event";
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { FaEuroSign } from "react-icons/fa";
-import { FiMapPin } from "react-icons/fi";
+//import { FiMapPin } from "react-icons/fi";
 import { Controller } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -35,12 +35,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FileUploader } from "./file-uploader";
+import { FileUploader } from "@/components/altre/file-uploader";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
 import { supabase } from "@/lib/supabaseClient";
 import { SafeOrganization } from "@/app/types";
-import { cities } from "./cities";
+import italia from "italia";
 
 
 dayjs.locale("it");
@@ -60,6 +60,77 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
 
+  const { regioni } = italia; // Estrai regioni direttamente
+
+       // Stati per regione e provincia selezionata
+     const [selectedRegion, setSelectedRegion] = useState<string | null>(organization.regione || null);
+     const [selectedProvince, setSelectedProvince] = useState<string | null>(organization.provincia || null);
+       
+  
+    const province = useMemo(() => {
+      if (!selectedRegion || !regioni) {
+          return [];
+      }
+  
+      console.log("Regione selezionata:", selectedRegion);
+  
+      // Trova la regione corrispondente
+      const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
+  
+      if (!region) {
+         
+          return [];
+      }
+  
+      if (!region.province || region.province.length === 0) {
+          return [];
+      }
+  
+     
+  
+      // 🔹 Ritorniamo direttamente le sigle
+      return region.province.map((sigla:{sigla:string}) => ({
+          nome: sigla, // Nome e sigla saranno uguali
+          sigla: sigla
+      }));
+  }, [selectedRegion, regioni]);
+  
+  const comuni = useMemo(() => {
+    if (!selectedProvince || !italia.comuni || !italia.comuni.regioni) {
+        
+        return [];
+    }
+  
+  
+  
+    // 🔹 Troviamo la regione che contiene la provincia selezionata
+    const regione = italia.comuni.regioni.find((regione: { province: { code: string; }[]; }) =>
+        regione.province.some((prov: { code: string }) => prov.code === selectedProvince)
+    );
+  
+    if (!regione) {
+      
+        return [];
+    }
+  
+  
+  
+    // 🔹 Troviamo la provincia dentro la regione usando `code` invece di `sigla`
+    const provincia = regione.province.find((prov: { code: string }) => prov.code === selectedProvince);
+  
+    if (!provincia || !provincia.comuni) {
+        return [];
+    }
+  
+    
+  
+    // 🔹 Restituiamo i comuni trovati
+    return provincia.comuni.map((comune: { nome: string }) => ({
+        nome: comune.nome,
+    }));
+  }, [selectedProvince]);
+  
+  
 
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
@@ -68,10 +139,11 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       description: "",
       imageSrc: "",
       category: "",
-      location: "",
+      comune: organization.comune || "",
+      provincia: organization.provincia || "",
+      regione: organization.regione || "",
       isFree: true,
       eventDate: new Date(),
-      city: organization.city || undefined,
       organizationId: organization.id,
       price: "0",
     },
@@ -217,8 +289,12 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
                 </FormItem>
               )}
             />
-           
-          </div>
+          
+        </div>
+
+
+       
+         
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
   <FormField
     control={form.control}
@@ -232,11 +308,13 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
             imageUrl={field.value || ""}
             setFiles={setFiles}
           />
+       
         </FormControl>
         <FormMessage />
       </FormItem>
     )}
   />
+  
   <FormField
     control={form.control}
     name="description"
@@ -302,29 +380,105 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
     />
   </div>
 
-  {/* Campo Luogo */}
+  {/* Campo luogo */}
   <FormField
-    control={form.control}
-    name="location"
-    render={({ field }) => (
-      <FormItem>
-        <FormLabel>Luogo</FormLabel>
-        <FormControl>
-          <div className="flex items-center gap-2 border rounded-md px-3 py-2">
-            <FiMapPin size={16} className="text-gray-500" />
-            <Input
-              {...field}
-              placeholder="Luogo dell'evento"
-              type="text"
-              disabled={isSubmitting}
-              className="flex-1 border-none focus:ring-0"
-            />
-          </div>
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    )}
-  />
+      control={form.control}
+      name="regione"
+      render={({ field }) => (
+    <FormItem>
+      <FormLabel>Regione</FormLabel>
+      <FormControl>
+          <Select
+            onValueChange={(val: string) => {
+              field.onChange(val);
+              setSelectedRegion(val);
+              setSelectedProvince(null); // Reset provincia
+            }}
+            value={selectedRegion || ""}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Seleziona una Regione" />
+            </SelectTrigger>
+            <SelectContent>
+              {regioni.map((reg: {nome: string}) => (
+                <SelectItem key={reg.nome} value={reg.nome}>
+                  {reg.nome}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+ {/* 🔹 SELEZIONE PROVINCIA */}
+ <FormField
+  control={form.control}
+  name="provincia"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Provincia</FormLabel>
+      <FormControl>
+        <Select
+          onValueChange={(val: string) => {
+            field.onChange(val);
+            setSelectedProvince(val);
+          }}
+          value={field.value || ""} // Assicura che il valore non sia undefined
+          disabled={!selectedRegion}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Seleziona una Provincia" />
+          </SelectTrigger>
+          <SelectContent>
+            {province.map((prov: {sigla:string}) => (
+              <SelectItem key={prov.sigla} value={prov.sigla}>
+                {prov.sigla}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+             
+        {/* 🔹 SELEZIONE COMUNE */}
+        <FormField
+          control={form.control}
+          name="comune"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comune</FormLabel>
+              <FormControl>
+             
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={!selectedProvince}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder={selectedProvince ? "Seleziona un Comune" : "Seleziona prima una Provincia"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                  {
+                      comuni.map((comune: {nome: string}) => (
+                        <SelectItem key={comune.nome} value={comune.nome}>
+                          {comune.nome}
+                        </SelectItem>
+                      ))
+                    }
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+  
 </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -385,37 +539,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
             )}
             
           />
-           <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Città</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleziona una città" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {cities.map((item) => (
-                        <SelectItem
-                          key={item.label}
-                          value={item.label}
-                          disabled={isSubmitting}
-                        >
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />

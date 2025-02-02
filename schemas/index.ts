@@ -104,9 +104,15 @@ export const CreateEventSchema = z.object({
     .nonempty("La categoria è obbligatoria"),
   organizationId: z
     .string(),
-  city: z
+  comune: z
+      .string()
+      .nonempty("Il comune è obbligatorio"),
+    provincia: z
     .string()
-    .nonempty("La città è obbligatoria"),
+    .nonempty("Il comune è obbligatorio"),
+    regione: z
+    .string()
+    .nonempty("Il comune è obbligatorio"),
   price: z
     .string()
     .refine((val) => {
@@ -177,23 +183,19 @@ export const CreateEventSchema = z.object({
       .optional()
       .default(''),
     linkMaps: z
-      .string()
-      .optional()
-      .default(''),
+      .union([z.string(), z.literal('')])
+      .optional(),
   
     // Nuovi campi per comune, provincia e seoUrl
     comune: z
-      .string()
-      .optional()
-      .default(''),
+      .union([z.string(), z.literal('')])
+      .optional(),
     provincia: z
-      .string()
-      .optional()
-      .default(''),
+      .union([z.string(), z.literal('')])
+      .optional(),
     regione: z
-      .string()
-      .optional()
-      .default(''),
+    .union([z.string(), z.literal('')])
+    .optional(),
     seoUrl: z
       .union([z.string().regex(/^[a-z0-9-]+$/i, "SEO URL non valido"), z.literal('')]) // Permette stringa vuota o slug valido
       .optional()
