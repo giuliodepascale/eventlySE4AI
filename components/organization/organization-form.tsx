@@ -54,7 +54,7 @@ interface OrganizationFormProps {
         return [];
     }
 
-    console.log("Regione selezionata:", selectedRegion);
+   
 
     // Trova la regione corrispondente
     const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
@@ -68,7 +68,7 @@ interface OrganizationFormProps {
         return [];
     }
 
-    console.log(`Province trovate per ${selectedRegion}:`, region.province);
+    
 
     // 🔹 Ritorniamo direttamente le sigle
     return region.province.map((sigla:{sigla:string}) => ({

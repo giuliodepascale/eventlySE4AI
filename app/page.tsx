@@ -42,7 +42,7 @@ export default async function Home(props: {searchParams: SearchParams}) {
 
     
 
-  
+ 
 
   return (
     <main>
@@ -60,7 +60,10 @@ export default async function Home(props: {searchParams: SearchParams}) {
             gap-8
           "
         >
+        
+           
            <Suspense fallback={<Loading />}>
+          
             <EventList events={result.events} currentUser={fullUser as User || null} /> 
           </Suspense>
         </div>

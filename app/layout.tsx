@@ -50,6 +50,9 @@ export default async function RootLayout({
 }>) {
 
   const session = await auth();
+
+ // const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent("Salerno B-side")}&output=embed`;
+
   
   return (
     

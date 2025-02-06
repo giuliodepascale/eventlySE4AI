@@ -1,7 +1,7 @@
 import { getOrganizationById } from "@/actions/organization";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
-import EventClient from "@/components/altre/event-client";
+import EventClient from "@/components/events/event-client";
 import { getEventById } from "@/data/event";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";

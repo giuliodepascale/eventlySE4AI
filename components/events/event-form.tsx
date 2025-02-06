@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createEvent } from "@/actions/event";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 import { FaEuroSign } from "react-icons/fa";
 //import { FiMapPin } from "react-icons/fi";
 import { Controller } from "react-hook-form";
@@ -56,23 +56,21 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
   const action = type //todo
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+
 
   const { regioni } = italia; // Estrai regioni direttamente
 
        // Stati per regione e provincia selezionata
      const [selectedRegion, setSelectedRegion] = useState<string | null>(organization.regione || null);
      const [selectedProvince, setSelectedProvince] = useState<string | null>(organization.provincia || null);
-       
-  
+   
+     
     const province = useMemo(() => {
       if (!selectedRegion || !regioni) {
           return [];
       }
-  
-      console.log("Regione selezionata:", selectedRegion);
   
       // Trova la regione corrispondente
       const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
@@ -132,22 +130,6 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
   
   
 
-  const form = useForm<z.infer<typeof CreateEventSchema>>({
-    resolver: zodResolver(CreateEventSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      imageSrc: "",
-      category: "",
-      comune: organization.comune || "",
-      provincia: organization.provincia || "",
-      regione: organization.regione || "",
-      isFree: true,
-      eventDate: new Date(),
-      organizationId: organization.id,
-      price: "0",
-    },
-  });
   async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
     let uploadedImageUrl = defaultImageSrc;
 
@@ -193,36 +175,65 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
     return combined;
   };
 
+  const form = useForm<z.infer<typeof CreateEventSchema>>({
+    resolver: zodResolver(CreateEventSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      imageSrc: "",
+      category: "",
+      indirizzo: organization.indirizzo || "",
+      comune: organization.comune || "",
+      provincia: organization.provincia || "",
+      regione: organization.regione || "",
+      isFree: true,
+      eventDate: new Date(),
+      eventDateDay: new Date(),  // nuovo default
+      eventTime: new Date(),     // nuovo default
+      organizationId: organization.id,
+      price: "0",
+    },
+    
+    
+  });
+
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-    setIsSubmitting(true);
-    setError("");
-    setSuccess("");
+        console.log("ciaoooo")
+        setIsSubmitting(true);
+        setError("");
+        setSuccess("");
+      
+        let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
+        if (!uploadedImageUrl) {
+          uploadedImageUrl = values.imageSrc || "";
+        }
 
-    const combinedDateTime = handleEventDateTime(
-      new Date(values.eventDateDay),
-      new Date(values.eventTime)
-    );
+        const combinedDateTime = handleEventDateTime(
+          new Date(values.eventDateDay),
+          new Date(values.eventTime)
+        );
+      
+        const updatedValues = {
+          ...values,
+          eventDate: combinedDateTime,
+          imageSrc: uploadedImageUrl,
+          userId: organization.id,
+        };
+      
+      
+          createEvent(updatedValues) // Passa userIdprops qui
+            .then((data) => {
+              if (data.error) {
+                setError(data.error);
+              }
+            })
+            .finally(() => {
+              setIsSubmitting(false);
+            })
+            ;
+       
+      }
 
-    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
-    if (!uploadedImageUrl) {
-      uploadedImageUrl = values.imageSrc || "";
-    }
-
-    const updatedValues = {
-      ...values,
-      eventDate: combinedDateTime,
-      imageSrc: uploadedImageUrl,
-      userId: organization.id,
-    };
-
-    startTransition(() => {
-      createEvent(updatedValues)
-        .then((data) => {
-          setError(data?.error);
-          setIsSubmitting(false);
-        })
-    });
-  }
 
   return (
    <>
@@ -234,6 +245,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
 
    
       <Form {...form}>
+     
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto"
@@ -250,7 +262,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
                       {...field}
                       placeholder="Inserisci il titolo dell'evento"
                       type="text"
-                      disabled={isPending}
+                      disabled={isSubmitting}
                       className="rounded-md border-gray-300 focus:ring focus:ring-blue-500"
                     />
                   </FormControl>
@@ -314,7 +326,23 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       </FormItem>
     )}
   />
-  
+  <FormField
+  control={form.control}
+  name="indirizzo"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Indirizzo</FormLabel>
+      <FormControl>
+        <Input
+          {...field}
+          placeholder="Inserisci l'indirizzo dell'evento"
+          disabled={isSubmitting}
+        />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
   <FormField
     control={form.control}
     name="description"
@@ -544,9 +572,9 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
-            disabled={isSubmitting}
+             type="submit"
+             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+             disabled={isSubmitting}
           >
             Crea evento
           </Button>

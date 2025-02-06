@@ -5,11 +5,11 @@ import { SafeEvent, SafeOrganization } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import { User } from "@prisma/client";
-import DateFormatter from "./date-formatter";
+import DateFormatter from "@/components/altre/date-formatter";
 import { FcCalendar } from "react-icons/fc";
 import { CiLocationOn } from "react-icons/ci";
 import { FaPen } from "react-icons/fa6";
-import HeartButton from "./heart-button";
+import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 
 
@@ -78,7 +78,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
             </div>
             <div className="flex items-center gap-3 text-sm">
               <CiLocationOn size={24} />
-              <p className="font-bold text-lg text-gray-600 break-words">{event.location}</p>
+              <p className="font-bold text-lg text-gray-600 break-words">{event.indirizzo}, {event.comune}, {event.provincia}</p>
             </div>
           </div>
   
