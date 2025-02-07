@@ -8,6 +8,7 @@ interface OrganizationCardProps {
   id: string;
   name: string;
   imageSrc?: string;
+  isOrganizationCreator?: boolean;
 }
 
 const OrganizationCard: React.FC<OrganizationCardProps> = ({ id, name, imageSrc }) => {

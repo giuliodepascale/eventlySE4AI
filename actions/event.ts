@@ -181,3 +181,85 @@ export const getEventsByOrganization = async (organizationId : string, limit = 6
     };
   }
 };
+
+
+export async function updateEvent(
+  eventId: string,
+  values: z.infer<typeof CreateEventSchema>
+) {
+  // Validazione dei campi in ingresso
+  const validatedFields = await CreateEventSchema.safeParseAsync(values);
+
+  if (!validatedFields.success) {
+    return { error: "Campi non validi" };
+  }
+
+  const {
+    title,
+    description,
+    imageSrc,
+    category,
+    organizationId,
+    price,
+    eventDate,
+    indirizzo,
+    comune,
+    provincia,
+    regione,
+  } = validatedFields.data;
+
+  // Controlla che l'evento esista
+  const existingEvent = await db.event.findUnique({
+    where: { id: eventId },
+  });
+
+  if (!existingEvent) {
+    return { error: "Evento non trovato" };
+  }
+
+  // Verifica che l'organizzazione e i suoi organizzatori esistano
+  const organizer = await getOrganizationOrganizers(organizationId);
+  if (!organizer || !organizer.organizers) {
+    return { error: "Organizzatore non trovato" };
+  }
+
+  const organization = await getOrganizationById(organizationId);
+  if (!organization || !organization.organization) {
+    return { error: "Organizzazione non trovata" };
+  }
+
+  // Gestione dell'immagine: se è una stringa vuota, la trasformiamo in undefined
+  const finalImageSrc = imageSrc?.trim() === "" ? undefined : imageSrc;
+
+  // Convertiamo il prezzo in numero e definiamo se l'evento è gratuito
+  const finalPrice = price ? parseInt(price, 10) : 0;
+  const isFree = finalPrice === 0;
+
+  // Proviamo ad aggiornare l'evento nel database
+  let updatedEvent;
+  try {
+    updatedEvent = await db.event.update({
+      where: { id: eventId },
+      data: {
+        title,
+        description,
+        imageSrc: finalImageSrc,
+        indirizzo,
+        category,
+        eventDate,
+        comune,
+        provincia,
+        regione,
+        organizationId,
+        price: finalPrice,
+        isFree,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return { error: "Errore durante l'aggiornamento dell'evento" };
+  }
+
+  // Una volta aggiornato, si redirige alla pagina dell'evento
+  redirect(`/events/${updatedEvent.id}`);
+}

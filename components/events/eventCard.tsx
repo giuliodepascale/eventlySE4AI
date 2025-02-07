@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import HeartButton from "../altre/heart-button";
@@ -12,9 +12,13 @@ import DateFormatter from "../altre/date-formatter";
 interface EventCardProps {
   data: SafeEvent;
   currentUser?: User | null;
+  isEventCreator?: boolean;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ data, currentUser }) => {
+const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator }) => {
+
+  const router = useRouter();
+
   const searchParams = useSearchParams();
 
   // Recuperiamo l'eventuale categoria presente nei parametri
@@ -67,9 +71,31 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser }) => {
                 group-hover:scale-110
               "
             />
-            <div className="absolute top-3 right-3">
-              <HeartButton eventId={data.id} currentUser={currentUser} />
-            </div>
+         {isEventCreator ? (
+        <div className="absolute right-2 top-2 flex flex-col gap-2 rounded-xl bg-white dark:bg-black/80 p-3 shadow-sm transition-all">
+        
+        <Image
+          onClick={(e) => {
+            e.preventDefault(); // Blocca il comportamento predefinito del link
+            e.stopPropagation(); // Ferma l'evento dal salire al parent
+            router.push(`/events/${data.id}/update/${data.organizationId}`);
+          }}
+          src="/edit.svg"
+          alt="edit"
+          width={20}
+          height={20}
+        />
+         
+          <span className="w-full bg-black dark:bg-white h-[1px] opacity-20"></span>
+         {//todo <DeleteConfirmation eventId={data.id} />
+      }
+        </div>
+      ) : (
+        <div className="absolute top-3 right-3">
+          <HeartButton eventId={data.id} currentUser={currentUser} />
+        </div>
+      )}
+            
           </div>
           <h3 className="text-lg font-semibold mb-1 break-words line-clamp-2">
             {data.title}

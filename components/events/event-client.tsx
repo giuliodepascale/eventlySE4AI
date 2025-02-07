@@ -11,18 +11,18 @@ import { CiLocationOn } from "react-icons/ci";
 import { FaPen } from "react-icons/fa6";
 import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
-
+import Map from "@/components/altre/map";
 
 
 
 
 interface EventClientProps {
-  organizer: SafeOrganization// user con il ruolo (Extended user definito nel file next-auth.d.ts)
+  organization: SafeOrganization// user con il ruolo (Extended user definito nel file next-auth.d.ts)
   event: SafeEvent;
   currentUser?: User | null
 }
 
-const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser }) => {
+const EventClient: React.FC<EventClientProps> = ({ organization, event, currentUser }) => {
  
   return (
     <>
@@ -33,7 +33,7 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
         rounded-xl
         relative flex-shrink-0">
           <Image
-            src={event.imageSrc || organizer.imageSrc || "/images/NERO500.jpg"}
+            src={event.imageSrc || organization.imageSrc || "/images/NERO500.jpg"}
             priority
             alt="Event Image"
             fill
@@ -62,8 +62,8 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
               </div>
               <p className="mt-2 ml-2 text-sm text-gray-700 sm:mt-0">
                 By{" "}
-                <Link href={`/organization/${organizer?.id}`} className="text-primary-500">
-                  {organizer?.name}
+                <Link href={`/organization/${organization?.id}`} className="text-primary-500">
+                  {organization?.name}
                 </Link>
               </p>
             </div>
@@ -88,6 +88,9 @@ const EventClient: React.FC<EventClientProps> = ({ organizer, event, currentUser
               <p className="font-bold text-gray-600">Descrizione Evento</p>
             </div>
             <p className="text-sm text-gray-700 break-words">{event.description}</p>
+
+            <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization.name}`} />
+
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { createEvent } from "@/actions/event";
+import { createEvent, updateEvent } from "@/actions/event";
 import { useMemo, useState } from "react";
 import { FaEuroSign } from "react-icons/fa";
 //import { FiMapPin } from "react-icons/fi";
@@ -39,7 +39,7 @@ import { FileUploader } from "@/components/altre/file-uploader";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
 import { supabase } from "@/lib/supabaseClient";
-import { SafeOrganization } from "@/app/types";
+import { SafeEvent, SafeOrganization } from "@/app/types";
 import italia from "italia";
 
 
@@ -48,12 +48,12 @@ dayjs.locale("it");
 interface EventFormProps {
   organization: SafeOrganization;
   type: string;
+  event?: SafeEvent
+
 }
 
 
-export const EventForm = ({ organization, type }: EventFormProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const action = type //todo
+export const EventForm = ({ organization, type , event}: EventFormProps) => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,9 +62,16 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
 
   const { regioni } = italia; // Estrai regioni direttamente
 
-       // Stati per regione e provincia selezionata
-     const [selectedRegion, setSelectedRegion] = useState<string | null>(organization.regione || null);
-     const [selectedProvince, setSelectedProvince] = useState<string | null>(organization.provincia || null);
+  const initialRegion = type === "update" && event?.regione
+  ? event.regione
+  : organization.regione || null;
+
+const initialProvince = type === "update" && event?.provincia
+  ? event.provincia
+  : organization.provincia || null;
+
+    const [selectedRegion, setSelectedRegion] = useState<string | null>(initialRegion);
+    const [selectedProvince, setSelectedProvince] = useState<string | null>(initialProvince);
    
      
     const province = useMemo(() => {
@@ -177,7 +184,28 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
 
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
-    defaultValues: {
+    
+    defaultValues: 
+    event && type === "update" ? {
+      title: event.title,
+      description: event.description,
+      regione: event.regione,
+      comune: event.comune,
+      provincia: event.provincia,
+      // Se imageSrc è null, trasformiamo in undefined
+      imageSrc: event.imageSrc ?? "",
+      category: event.category,
+      indirizzo: event.indirizzo,
+      // Assicuriamo che le date siano oggetti Date
+      eventDate: event.eventDate ? new Date(event.eventDate) : new Date(),
+      eventDateDay: new Date(event.eventDate),
+      eventTime: new Date(event.eventDate),
+      // Se isFree è null, forziamo un booleano (false di default)
+      isFree: event.isFree ?? false,
+      organizationId: event.organizationId,
+      // Se price è un numero, lo trasformiamo in stringa; altrimenti, usiamo "0" se nullish
+      price: typeof event.price === "number" ? event.price.toString() : event.price ?? "0",
+    } : {
       title: "",
       description: "",
       imageSrc: "",
@@ -194,15 +222,14 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
       price: "0",
     },
     
-    
   });
 
   async function onSubmit(values: z.infer<typeof CreateEventSchema>) {
-        console.log("ciaoooo")
         setIsSubmitting(true);
         setError("");
         setSuccess("");
-      
+     
+
         let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
         if (!uploadedImageUrl) {
           uploadedImageUrl = values.imageSrc || "";
@@ -220,6 +247,19 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
           userId: organization.id,
         };
       
+        if(type === "update" && event) {
+          updateEvent(event.id, updatedValues )
+          .then((data) => {
+            if (data.error) {
+              setError(data.error);
+            }
+          })
+          .finally(() => {
+            setIsSubmitting(false);
+          })
+          ;
+        }
+        else {
       
           createEvent(updatedValues) // Passa userIdprops qui
             .then((data) => {
@@ -231,7 +271,7 @@ export const EventForm = ({ organization, type }: EventFormProps) => {
               setIsSubmitting(false);
             })
             ;
-       
+          }
       }
 
 

@@ -96,7 +96,7 @@ export default async function OrganizationPage({ params }: OrganizationPageProps
             gap-8
           "
         >
-            <EventList events={events.events || []} currentUser={fullUser as User}/>
+            <EventList events={events.events || []} currentUser={fullUser as User} isEventCreator={true}/>
             </div>
         </>
     )

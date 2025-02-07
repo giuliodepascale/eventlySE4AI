@@ -12,9 +12,8 @@ interface OrgnizationManagementProps {
 }
 
 const OrgnizationManagement: React.FC<OrgnizationManagementProps> = ({  organization}) => {
-    console.log(organization) 
   return (
-    <Link href={`/crea-evento/${organization.id}`}>
+    <Link href={`/events/crea/${organization.id}`}>
     Crea Evento
     </Link>
   

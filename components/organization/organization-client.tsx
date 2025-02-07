@@ -102,8 +102,9 @@ const OrganizationClient: React.FC<OrganizationClientProps> = ({ organizers, org
           </Link>
         )}
         
-        {organization.linkMaps &&
-          <Map src={organization.linkMaps}/>
+        {organization.indirizzo &&
+          <Map placeName={`${organization.indirizzo}, ${organization.comune}, ${organization.name}`} />
+
         }
       </div>
     </div>

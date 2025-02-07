@@ -146,6 +146,13 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                         onClick={() => {signOut()}}
                                         label="Logout"
                                     />
+                                     <hr />
+                                     <Link href="/settings">
+                                    <MenuItem
+                                        onClick={() => {}}
+                                        label="Impostazioni"
+                                    />
+                                    </Link>
                                 </>
                             ) : 
                                 <>  

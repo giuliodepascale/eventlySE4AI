@@ -27,7 +27,7 @@ const CreateOrganizationPage = () => {
 </section>
 
             <div>
-                <OrganizationForm userIdprops={user?.id || ''}/>
+                <OrganizationForm userIdprops={user?.id || ''} type="create"/>
             </div>
             </>
     )

@@ -1,6 +1,8 @@
+"use-client"
+
 import { organizationSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {  useForm } from "react-hook-form";
 import * as z from "zod";
 import { FileUploader } from "@/components/altre/file-uploader";
@@ -27,93 +29,98 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SafeOrganization } from "@/app/types";
 
 
 
 interface OrganizationFormProps {
     userIdprops: string;
+    organization?: SafeOrganization
+    type: string
+
   }
   
 
-  export const OrganizationForm = ({ userIdprops }: OrganizationFormProps) => {
+  export const OrganizationForm = ({ userIdprops, organization, type }: OrganizationFormProps) => {
 
-    const { regioni } = italia; // Estrai regioni direttamente
+    const { regioni } = italia;
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
 
-    
-      // Stati per regione e provincia selezionata
-  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
-  const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-
-  const province = useMemo(() => {
-    if (!selectedRegion || !regioni) {
-        return [];
-    }
-
-   
-
-    // Trova la regione corrispondente
-    const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
-
-    if (!region) {
-       
-        return [];
-    }
-
-    if (!region.province || region.province.length === 0) {
-        return [];
-    }
-
-    
-
-    // 🔹 Ritorniamo direttamente le sigle
-    return region.province.map((sigla:{sigla:string}) => ({
-        nome: sigla, // Nome e sigla saranno uguali
-        sigla: sigla
-    }));
-}, [selectedRegion, regioni]);
-
-const comuni = useMemo(() => {
-  if (!selectedProvince || !italia.comuni || !italia.comuni.regioni) {
-      
-      return [];
-  }
-
-
-
-  // 🔹 Troviamo la regione che contiene la provincia selezionata
-  const regione = italia.comuni.regioni.find((regione: { province: { code: string; }[]; }) =>
-      regione.province.some((prov: { code: string }) => prov.code === selectedProvince)
-  );
-
-  if (!regione) {
-    
-      return [];
-  }
-
-
-
-  // 🔹 Troviamo la provincia dentro la regione usando `code` invece di `sigla`
-  const provincia = regione.province.find((prov: { code: string }) => prov.code === selectedProvince);
-
-  if (!provincia || !provincia.comuni) {
-      return [];
-  }
-
+    const initialRegion = type === "update" && organization?.regione
+    ?  organization.regione
+    : null;
   
-
-  // 🔹 Restituiamo i comuni trovati
-  return provincia.comuni.map((comune: { nome: string }) => ({
-      nome: comune.nome,
-  }));
-}, [selectedProvince]);
-
-
-
+  const initialProvince = type === "update" &&  organization?.provincia
+    ?  organization.provincia
+    : null;
+  
+      const [selectedRegion, setSelectedRegion] = useState<string | null>(initialRegion);
+      const [selectedProvince, setSelectedProvince] = useState<string | null>(initialProvince);
+        const province = useMemo(() => {
+          if (!selectedRegion || !regioni) {
+              return [];
+          }
+      
+          // Trova la regione corrispondente
+          const region = regioni.find((reg: {nome:string}) => reg.nome === selectedRegion);
+      
+          if (!region) {
+             
+              return [];
+          }
+      
+          if (!region.province || region.province.length === 0) {
+              return [];
+          }
+      
+         
+      
+          // 🔹 Ritorniamo direttamente le sigle
+          return region.province.map((sigla:{sigla:string}) => ({
+              nome: sigla, // Nome e sigla saranno uguali
+              sigla: sigla
+          }));
+      }, [selectedRegion, regioni]);
+      
+      const comuni = useMemo(() => {
+        if (!selectedProvince || !italia.comuni || !italia.comuni.regioni) {
+            
+            return [];
+        }
+      
+      
+      
+        // 🔹 Troviamo la regione che contiene la provincia selezionata
+        const regione = italia.comuni.regioni.find((regione: { province: { code: string; }[]; }) =>
+            regione.province.some((prov: { code: string }) => prov.code === selectedProvince)
+        );
+      
+        if (!regione) {
+          
+            return [];
+        }
+      
+      
+      
+        // 🔹 Troviamo la provincia dentro la regione usando `code` invece di `sigla`
+        const provincia = regione.province.find((prov: { code: string }) => prov.code === selectedProvince);
+      
+        if (!provincia || !provincia.comuni) {
+            return [];
+        }
+      
+        
+      
+        // 🔹 Restituiamo i comuni trovati
+        return provincia.comuni.map((comune: { nome: string }) => ({
+            nome: comune.nome,
+        }));
+      }, [selectedProvince]);
+      
   
     const form = useForm<z.infer<typeof organizationSchema>>({
         resolver: zodResolver(organizationSchema),

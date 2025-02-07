@@ -49,7 +49,7 @@ export default async function EventPage({ params }: EventPageProps) {
     return (
                 <EventClient 
                      event={event as SafeEvent}
-                     organizer={organizer.organization as SafeOrganization}
+                     organization={organizer.organization as SafeOrganization}
                      currentUser= {fullUser || null}
                 />
     )

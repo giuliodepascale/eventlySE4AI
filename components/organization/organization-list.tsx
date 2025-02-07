@@ -7,7 +7,7 @@ import OrganizationCard  from '@/components/organization/organization-card';
 
 interface OrganizationListProps {
   organizations: SafeOrganization[];
- 
+  isOrganizationCreator?: boolean 
 }
 
 const OrganizationList: React.FC<OrganizationListProps> = ({ organizations }) => {
@@ -15,7 +15,9 @@ const OrganizationList: React.FC<OrganizationListProps> = ({ organizations }) =>
     <>
         
       {organizations.map((organization: SafeOrganization) => (
-        <OrganizationCard key={organization.id} id={organization.id} name={organization.name} imageSrc={organization.imageSrc || "/images/NERO500.jpg"} />
+        <OrganizationCard key={organization.id}
+        isOrganizationCreator={isOrganizationCreator}   
+        id={organization.id} name={organization.name} imageSrc={organization.imageSrc || "/images/NERO500.jpg"} />
       ))}
       
     </>

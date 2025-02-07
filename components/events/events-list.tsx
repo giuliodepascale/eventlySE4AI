@@ -6,15 +6,16 @@ import { User } from "@prisma/client";
 
 interface EventListProps {
   events: SafeEvent[];
-  currentUser: User; 
+  currentUser: User;
+  isEventCreator?: boolean 
 }
 
-const EventList: React.FC<EventListProps> = ({ events, currentUser }) => {
+const EventList: React.FC<EventListProps> = ({ events, currentUser, isEventCreator }) => {
   return (
     <>
           
       {events.map((event: SafeEvent) => (
-        <EventCard key={event.id} data={event} currentUser={currentUser} />
+        <EventCard key={event.id} data={event} currentUser={currentUser} isEventCreator={isEventCreator} />
       ))}
       
     </>
