@@ -10,7 +10,7 @@ interface OrganizationListProps {
   isOrganizationCreator?: boolean 
 }
 
-const OrganizationList: React.FC<OrganizationListProps> = ({ organizations }) => {
+const OrganizationList: React.FC<OrganizationListProps> = ({ organizations , isOrganizationCreator}) => {
   return (
     <>
         

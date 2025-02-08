@@ -75,7 +75,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
       </Link></div>
       {currentUser && currentUser.role !== "USER" && (
       <div>
-        <Link href="/organization/create-organization"
+        <Link href="/organization/crea"
       
       className="
         hidden

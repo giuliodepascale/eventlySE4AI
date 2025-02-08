@@ -7,6 +7,7 @@ import { getUserById } from "@/data/user"; // Assicurati che il percorso sia cor
 import { organizationSchema } from "@/schemas";
 import { z } from "zod";
 import { OrganizationRole } from "@prisma/client"; // Assicurati che il ruolo sia definito nel tuo schema Prisma
+import { redirect } from "next/navigation";
 /**
  * Crea una nuova organizzazione.
  * @param values - I campi validati dall'organizationSchema.
@@ -246,4 +247,72 @@ export async function getOrganizationsByUser(userId: string) {
       error: "Errore nel recuperare le organizzazioni. Riprova più tardi.",
     };
   }
+}
+
+/**
+ * Aggiorna un'organizzazione esistente.
+ * @param organizationId - L'ID dell'organizzazione da aggiornare.
+ * @param values - I campi da aggiornare, validati tramite lo schema parziale di organizationSchema.
+ * @param userId - L'ID dell'utente che sta tentando l'aggiornamento.
+ * @returns Un oggetto contenente un messaggio di successo e l'organizzazione aggiornata, oppure un messaggio di errore.
+ */
+export async function updateOrganization(
+  organizationId: string,
+  values: Partial<z.infer<typeof organizationSchema>>,
+  userId: string
+) {
+  // 1. Validazione dei dati con uno schema parziale (aggiornare non significa dover reinserire tutto)
+  const validatedFields = organizationSchema.partial().safeParse(values);
+  if (!validatedFields.success) {
+    return { error: "Campi non validi. Per favore, verifica i dati inseriti." };
+  }
+  const updateData = validatedFields.data;
+
+  // 2. Verifica che l'organizzazione esista
+  const organization = await db.organization.findUnique({
+    where: { id: organizationId },
+  });
+  if (!organization) {
+    return { error: "Organizzazione non trovata." };
+  }
+
+  // 3. Verifica che l'utente esista ed è autorizzato ad aggiornare l'organizzazione
+  //    Qui controlliamo che l'utente sia associato all'organizzazione come ADMIN_ORGANIZZATORE.
+  const organizationUser = await db.organizationUser.findFirst({
+    where: {
+      organizationId,
+      userId,
+    },
+  });
+  if (!organizationUser) {
+    return { error: "Non hai i permessi per aggiornare questa organizzazione." };
+  }
+
+  // 4. Parsing di linkMaps, se presente: estraiamo l'URL se il campo contiene un tag HTML
+  if (updateData.linkMaps) {
+    updateData.linkMaps = updateData.linkMaps.match(/src="([^"]+)"/)?.[1] || updateData.linkMaps;
+  }
+
+  // 5. Pulizia del campo immagine: se l'immagine è una stringa vuota, forniamo quella di default
+  if ("imageSrc" in updateData) {
+    updateData.imageSrc =
+      updateData.imageSrc?.trim() === "" ? "/images/NERO500.jpg" : updateData.imageSrc;
+  }
+
+  // 6. Aggiornamento dell'organizzazione nel database
+  let updatedOrganization;
+  try {
+    updatedOrganization = await db.organization.update({
+      where: { id: organizationId },
+      data: updateData,
+    });
+      
+    // Una volta aggiornato, si redirige alla pagina dell'organizzazione
+    
+  } catch (error) {
+    console.error("Errore durante l'aggiornamento dell'organizzazione:", error);
+    return { error: "Errore durante l'aggiornamento dell'organizzazione. Riprova più tardi." };
+  }
+   // Una volta aggiornato, si redirige alla pagina dell'evento
+   redirect(`/organization/${updatedOrganization.id}`);
 }

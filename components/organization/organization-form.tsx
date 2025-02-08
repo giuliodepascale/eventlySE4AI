@@ -1,4 +1,4 @@
-"use-client"
+"use client"
 
 import { organizationSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import Loader from "../loader";
 import { Input } from "@/components/ui/input";
-import { createOrganization } from "@/actions/organization";
+import { createOrganization, updateOrganization } from "@/actions/organization";
 import {
   Select,
   SelectContent,
@@ -52,11 +52,11 @@ interface OrganizationFormProps {
 
     const initialRegion = type === "update" && organization?.regione
     ?  organization.regione
-    : null;
+    : "";
   
   const initialProvince = type === "update" &&  organization?.provincia
     ?  organization.provincia
-    : null;
+    : "";
   
       const [selectedRegion, setSelectedRegion] = useState<string | null>(initialRegion);
       const [selectedProvince, setSelectedProvince] = useState<string | null>(initialProvince);
@@ -124,7 +124,23 @@ interface OrganizationFormProps {
   
     const form = useForm<z.infer<typeof organizationSchema>>({
         resolver: zodResolver(organizationSchema),
-        defaultValues: {
+        defaultValues: 
+        organization && type === "update" ? {
+          name: organization.name,
+          description: organization.description,
+          regione: organization.regione || "",
+          comune: organization.comune || "",
+          provincia: organization.provincia || "",
+          // Se imageSrc è null, trasformiamo in undefined
+          imageSrc: organization.imageSrc ?? "",
+          phone: organization.phone || "",
+          email: organization.email || "",
+          linkEsterno: organization.linkEsterno || "",
+          linkMaps: organization.linkMaps || "",
+          seoUrl: organization.seoUrl || "",
+          indirizzo: organization.indirizzo || "",
+  
+        } : {
           name: "",
           description: "",
           indirizzo: "",
@@ -188,6 +204,19 @@ interface OrganizationFormProps {
         };
       
       
+        if(type === "update" && organization) {
+          updateOrganization(organization.id, updatedValues, userIdprops) // Passa userIdprops qui
+            .then((data) => {
+              if (data.error) {
+                setError(data.error);
+              }
+            })
+            .finally(() => {
+              setIsSubmitting(false);
+            })
+            
+          } else {
+          
           createOrganization(updatedValues, userIdprops) // Passa userIdprops qui
             .then((data) => {
               if (data.error) {
@@ -203,7 +232,7 @@ interface OrganizationFormProps {
               setError("Errore nella creazione dell'organizzazione");
               console.error(err);
               setIsSubmitting(false);
-            });
+            }); }
        
       }
       
@@ -402,18 +431,29 @@ interface OrganizationFormProps {
     <FormItem>
       <FormLabel>Regione</FormLabel>
       <FormControl>
-          <Select
-            onValueChange={(val: string) => {
+      <Select
+          onValueChange={(val: string) => {
+            if (val === "__none") {
+              field.onChange(""); // Converte il segnaposto in stringa vuota per il form
+              setSelectedRegion("");
+              setSelectedProvince("");
+            } else {
               field.onChange(val);
               setSelectedRegion(val);
-              setSelectedProvince(null); // Reset provincia
-            }}
-            value={selectedRegion || ""}
-          >
+              setSelectedProvince("");
+            }
+          }}
+          // Se il valore del form è vuoto, imposta il valore controllato su "__none"
+          value={field.value === "" ? "__none" : field.value}
+        >
             <SelectTrigger>
               <SelectValue placeholder="Seleziona una Regione" />
             </SelectTrigger>
             <SelectContent>
+               {/* Opzione vuota */}
+            <SelectItem key="none" value="__none">
+              Seleziona una Regione
+            </SelectItem>
               {regioni.map((reg: {nome: string}) => (
                 <SelectItem key={reg.nome} value={reg.nome}>
                   {reg.nome}

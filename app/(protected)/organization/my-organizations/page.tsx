@@ -54,7 +54,7 @@ const  MyOrganizationPage = async () => {
             gap-8
           "
         >
-                <OrganizationList organizations={organizations.organizations || []} />
+                <OrganizationList organizations={organizations.organizations || []} isOrganizationCreator/>
         </div>
       </>   
     )
