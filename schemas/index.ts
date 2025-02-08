@@ -182,10 +182,6 @@ export const CreateEventSchema = z.object({
       .union([z.string().url("L'immagine deve essere un URL valido"), z.literal('')])
       .optional()
       .default(''),
-    linkMaps: z
-      .union([z.string(), z.literal('')])
-      .optional(),
-  
     // Nuovi campi per comune, provincia e seoUrl
     comune: z
       .union([z.string(), z.literal('')])

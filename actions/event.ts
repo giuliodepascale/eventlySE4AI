@@ -5,6 +5,7 @@ import { CreateEventSchema } from "@/schemas";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getOrganizationById, getOrganizationOrganizers } from "./organization";
+import { getCoordinatesFromOSM } from "@/lib/map";
 
 export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
   const validatedFields = await CreateEventSchema.safeParseAsync(values);
@@ -30,6 +31,20 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
   const finalPrice = price ? parseInt(price, 10) : 0;
   const isFree = finalPrice === 0;
 
+  
+  let latitudine: string | null = null;
+  let longitudine: string | null = null;
+
+
+  const coords = await getCoordinatesFromOSM(indirizzo, comune);
+  
+  if(!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
+  // Convertiamo i numeri in stringa prima di salvarli
+  latitudine = coords.latitude.toString() || "";
+  longitudine = coords.longitude.toString() || "";
+
+  
+
   let newEvent;
   try {
     newEvent = await db.event.create({
@@ -41,6 +56,8 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         category: category,
         eventDate: eventDate,
         comune: comune,
+        latitudine,
+        longitudine,
         provincia: provincia,
         regione: regione,
         organizationId: organizationId,
@@ -235,6 +252,17 @@ export async function updateEvent(
   const finalPrice = price ? parseInt(price, 10) : 0;
   const isFree = finalPrice === 0;
 
+  let latitudine: string | null = null;
+  let longitudine: string | null = null;
+
+
+  const coords = await getCoordinatesFromOSM(indirizzo, comune);
+  
+  if(!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
+  // Convertiamo i numeri in stringa prima di salvarli
+  latitudine = coords.latitude.toString() || "";
+  longitudine = coords.longitude.toString() || "";
+
   // Proviamo ad aggiornare l'evento nel database
   let updatedEvent;
   try {
@@ -248,6 +276,8 @@ export async function updateEvent(
         category,
         eventDate,
         comune,
+        latitudine,
+        longitudine,
         provincia,
         regione,
         organizationId,

@@ -78,7 +78,8 @@ model Organization {
   phone               String?
   email               String?
   linkEsterno         String?
-  linkMaps            String?
+  latitudine          String?
+  longitudine         String?  
   createdAt           DateTime            @default(now())
   imageSrc            String?
   seoUrl              String?              
@@ -132,8 +133,9 @@ model Event {
   price            Int?
   comune           String        
   provincia        String
-  regione          String       
-  linkMaps         String?
+  regione          String
+  latitudine       String
+  longitudine      String       
   isFree           Boolean?
   favoriteCount    Int           @default(0)
   eventDate        DateTime

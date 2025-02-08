@@ -136,7 +136,6 @@ interface OrganizationFormProps {
           phone: organization.phone || "",
           email: organization.email || "",
           linkEsterno: organization.linkEsterno || "",
-          linkMaps: organization.linkMaps || "",
           seoUrl: organization.seoUrl || "",
           indirizzo: organization.indirizzo || "",
   
@@ -150,7 +149,6 @@ interface OrganizationFormProps {
           regione:"",
           email: "",
           linkEsterno: "",
-          linkMaps: "",
           imageSrc: "",
           seoUrl: ""
         },
@@ -379,26 +377,6 @@ interface OrganizationFormProps {
                 />
               </div>
     
-                {/* Link Maps */}
-                <FormField
-                  control={form.control}
-                  name="linkMaps"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Link Maps</FormLabel>
-                      <FormControl>
-                        <Input
-                          {...field}
-                          value={field.value || ""}
-                          placeholder="Inserisci IFrame"
-                          type="text"
-                          disabled={isSubmitting}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Immagine */}
                 <FormField

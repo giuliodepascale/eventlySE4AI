@@ -41,9 +41,6 @@ export default async function Home(props: {searchParams: SearchParams}) {
   }
 
     
-
- 
-
   return (
     <main>
       <Container>
@@ -66,8 +63,36 @@ export default async function Home(props: {searchParams: SearchParams}) {
           
             <EventList events={result.events} currentUser={fullUser as User || null} /> 
           </Suspense>
-        </div>
-      </Container>
+          </div>
+          </Container>
+          {//<LocationPicker />
+}
+            {/* Sezione per gli eventi vicini, se disponibili */}
+            {//nearbyResult.events && nearbyResult.events.length > 0 && (
+            }
+             <Container>
+             <div
+               className="
+                 pt-24
+                 grid
+                 grid-cols-1
+                 sm-grid-cols-2
+                 md:grid-cols-3
+                 lg:grid-cols-4
+                 xl:grid-cols-5
+                 2xl:grid-cols-6
+                 gap-8
+               "
+             >
+                
+                <Suspense fallback={<Loading />}>
+                 {// <EventList events={nearbyResult.events} currentUser={fullUser as User || null} />
+              }
+               </Suspense>
+              </div>
+              </Container>
+          
+        
     </main>
   );
 }

@@ -8,6 +8,7 @@ import { organizationSchema } from "@/schemas";
 import { z } from "zod";
 import { OrganizationRole } from "@prisma/client"; // Assicurati che il ruolo sia definito nel tuo schema Prisma
 import { redirect } from "next/navigation";
+import { getCoordinatesFromOSM } from "@/lib/map";
 /**
  * Crea una nuova organizzazione.
  * @param values - I campi validati dall'organizationSchema.
@@ -32,7 +33,6 @@ export async function createOrganization(
     phone,
     email,
     linkEsterno,
-    linkMaps,
     imageSrc,
     comune,
     provincia,
@@ -45,19 +45,22 @@ export async function createOrganization(
   if (!user || user.role === "USER") {
     return { error: "Assicurati di essere un organizzatore." };
   }
-
-  // 3. Parsing linkMaps (estrazione src="..." se necessario)
-  let parsedLinkMaps = null;
-
-  if (linkMaps) {
-    parsedLinkMaps = linkMaps.match(/src="([^"]+)"/)?.[1] || linkMaps;
-  }
-
   // 4. Pulizia del campo immagine
   const finalImageSrc = imageSrc?.trim() === "" ? "/images/NERO500.jpg" : imageSrc; //TODO
 
   // 5. Generazione dello SEO URL se non è stato fornito
   const finalSeoUrl = seoUrl ||""
+
+  let latitudine: string | null = null;
+  let longitudine: string | null = null;
+
+if (indirizzo && comune) {
+  const coords = await getCoordinatesFromOSM(indirizzo, comune);
+  
+  // Convertiamo i numeri in stringa prima di salvarli
+  latitudine = coords.latitude ? coords.latitude.toString() : null;
+  longitudine = coords.longitude ? coords.longitude.toString() : null;
+}
 
   // 6. Creazione dell'organizzazione
   let newOrganization;
@@ -70,7 +73,8 @@ export async function createOrganization(
         phone,
         email,
         linkEsterno,
-        linkMaps: parsedLinkMaps,
+        latitudine,
+        longitudine,
         imageSrc: finalImageSrc,
         comune,
         regione,
@@ -180,8 +184,9 @@ export async function getOrganizationById(organizationId: string) {
       comune: organization.comune,
       provincia: organization.provincia,
       regione: organization.regione,
+      latitudine: organization.latitudine,
+      longitudine: organization.longitudine,
       linkEsterno: organization.linkEsterno,
-      linkMaps: organization.linkMaps,
       createdAt: organization.createdAt.toISOString(),
       imageSrc: organization.imageSrc,
       seoUrl: organization.seoUrl,
@@ -232,8 +237,9 @@ export async function getOrganizationsByUser(userId: string) {
         comune: organization.comune,
         provincia: organization.provincia,
         regione: organization.regione,
+        latitudine: organization.latitudine,
+        longitudine: organization.longitudine,
         linkEsterno: organization.linkEsterno,
-        linkMaps: organization.linkMaps,
         createdAt: organization.createdAt.toISOString(),
         imageSrc: organization.imageSrc,
         seoUrl: organization.seoUrl,
@@ -288,23 +294,31 @@ export async function updateOrganization(
     return { error: "Non hai i permessi per aggiornare questa organizzazione." };
   }
 
-  // 4. Parsing di linkMaps, se presente: estraiamo l'URL se il campo contiene un tag HTML
-  if (updateData.linkMaps) {
-    updateData.linkMaps = updateData.linkMaps.match(/src="([^"]+)"/)?.[1] || updateData.linkMaps;
-  }
-
   // 5. Pulizia del campo immagine: se l'immagine è una stringa vuota, forniamo quella di default
   if ("imageSrc" in updateData) {
     updateData.imageSrc =
       updateData.imageSrc?.trim() === "" ? "/images/NERO500.jpg" : updateData.imageSrc;
   }
 
+  
+  let latitudine: string | null = null;
+  let longitudine: string | null = null;
+
+  if (updateData.indirizzo && updateData.comune) {
+  const coords = await getCoordinatesFromOSM(updateData.indirizzo, updateData.comune);
+  
+  // Convertiamo i numeri in stringa prima di salvarli
+  latitudine = coords.latitude ? coords.latitude.toString() : null;
+  longitudine = coords.longitude ? coords.longitude.toString() : null;
+}
+ const updatedData = { ...updateData, latitudine, longitudine };
+
   // 6. Aggiornamento dell'organizzazione nel database
   let updatedOrganization;
   try {
     updatedOrganization = await db.organization.update({
       where: { id: organizationId },
-      data: updateData,
+      data: updatedData
     });
       
     // Una volta aggiornato, si redirige alla pagina dell'organizzazione

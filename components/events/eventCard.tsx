@@ -8,6 +8,7 @@ import HeartButton from "../altre/heart-button";
 import { SafeEvent } from "@/app/types";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
+import { FaEdit } from "react-icons/fa";
 
 interface EventCardProps {
   data: SafeEvent;
@@ -72,24 +73,21 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
               "
             />
          {isEventCreator ? (
-        <div className="absolute right-2 top-2 flex flex-col gap-2 rounded-xl bg-white dark:bg-black/80 p-3 shadow-sm transition-all">
-        
-        <Image
+        <div className="absolute right-2 top-2 flex flex-col items-center gap-2 transition-all hover:scale-110">
+        {/* Pulsante per la modifica */}
+        <button
           onClick={(e) => {
-            e.preventDefault(); // Blocca il comportamento predefinito del link
-            e.stopPropagation(); // Ferma l'evento dal salire al parent
+            e.preventDefault();
+            e.stopPropagation();
             router.push(`/events/${data.id}/update/${data.organizationId}`);
           }}
-          src="/edit.svg"
-          alt="edit"
-          width={20}
-          height={20}
-        />
-         
-          <span className="w-full bg-black dark:bg-white h-[1px] opacity-20"></span>
-         {//todo <DeleteConfirmation eventId={data.id} />
-      }
-        </div>
+          className="flex items-center justify-center p-3 transition-colors duration-200 rounded-full bg-blue-500 hover:bg-blue-600 text-white focus:outline-none shadow-md"
+          title="Modifica"
+        >
+          <FaEdit width={20} height={20} />
+        </button>
+      </div>
+      
       ) : (
         <div className="absolute top-3 right-3">
           <HeartButton eventId={data.id} currentUser={currentUser} />
