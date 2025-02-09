@@ -11,7 +11,7 @@ import DateFormatter from "../altre/date-formatter";
 import { FaEdit } from "react-icons/fa";
 
 interface EventCardProps {
-  data: SafeEvent;
+  data: SafeEvent & Partial<{ distance: number }>;
   currentUser?: User | null;
   isEventCreator?: boolean;
 }
@@ -128,6 +128,11 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
         <div className="text-base font-semibold">
           {data.isFree ? "Ingresso libero" : `€${data.price}`}
         </div>
+        {data.distance !== undefined && (
+            <div className="text-sm text-gray-500 mt-1">
+              Distanza: {data.distance.toFixed(2)} km
+            </div>
+          )}
         </Link>
       </div>
     </Suspense>

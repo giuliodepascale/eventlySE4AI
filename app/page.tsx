@@ -8,6 +8,7 @@ import Loading from "./loading";
 import { User } from "@prisma/client";
 import { getAllEvents } from "@/actions/event";
 import { SearchParams } from "./types";
+import NearbyEvents from "@/components/events/nearby-events";
 
 
 
@@ -44,9 +45,10 @@ export default async function Home(props: {searchParams: SearchParams}) {
   return (
     <main>
       <Container>
+      <h2 className=" text-2xl font-bold pt-24">I prossimi eventi</h2>
         <div
           className="
-            pt-24
+            pt-5
             grid
             grid-cols-1
             sm-grid-cols-2
@@ -71,28 +73,15 @@ export default async function Home(props: {searchParams: SearchParams}) {
             {//nearbyResult.events && nearbyResult.events.length > 0 && (
             }
              <Container>
-             <div
-               className="
-                 pt-24
-                 grid
-                 grid-cols-1
-                 sm-grid-cols-2
-                 md:grid-cols-3
-                 lg:grid-cols-4
-                 xl:grid-cols-5
-                 2xl:grid-cols-6
-                 gap-8
-               "
-             >
-                
-                <Suspense fallback={<Loading />}>
-                 {// <EventList events={nearbyResult.events} currentUser={fullUser as User || null} />
-              }
-               </Suspense>
-              </div>
+           
+             <Suspense fallback={<Loading />}>
+             
+            <NearbyEvents
+            currentUser={fullUser as User || null}
+            />
+            </Suspense>
               </Container>
-          
-        
+  
     </main>
   );
 }
