@@ -1,44 +1,51 @@
-// app/api/suggestions/route.ts
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const query = searchParams.get("query") || "";
-  const type = searchParams.get("type") || "";
 
-  // Se non c'è una query valida, restituisci un array vuoto
   if (!query.trim()) {
     return NextResponse.json({ suggestions: [] });
   }
 
-  let suggestions: { id: string; name: string }[] = [];
+  // Fetch events e organizations contemporaneamente
+  const eventsPromise = db.event.findMany({
+    where: {
+      AND: [
+        { title: { contains: query, mode: "insensitive" } },
+        { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } }, // Mostra solo eventi futuri
+      ],
+    },
+    select: { id: true, title: true },
+    take: 5,
+  });
+ 
 
-  if (type === "events") {
-    // Cerca nel campo title degli eventi
-    const events = await db.event.findMany({
-      where: {
-        title: { contains: query, mode: "insensitive" },
-      },
-      select: { id: true, title: true },
-      take: 5,
-    });
-    // Rinomina il campo title in name per uniformare l'interfaccia
-    suggestions = events.map((event) => ({
-      id: event.id,
-      name: event.title,
-    }));
-  } else if (type === "organizations") {
-    // Cerca nel campo name delle organizzazioni
-    const organizations = await db.organization.findMany({
-      where: {
-        name: { contains: query, mode: "insensitive" },
-      },
-      select: { id: true, name: true },
-      take: 5,
-    });
-    suggestions = organizations;
-  }
+  const organizationsPromise = db.organization.findMany({
+    where: {
+      name: { contains: query, mode: "insensitive" },
+    },
+    select: { id: true, name: true },
+    take: 5,
+  });
+
+  const [events, organizations] = await Promise.all([eventsPromise, organizationsPromise]);
+
+  const eventSuggestions = events.map((event) => ({
+    id: event.id,
+    name: event.title,
+    type: "event",
+  }));
+
+  const organizationSuggestions = organizations.map((org) => ({
+    id: org.id,
+    name: org.name,
+    type: "organization",
+  }));
+
+  // Combiniamo i risultati – un abbraccio tra tradizione e modernità
+  const suggestions = [...eventSuggestions, ...organizationSuggestions];
 
   return NextResponse.json({ suggestions });
 }

@@ -1,29 +1,26 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { BiSearch } from 'react-icons/bi';
+import Link from 'next/link';
+import { BiSearch, BiCalendar, BiBuildings } from 'react-icons/bi';
 
 interface Suggestion {
   id: string;
   name: string;
+  type: 'event' | 'organization';
 }
 
 const Search = () => {
-  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState('events'); // "events" oppure "organizations"
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  
-  // Per gestire il debounce
+
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-  // Per gestire il click fuori dal componente
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Funzione per fetchare i suggerimenti in maniera dinamica
-  const fetchSuggestions = async (query: string, type: string) => {
+  // Funzione per fetchare i suggerimenti
+  const fetchSuggestions = async (query: string) => {
     if (query.trim().length === 0) {
       setSuggestions([]);
       return;
@@ -31,13 +28,12 @@ const Search = () => {
     setLoadingSuggestions(true);
     try {
       const response = await fetch(
-        `/api/suggestions?query=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}`
+        `/api/suggestions?query=${encodeURIComponent(query)}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error ${response.status}`);
       }
       const data = await response.json();
-      // Assumiamo che l'API restituisca { suggestions: Suggestion[] }
       setSuggestions(data.suggestions || []);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
@@ -47,54 +43,47 @@ const Search = () => {
     }
   };
 
-  // Debounce: ogni volta che la query o il tipo cambiano, attendi 300ms prima di fare la fetch
+  // Debounce: attende 300ms dopo l'ultima digitazione
   useEffect(() => {
-    if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
-    }
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     if (searchQuery.trim().length === 0) {
       setSuggestions([]);
       return;
     }
     debounceTimeout.current = setTimeout(() => {
-      fetchSuggestions(searchQuery, searchType);
+      fetchSuggestions(searchQuery);
     }, 300);
 
     return () => {
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
     };
-  }, [searchQuery, searchType]);
+  }, [searchQuery]);
 
-  // Chiudi il dropdown se clicchi fuori dal componente
+  // Chiude il dropdown se clicchi fuori dal componente
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setShowDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () =>
+      document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Esegue la ricerca (quando l'utente clicca sull'icona o seleziona un suggerimento)
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return;
-    router.push(
-      `/search?query=${encodeURIComponent(searchQuery)}&type=${encodeURIComponent(searchType)}`
-    );
-    setShowDropdown(false);
-  };
-
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="relative w-[400px] mx-auto">
       <div
         className="
           flex
           items-center
           border-[1px]
           w-full
-          md:w-auto
           py-2
+          pl-4
           rounded-full
           shadow-sm
           hover:shadow-md
@@ -102,7 +91,6 @@ const Search = () => {
           cursor-pointer
         "
       >
-        {/* Input controllato */}
         <input
           type="text"
           value={searchQuery}
@@ -112,53 +100,52 @@ const Search = () => {
           }}
           onFocus={() => setShowDropdown(true)}
           placeholder="Cerca eventi o organizzazioni..."
-          className="flex-grow px-6 py-2 focus:outline-none"
+          className="flex-grow px-4 py-2 focus:outline-none"
         />
 
-        {/* Select per scegliere il tipo di ricerca (visibile su schermi grandi) */}
-        <select
-          value={searchType}
-          onChange={(e) => setSearchType(e.target.value)}
-          className="hidden sm:block px-4"
-        >
-          <option value="events">Eventi</option>
-          <option value="organizations">Organizzazioni</option>
-        </select>
-
-        {/* Bottone per la ricerca */}
-        <div
-          onClick={handleSearch}
-          className="p-2 bg-blue-600 rounded-full text-white cursor-pointer mr-2"
-        >
+        {/* L'icona di ricerca ora è solo estetica, senza logica onClick */}
+        <div className="p-2 bg-blue-600 rounded-full text-white mr-2">
           <BiSearch size={18} />
         </div>
       </div>
 
-      {/* Dropdown dinamico dei suggerimenti */}
+      {/* Dropdown dei suggerimenti */}
       {showDropdown && (
         <div className="absolute z-10 bg-white border border-gray-300 w-full rounded-md mt-1">
           {loadingSuggestions ? (
-            <div className="px-4 py-2 text-sm text-gray-500">Caricamento suggerimenti...</div>
+            <div className="px-4 py-2 text-sm text-gray-500">
+              Caricamento suggerimenti...
+            </div>
           ) : suggestions.length > 0 ? (
             <ul>
               {suggestions.map((suggestion) => (
-                <li
+                <Link
                   key={suggestion.id}
+                  href={
+                    suggestion.type === 'event'
+                      ? `/events/${suggestion.id}`
+                      : `/organization/${suggestion.id}`
+                  }
                   onClick={() => {
                     setSearchQuery(suggestion.name);
                     setShowDropdown(false);
-                    router.push(
-                      `/search?query=${encodeURIComponent(suggestion.name)}&type=${encodeURIComponent(searchType)}`
-                    );
                   }}
-                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 >
-                  {suggestion.name}
-                </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2">
+                    {suggestion.type === 'event' ? (
+                      <BiCalendar size={16} />
+                    ) : (
+                      <BiBuildings size={16} />
+                    )}
+                    <span>{suggestion.name}</span>
+                  </li>
+                </Link>
               ))}
             </ul>
           ) : (
-            <div className="px-4 py-2 text-sm text-gray-500">Nessun risultato trovato</div>
+            <div className="px-4 py-2 text-sm text-gray-500">
+              Nessun risultato trovato
+            </div>
           )}
         </div>
       )}

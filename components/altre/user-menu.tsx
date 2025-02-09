@@ -36,26 +36,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
-               {//currentUser && currentUser.role !== "USER" && 
-               ( <div><Link href="/organization/my-organizations"
-      
-        className="
-          hidden
-          md:block
-          text-sm
-          font-semibold
-          py-3
-          px-4
-          rounded-full
-          hover:bg-neutral-100
-          transition
-          cursor-pointer
-        ">
-        Gestisci organizzazioni
-    </Link>
-   
-    </div>
-                )}
+               
                 <div>
         <Link href="/my-favorites"
       
@@ -153,6 +134,14 @@ const UserMenu: React.FC<UserMenuProps> = ({
                                         label="Impostazioni"
                                     />
                                     </Link>
+                                    {currentUser && currentUser.role !== "USER" && (
+                                    <Link href="/organization/my-organizations">
+                                    <MenuItem
+                                        onClick={() => {}}
+                                        label="Gestisci organizzazioni"
+                                    />
+                                    </Link>
+                                    )}
                                 </>
                             ) : 
                                 <>  

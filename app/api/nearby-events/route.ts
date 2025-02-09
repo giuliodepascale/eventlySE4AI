@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "";
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = parseInt(searchParams.get("limit") || "6");
+  const limit = parseInt(searchParams.get("limit") || "4");
 
   // Costruzione dei filtri dinamici per Prisma (simile a getAllEvents)
   const filterConditions = {
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
   });
 
   // Filtra per un raggio (ad es. 50 km)
-  const radius = 50; // km
+  const radius = 100; // km
   const filteredEvents = eventsWithDistance.filter((e) => e.distance <= radius);
 
   // Ordina gli eventi per distanza (dal più vicino al più lontano)
