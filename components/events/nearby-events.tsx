@@ -25,7 +25,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [pageNearby, setPageNearby] = useState<number>(1);
   const [serverPage, setServerPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState(true);
-  const eventsPerPage = 4;
+  const eventsPerPage = 5;
 
   // Ottieni le coordinate dell'utente
   useEffect(() => {

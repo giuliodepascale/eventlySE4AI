@@ -1,10 +1,8 @@
-import EmptyState from "@/components/altre/empty-state";
+
 import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
 import { Suspense } from "react";
 import Loading from "./loading";
-
-import { getAllEvents } from "@/actions/event";
 import { SearchParams } from "./types";
 import NearbyEvents from "@/components/events/nearby-events";
 

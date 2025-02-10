@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "";
   const page = parseInt(searchParams.get("page") || "1");
-  const limit = parseInt(searchParams.get("limit") || "4");
+  const limit = parseInt(searchParams.get("limit") || "5");
 
   // Costruzione dei filtri dinamici per Prisma (simile a getAllEvents)
   const filterConditions = {

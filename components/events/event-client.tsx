@@ -12,6 +12,7 @@ import { FaPen } from "react-icons/fa6";
 import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 import Map from "@/components/altre/map";
+import EventList from "./events-list";
 
 
 
@@ -20,9 +21,10 @@ interface EventClientProps {
   organization: SafeOrganization// user con il ruolo (Extended user definito nel file next-auth.d.ts)
   event: SafeEvent;
   currentUser?: User | null
+  relatedEventsCategory?:SafeEvent[]
 }
 
-const EventClient: React.FC<EventClientProps> = ({ organization, event, currentUser }) => {
+const EventClient: React.FC<EventClientProps> = ({ organization, event, currentUser, relatedEventsCategory }) => {
  
   return (
     <>
@@ -88,12 +90,18 @@ const EventClient: React.FC<EventClientProps> = ({ organization, event, currentU
               <p className="font-bold text-gray-600">Descrizione Evento</p>
             </div>
             <p className="text-sm text-gray-700 break-words">{event.description}</p>
-
             <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization.name}`} />
 
           </div>
         </div>
       </div>
+
+      <section className="wrapper flex flex-col">
+          <h2 className="text-2xl font-bold">Nella stessa categoria</h2>
+           <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+              <EventList events={relatedEventsCategory || []} currentUser={currentUser as User} />
+             </div>
+      </section>
     </>
   );
 }
