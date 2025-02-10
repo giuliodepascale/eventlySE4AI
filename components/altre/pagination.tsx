@@ -1,4 +1,5 @@
-'use client';
+// components/altre/pagination.tsx
+"use client";
 
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 
@@ -26,7 +27,9 @@ const ClientPagination: React.FC<ClientPaginationProps> = ({ totalPages, page, s
         <BiChevronLeft size={24} />
       </button>
 
-      <span className="text-lg font-semibold">{page} / {totalPages}</span>
+      <span className="text-lg font-semibold">
+        {page} / {totalPages}
+      </span>
 
       <button
         className={`p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition ${
