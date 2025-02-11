@@ -8,6 +8,7 @@ import NearbyEvents from "@/components/events/nearby-events";
 
 import UpcomingEvents from "@/components/events/upcoming-events";
 import Section from "@/components/events/section";
+import IpNearbyEvents from "@/components/events/ip-nearby-events";
 
 
 
@@ -39,6 +40,11 @@ export default async function Home(props: {searchParams: SearchParams}) {
     <Section title="Eventi Vicini a Te">
       <Suspense fallback={<Loading />}>
         <NearbyEvents currentUser={fullUser} />
+      </Suspense>
+    </Section>
+    <Section title="Eventi in base alla tua città">
+      <Suspense fallback={<Loading />}>
+        <IpNearbyEvents currentUser={fullUser} />
       </Suspense>
     </Section>
   </main>

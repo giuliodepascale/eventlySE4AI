@@ -6,7 +6,9 @@ type GeoData = {
   country: string;
   regionName: string;
   city: string;
-  // Altri campi se necessari
+  lat: number;
+  lon: number;
+  // Puoi aggiungere altri campi se ti servono
 };
 
 async function getGeoData(ip: string): Promise<GeoData> {
@@ -27,13 +29,13 @@ export default async function Page() {
     ip = ip.split(',')[0].trim();
   }
 
-  // Controlla se l'IP è un loopback (localhost)
+  // Se sei in locale, l'IP risulterà come "::1" o "127.0.0.1"
   if (ip === '::1' || ip === '127.0.0.1' || !ip) {
-    // Usa un fallback solo per scopi di sviluppo
-    ip = '8.8.8.8'; // Ad esempio, l'IP di Google DNS
+    // Usa un fallback per scopi di sviluppo
+    ip = '8.8.8.8'; // l'IP di Google DNS
   }
 
-  // Recupera i dati di geolocalizzazione
+  // Recupera i dati di geolocalizzazione, inclusi latitudine e longitudine
   const geoData = await getGeoData(ip);
 
   return (
@@ -43,6 +45,8 @@ export default async function Page() {
       <p><strong>Nazione:</strong> {geoData.country}</p>
       <p><strong>Regione:</strong> {geoData.regionName}</p>
       <p><strong>Città:</strong> {geoData.city}</p>
+      <p><strong>Latitudine:</strong> {geoData.lat}</p>
+      <p><strong>Longitudine:</strong> {geoData.lon}</p>
     </div>
   );
 }
