@@ -9,7 +9,10 @@ export const publicRoutes = [
     "/",
     "/auth/new-verification",
     "/api/nearby-events",
-    "/api/ip"
+    "/api/ip",
+    "/api/stripe/create-account",
+    "/api/stripe/check-account-status"
+
 ];
 
 /**

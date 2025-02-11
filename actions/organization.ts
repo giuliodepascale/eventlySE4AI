@@ -190,6 +190,7 @@ export async function getOrganizationById(organizationId: string) {
       createdAt: organization.createdAt.toISOString(),
       imageSrc: organization.imageSrc,
       seoUrl: organization.seoUrl,
+      stripeAccountId: organization.stripeAccountId
     };
 
     return { organization: safeOrganization, organizers };
@@ -243,6 +244,7 @@ export async function getOrganizationsByUser(userId: string) {
         createdAt: organization.createdAt.toISOString(),
         imageSrc: organization.imageSrc,
         seoUrl: organization.seoUrl,
+        stripeAccountId: organization.stripeAccountId
       };
     });
 

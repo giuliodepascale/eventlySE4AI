@@ -82,7 +82,8 @@ model Organization {
   longitudine         String?  
   createdAt           DateTime            @default(now())
   imageSrc            String?
-  seoUrl              String?              
+  seoUrl              String?
+  stripeAccountId     String?              
   // Relazioni con OrganizationUser
   organizationUsers   OrganizationUser[]
 

@@ -7,7 +7,6 @@ export async function GET(request: Request) {
   request.headers.forEach((value, key) => {
     allHeaders[key] = value;
   });
-  console.log("Headers ricevuti:", allHeaders);
 
   // Recupera l'IP dalla richiesta: controlla "x-forwarded-for" e "x-real-ip"
   let ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "";
@@ -22,7 +21,7 @@ export async function GET(request: Request) {
     ip = "8.8.8.8"; // fallback: l'IP di Google DNS per test
   }
   
-  console.log("IP risolto:", ip);
+ 
   
   // Chiama l'API di ip-api per ottenere i dati di geolocalizzazione
   const response = await fetch(`http://ip-api.com/json/${ip}`);
