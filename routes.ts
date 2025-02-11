@@ -8,7 +8,8 @@
 export const publicRoutes = [
     "/",
     "/auth/new-verification",
-    "/api/nearby-events"
+    "/api/nearby-events",
+    "/api/ip"
 ];
 
 /**
