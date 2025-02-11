@@ -1,6 +1,7 @@
 "use client"
 
 import React, { Suspense } from "react";
+import { motion } from "framer-motion";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,97 +14,183 @@ import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 import Map from "@/components/altre/map";
 import EventList from "./events-list";
-
-
-
+import CheckoutButton from "../altre/checkout-button";
 
 interface EventClientProps {
-  organization: SafeOrganization// user con il ruolo (Extended user definito nel file next-auth.d.ts)
+  organization: SafeOrganization;
   event: SafeEvent;
-  currentUser?: User | null
-  relatedEventsCategory?:SafeEvent[]
+  currentUser?: User | null;
+  relatedEventsCategory?: SafeEvent[];
 }
 
-const EventClient: React.FC<EventClientProps> = ({ organization, event, currentUser, relatedEventsCategory }) => {
- 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15, duration: 0.5 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const EventClient: React.FC<EventClientProps> = ({
+  organization,
+  event,
+  currentUser,
+  relatedEventsCategory,
+}) => {
   return (
-    <>
-     
-      <div className="grid grid-cols-1 md:grid-cols-[500px,1fr] 2xl:max-w-6xl">
-      <Suspense fallback={<Loader/>}>
-        <div className="w-full h-[70vh] overflow-hidden
-        rounded-xl
-        relative flex-shrink-0">
-          <Image
-            src={event.imageSrc || organization.imageSrc || "/images/NERO500.jpg"}
-            priority
-            alt="Event Image"
-            fill
-            className="object-cover object-center w-full h-full"
-          />
-          <div className="absolute top-5 right-5 flex items-center space-x-2  bg-black bg-opacity-75  rounded-full px-2 py-1">
-              <HeartButton eventId={event.id} currentUser={currentUser} />
-              <p className="text-white  text-sm font-medium">{event.favoriteCount}</p>
-          </div>
-        </div>
-        </Suspense>
-        <div className="flex flex-col w-full gap-8 p-5 md:p-10">
-          <div className="flex flex-col gap-6">
-            <h2 className="text-4xl font-bold text-black break-words">{event.title}</h2>
-  
-            <div className="flex flex-col gap-3 sm:flex-row md:items-center">
-              <div className="flex gap-3">
-                <p className={`rounded-full px-5 py-2 ${event.isFree ? 'bg-green-500/10 text-green-700' : 'bg-red-500/10 text-red-700'}`}>
+    <div className="min-h-screen bg-gray-50 py-8">
+      {/* Container centrato con padding orizzontale reattivo:
+          px-4 di default, lg:px-12 per schermi grandi e xl:px-20 per extra-large */}
+      <div className="container mx-auto px-4 lg:px-12 xl:px-20">
+        {/* Layout a due colonne per schermi grandi */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        >
+          {/* Colonna sinistra: Immagine dell'evento */}
+          <motion.div
+            variants={itemVariants}
+            className="relative w-full h-[70vh] rounded-xl overflow-hidden shadow-2xl"
+          >
+            <Suspense fallback={<Loader />}>
+              <Image
+                src={event.imageSrc || organization.imageSrc || "/images/NERO500.jpg"}
+                alt="Event Image"
+                fill
+                className="object-cover object-center transition-transform duration-700 ease-in-out hover:scale-105"
+                priority
+              />
+              <motion.div
+                variants={itemVariants}
+                whileHover={{ scale: 1.1 }}
+                className="absolute top-4 right-4 bg-black bg-opacity-60 rounded-full p-2 flex items-center space-x-1"
+              >
+                <HeartButton eventId={event.id} currentUser={currentUser} />
+                <span className="text-white text-sm">{event.favoriteCount}</span>
+              </motion.div>
+            </Suspense>
+          </motion.div>
+
+          {/* Colonna destra: Dettagli dell'evento */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col justify-between bg-white p-8 rounded-xl shadow-xl"
+          >
+            <div>
+              <motion.h1
+                variants={itemVariants}
+                className="text-4xl font-extrabold text-gray-800 mb-4"
+              >
+                {event.title}
+              </motion.h1>
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4"
+              >
+                <span
+                  className={`px-4 py-2 rounded-full font-semibold ${
+                    event.isFree
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
                   {event.isFree ? "Ingresso libero" : `€${event.price}`}
-                </p>
-                <Link href={`/?category=${event.category}`}>
-                  <p className="hover:text-primary rounded-full bg-gray-100 px-4 py-2.5 text-gray-500">
-                    {event.category}
-                  </p>
+                </span>
+                <Link
+                  href={`/?category=${event.category}`}
+                  className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition duration-300"
+                >
+                  {event.category}
                 </Link>
-              </div>
-              <p className="mt-2 ml-2 text-sm text-gray-700 sm:mt-0">
-                By{" "}
-                <Link href={`/organization/${organization?.id}`} className="text-primary-500">
+              </motion.div>
+              <motion.p
+                variants={itemVariants}
+                className="text-sm text-gray-500 mb-4"
+              >
+                Organizzato da{" "}
+                <Link
+                  href={`/organization/${organization?.id}`}
+                  className="text-blue-600 hover:underline"
+                >
                   {organization?.name}
                 </Link>
-              </p>
+              </motion.p>
+              <motion.div
+                variants={itemVariants}
+                className="flex items-center gap-4 mb-4"
+              >
+                <FcCalendar size={28} />
+                <span className="text-lg text-gray-700">
+                  <DateFormatter dateISO={event.eventDate} showDayName={true} />
+                </span>
+              </motion.div>
+              <motion.div
+                variants={itemVariants}
+                className="flex items-center gap-4 mb-4"
+              >
+                <CiLocationOn size={28} />
+                <span className="text-lg text-gray-700">
+                  {`${event.indirizzo}, ${event.comune}, ${event.provincia}`}
+                </span>
+              </motion.div>
+              {/* Blocco Descrizione spostato PRIMA del CheckoutButton */}
+              <motion.div variants={itemVariants} className="mt-8">
+                <div className="flex items-center gap-2 mb-2">
+                  <FaPen size={20} className="text-gray-600" />
+                  <span className="font-semibold text-gray-600">
+                    Descrizione Evento
+                  </span>
+                </div>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {event.description}
+                </p>
+              </motion.div>
             </div>
-          </div>
-  
-          <div className="flex flex-col gap-5">
-            <div className="flex gap-2 md:gap-3">
-              <FcCalendar size={24} />
-              <div className="flex flex-col items-center text-sm">
-              <p className="font-bold text-lg text-gray-600"> <DateFormatter dateISO={event.eventDate} showDayName={true} /></p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 text-sm">
-              <CiLocationOn size={24} />
-              <p className="font-bold text-lg text-gray-600 break-words">{event.indirizzo}, {event.comune}, {event.provincia}</p>
-            </div>
-          </div>
-  
-          <div className="flex flex-col gap-2 md:gap-3">
-            <div className="flex items-center gap-2 md:gap-3">
-              <FaPen size={20} />
-              <p className="font-bold text-gray-600">Descrizione Evento</p>
-            </div>
-            <p className="text-sm text-gray-700 break-words">{event.description}</p>
-            <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization.name}`} />
+            {/* CheckoutButton inserito dopo la descrizione */}
+            <motion.div variants={itemVariants} className="mt-6">
+              <CheckoutButton event={event} />
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
-          </div>
-        </div>
+        {/* Sezione Mappa */}
+        <motion.div
+          variants={itemVariants}
+          className="mt-12 rounded-xl overflow-hidden shadow-lg"
+        >
+          <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization.name}`} />
+        </motion.div>
+
+        {/* Sezione EventList: Eventi correlati */}
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="mt-16"
+        >
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-bold text-center mb-8"
+          >
+            Nella stessa categoria
+          </motion.h2>
+          <motion.div
+            variants={itemVariants}
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+          >
+            <EventList events={relatedEventsCategory || []} currentUser={currentUser as User} />
+          </motion.div>
+        </motion.section>
       </div>
-
-      <section className="wrapper flex flex-col">
-          <h2 className="text-2xl font-bold">Nella stessa categoria</h2>
-           <div className="pt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
-              <EventList events={relatedEventsCategory || []} currentUser={currentUser as User} />
-             </div>
-      </section>
-    </>
+    </div>
   );
-}
+};
+
 export default EventClient;
-  

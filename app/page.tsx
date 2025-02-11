@@ -11,6 +11,7 @@ import Section from "@/components/events/section";
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function Home(props: {searchParams: SearchParams}) {
 
   const user = await currentUser();
