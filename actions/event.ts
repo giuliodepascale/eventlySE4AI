@@ -14,13 +14,25 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Campi non validi" };
   }
 
-  const { title, description, imageSrc, category, organizationId, price, eventDate, indirizzo, comune, provincia, regione } = validatedFields.data;
+  const {
+    title,
+    description,
+    imageSrc,
+    category,
+    organizationId,
+    noTickets,
+    eventDate,
+    indirizzo,
+    comune,
+    provincia,
+    regione,
+  } = validatedFields.data;
 
   const organizer = await getOrganizationOrganizers(organizationId);
   if (!organizer || !organizer.organizers) {
     return { error: "Organizzatore non trovato" };
   }
-  
+
   const organization = await getOrganizationById(organizationId);
   if (!organization || !organization.organization) {
     return { error: "Organizzazione non trovata" };
@@ -28,22 +40,16 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
 
   const finalImageSrc = imageSrc?.trim() === "" ? undefined : imageSrc;
 
-  const finalPrice = price ? parseInt(price, 10) : 0;
-  const isFree = finalPrice === 0;
-
-  
   let latitudine: string | null = null;
   let longitudine: string | null = null;
 
-
   const coords = await getCoordinatesFromOSM(indirizzo, comune);
-  
-  if(!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
+
+  if (!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
+
   // Convertiamo i numeri in stringa prima di salvarli
   latitudine = coords.latitude.toString() || "";
   longitudine = coords.longitude.toString() || "";
-
-  
 
   let newEvent;
   try {
@@ -61,8 +67,7 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
         provincia: provincia,
         regione: regione,
         organizationId: organizationId,
-        price: finalPrice,
-        isFree: isFree,
+        noTickets: noTickets,
       },
     });
   } catch (error) {
@@ -73,8 +78,6 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
   // Effettua il redirect al di fuori del blocco try...catch
   redirect(`/events/${newEvent.id}`);
 }
-
-
 
 export const getAllEvents = async (query = "", limit = 6, page = 1, category = "") => {
   try {
@@ -87,13 +90,15 @@ export const getAllEvents = async (query = "", limit = 6, page = 1, category = "
         AND: [
           ...(category ? [{ category: category }] : []),
           ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
-          { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } }, // Filtra eventi con data entro 4 ore dal presente (5 ore per  orario)
+          // Filtra eventi con data entro 4 ore dal presente
+          { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
         ],
       },
       take: limit,
       skip: offset,
       orderBy: {
-        eventDate: "asc" as const, // Ordina per data di creazione, dal più recente
+        // Ordina per data di creazione, dal più recente
+        eventDate: "asc" as const,
       },
     };
 
@@ -103,7 +108,6 @@ export const getAllEvents = async (query = "", limit = 6, page = 1, category = "
     // Conta totale degli eventi per la paginazione
     const totalEvents = await db.event.count({ where: filters.where });
 
-    // Ritorno dei risultati e della paginazione
     return {
       events: events.map((event) => ({
         ...event,
@@ -131,8 +135,6 @@ export const getAllEvents = async (query = "", limit = 6, page = 1, category = "
   }
 };
 
-
-
 /**
  * Recupera tutti gli eventi associati a una specifica organizzazione.
  *
@@ -141,7 +143,11 @@ export const getAllEvents = async (query = "", limit = 6, page = 1, category = "
  * @param page - Numero di pagina per la paginazione (default: 1).
  * @returns Un oggetto contenente gli eventi e le informazioni di paginazione o un messaggio di errore.
  */
-export const getEventsByOrganization = async (organizationId : string, limit = 6, page = 1) => {
+export const getEventsByOrganization = async (
+  organizationId: string,
+  limit = 6,
+  page = 1
+) => {
   try {
     // Validazione dell'ID organizzazione
     if (!organizationId || typeof organizationId !== "string") {
@@ -155,22 +161,20 @@ export const getEventsByOrganization = async (organizationId : string, limit = 6
     const filters = {
       where: {
         organizationId: organizationId,
-        eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) }, // Filtra eventi con data entro 4 ore dal presente
+        // Filtra eventi con data entro 4 ore dal presente
+        eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) },
       },
       take: limit,
       skip: offset,
       orderBy: {
-        eventDate: "asc" as const, // Ordina per data dell'evento in ordine crescente
+        eventDate: "asc" as const,
       },
     };
 
-    // Eseguo la query per ottenere gli eventi
     const events = await db.event.findMany(filters);
 
-    // Conta totale degli eventi per la paginazione
     const totalEvents = await db.event.count({ where: filters.where });
 
-    // Ritorno dei risultati e della paginazione
     return {
       events: events.map((event) => ({
         ...event,
@@ -199,7 +203,6 @@ export const getEventsByOrganization = async (organizationId : string, limit = 6
   }
 };
 
-
 export async function updateEvent(
   eventId: string,
   values: z.infer<typeof CreateEventSchema>
@@ -217,7 +220,7 @@ export async function updateEvent(
     imageSrc,
     category,
     organizationId,
-    price,
+    noTickets,
     eventDate,
     indirizzo,
     comune,
@@ -248,22 +251,16 @@ export async function updateEvent(
   // Gestione dell'immagine: se è una stringa vuota, la trasformiamo in undefined
   const finalImageSrc = imageSrc?.trim() === "" ? undefined : imageSrc;
 
-  // Convertiamo il prezzo in numero e definiamo se l'evento è gratuito
-  const finalPrice = price ? parseInt(price, 10) : 0;
-  const isFree = finalPrice === 0;
-
   let latitudine: string | null = null;
   let longitudine: string | null = null;
 
-
   const coords = await getCoordinatesFromOSM(indirizzo, comune);
-  
-  if(!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
-  // Convertiamo i numeri in stringa prima di salvarli
+
+  if (!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
+
   latitudine = coords.latitude.toString() || "";
   longitudine = coords.longitude.toString() || "";
 
-  // Proviamo ad aggiornare l'evento nel database
   let updatedEvent;
   try {
     updatedEvent = await db.event.update({
@@ -281,8 +278,7 @@ export async function updateEvent(
         provincia,
         regione,
         organizationId,
-        price: finalPrice,
-        isFree,
+        noTickets,
       },
     });
   } catch (error) {

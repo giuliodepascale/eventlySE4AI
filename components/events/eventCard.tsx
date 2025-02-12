@@ -126,7 +126,7 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
 
         {/* Prezzo o ingresso libero */}
         <div className="text-base font-semibold">
-          {data.isFree ? "Ingresso libero" : `€${data.price}`}
+          {data.noTickets ? "Ingresso libero" : `€ Inserire prezzo`}
         </div>
         {data.distance !== undefined && (
             <div className="text-sm text-gray-500 mt-1">

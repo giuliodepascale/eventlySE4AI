@@ -61,10 +61,11 @@ model User {
 
   favoriteIds       String[]
   accounts          Account[]
-  reservations      Reservation[]
-  organizationUsers OrganizationUser[]
+  orders            Order[]              // Un utente ha ordini (biglietti acquistati)
+  tickets           Ticket[]             // Biglietti posseduti dall'utente
 
   @@map("users")
+  OrganizationUser OrganizationUser[]
 }
 
 model Organization {
@@ -72,11 +73,11 @@ model Organization {
   name                String
   description         String
   indirizzo           String?
-  comune              String?             // Aggiunto campo comune
+  comune              String?             
   provincia           String?
   regione             String?  
   phone               String?
-  email               String?
+  email               String
   linkEsterno         String?
   latitudine          String?
   longitudine         String?  
@@ -89,9 +90,9 @@ model Organization {
 
   // Relazioni con Event e Reservation
   events              Event[]             @relation("OrganizationEvents")
-  reservations        Reservation[]       @relation("OrganizationReservations")
-
+  orders              Order[]
   @@map("organizations")
+  
 }
 model OrganizationUser {
   userId              String
@@ -131,36 +132,86 @@ model Event {
   imageSrc         String?
   createdAt        DateTime      @default(now())
   category         String
-  price            Int?
   comune           String        
   provincia        String
   regione          String
   latitudine       String
   longitudine      String       
-  isFree           Boolean?
+  noTickets        Boolean       // Non opzionale: deve essere vero o falso
   favoriteCount    Int           @default(0)
   eventDate        DateTime
   indirizzo        String
   organizationId   String
   seoUrl           String?        
-  
-  organization     Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
-  reservations     Reservation[]
+
+  organization    Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
+  ticketTypes     TicketType[]
+  orders          Order[]
+  tickets         Ticket[]
 
   @@map("events")
 }
 
-model Reservation {
-  id              String          @id @default(cuid())
-  userId          String 
-  eventId         String 
-  organizationId  String
-  totalPrice      Int
-  createdAt       DateTime        @default(now())
 
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  event           Event           @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  organization    Organization    @relation("OrganizationReservations", fields: [organizationId], references: [id], onDelete: Cascade)
+model TicketType {
+  id             String   @id @default(cuid())
+  eventId        String
+  name           String   // Nome del biglietto (Es. "VIP", "Early Bird")
+  description    String?  // Opzionale, dettagli sul biglietto
+  price          Int?     // Prezzo in centesimi (null se gratuito)
+  quantity       Int      // Numero di biglietti disponibili
+  sold           Int      @default(0) // Biglietti già venduti
+  maxPerUser     Int?     // Numero massimo di biglietti acquistabili per utente
+  isActive       Boolean  @default(true) // Se falso, il biglietto non può essere acquistato
+  createdAt      DateTime @default(now())
 
-  @@map("reservations")
+  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tickets        Ticket[]
+
+  @@map("ticket_types")
 }
+
+
+
+model Order {
+  id             String     @id @default(cuid())
+  userId         String
+  eventId        String
+  totalPrice     Int
+  status         String
+  paymentIntent  String?
+  ticketCount    Int
+  createdAt      DateTime   @default(now())
+  
+  // Aggiungi questi due campi per creare la relazione con Organization
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tickets        Ticket[]
+
+  @@map("orders")
+}
+
+
+model Ticket {
+  id             String     @id @default(cuid()) // ID del biglietto
+  orderId        String?
+  eventId        String
+  userId         String
+  ticketTypeId   String
+  qrCode         String     @unique // Identificativo univoco per il QR code
+  isValid        Boolean    @default(true) // Se falso, il biglietto non può essere usato
+  usedAt         DateTime?  // Quando il biglietto è stato validato
+  seatNumber     String?    // (Opzionale) Numero del posto, se implementato in futuro
+  createdAt      DateTime   @default(now())
+
+  order          Order?     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ticketType     TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
+
+  @@map("tickets")
+}
+

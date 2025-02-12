@@ -14,7 +14,8 @@ import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 import Map from "@/components/altre/map";
 import EventList from "./events-list";
-import CheckoutButton from "../altre/checkout-button";
+import CheckoutButton from "../altre/checkout";
+
 
 interface EventClientProps {
   organization: SafeOrganization;
@@ -95,13 +96,9 @@ const EventClient: React.FC<EventClientProps> = ({
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4"
               >
                 <span
-                  className={`px-4 py-2 rounded-full font-semibold ${
-                    event.isFree
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                  }`}
+                  className="px-4 py-2 rounded-full font-semibold bg-green-100 text-green-700"
                 >
-                  {event.isFree ? "Ingresso libero" : `€${event.price}`}
+                  {event.noTickets ? "Ingresso libero" : `€  Inserire prezzo `}
                 </span>
                 <Link
                   href={`/?category=${event.category}`}
@@ -153,12 +150,16 @@ const EventClient: React.FC<EventClientProps> = ({
                 </p>
               </motion.div>
             </div>
-            {/* CheckoutButton inserito dopo la descrizione */}
+            {/* Bottone Checkout */}
             <motion.div variants={itemVariants} className="mt-6">
-              <CheckoutButton event={event} />
-            </motion.div>
+            {currentUser?.id && <CheckoutButton event={event} userId={currentUser.id as string} />}
+      </motion.div>
+
+
+                
+              </motion.div>
           </motion.div>
-        </motion.div>
+      
 
         {/* Sezione Mappa */}
         <motion.div

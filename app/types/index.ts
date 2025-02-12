@@ -1,4 +1,5 @@
-import {Event, Organization, Reservation} from "@prisma/client"
+import {Event, Organization} from "@prisma/client"
+import { TicketType } from "@prisma/client";
 
 
 
@@ -8,16 +9,10 @@ export type SafeEvent = Omit <
 > & {
     createdAt: string;
     eventDate: string;
+    ticketTypes?: SafeTicketType[];
+
 }
 
-
-export type SafeReservation = Omit <
-    Reservation,
-    'createdAt' |'event'
-> & {
-    createdAt: string;
-    event: SafeEvent;
-}
 
 export type SafeOrganization = Omit <
 Organization,
@@ -29,3 +24,12 @@ createdAt: string;
 export type SearchParams = Promise<{
     [key: string]: string | string[] | undefined;
   }>;
+
+
+
+  
+export type SafeTicketType = Omit<TicketType, "createdAt"> & {
+  createdAt: string;
+  // price è Int? nel modello Prisma, quindi lo gestiamo come number | null in TS
+  price: number | null;
+};

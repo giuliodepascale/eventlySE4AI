@@ -7,14 +7,16 @@ export const getEventById = async (id: string) => {
     const event = await db.event.findUnique({
         where: {
             id
-        }
+        },
     })
     if(!event) return null;
     return {
         ...event,
         eventDate: event?.eventDate.toISOString(),
-        createdAt: event?.createdAt.toISOString(), // Converte la data in stringa ISO
-    };
+        createdAt: event?.createdAt.toISOString(), 
+        
+        };// Converte la data in stringa ISO
+    
     } catch (error){
         console.error(error);
         return null;

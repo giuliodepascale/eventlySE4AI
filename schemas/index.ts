@@ -68,13 +68,79 @@ export const SettingsSchema = z.object({
 
 
 
+  export const organizationSchema = z.object({
+    name: z
+      .string()
+      .min(3, "Il titolo deve contenere almeno 3 caratteri")
+      .max(50, "Il titolo non può superare i 50 caratteri"),
+    description: z
+      .string()
+      .min(10, "La descrizione deve contenere almeno 10 caratteri")
+      .max(300, "La descrizione non può superare i 300 caratteri"),
+    indirizzo: z
+      .union([z.string().min(3, "Il luogo deve contenere almeno 3 caratteri")
+        .max(50, "Il luogo non può superare i 50 caratteri"), z.literal('')])
+      .optional()
+      .default(''),
+    phone: z
+      .union([z.string().regex(/^[0-9+\-\s]+$/, "Numero di telefono non valido"), z.literal('')])
+      .optional()
+      .default(''),
+    email: z.string().email({
+        message: "Inserisci una email valida",
+    }),
+    linkEsterno: z
+      .union([z.string().url("Link non valido"), z.literal('')]) // Permette stringa vuota o URL valido
+      .optional()
+      .default(''),
+    imageSrc: z
+      .union([z.string().url("L'immagine deve essere un URL valido"), z.literal('')])
+      .optional()
+      .default(''),
+    // Nuovi campi per comune, provincia e seoUrl
+    comune: z
+      .union([z.string(), z.literal('')])
+      .optional(),
+    provincia: z
+      .union([z.string(), z.literal('')])
+      .optional(),
+    regione: z
+    .union([z.string(), z.literal('')])
+    .optional(),
+    seoUrl: z
+      .union([z.string().regex(/^[a-z0-9-]+$/i, "SEO URL non valido"), z.literal('')]) // Permette stringa vuota o slug valido
+      .optional()
+      .default(''),
+  });
+
+
+  // Scheda biglietto (nome, prezzo, quantità, ecc.)
+
+
+export const TicketTypeSchema = z.object({
+  id: z.string().optional(),     // se esiste, significa che è un ticket già creato
+  name: z.string().min(1),
+  description: z.string().optional(),
+  price: z.number().int().min(0),
+  // quantità attuale (readonly su form se id è presente)
+  quantity: z.number().int().min(0).optional(),
+  // quantità da aggiungere
+  addQuantity: z.number().int().min(0).optional(),
+  isActive: z.boolean().optional(),
+});
+
+
+// un array di TicketType
+export const TicketTypeArraySchema = z.array(TicketTypeSchema).optional();
+
+
 export const CreateEventSchema = z.object({
   title: z
     .string()
     .min(3, "Il titolo deve contenere almeno 3 caratteri")
     .max(50, "Il titolo non può superare i 50 caratteri"),
   eventDate: z.date(), 
-  isFree: z.boolean(),
+  noTickets: z.boolean(),
   eventTime: z.date({required_error: "Il campo orario dell'evento è obbligatorio",}),
   eventDateDay: z.date({required_error: "Il campo data dell'evento è obbligatorio",}).refine(
     (date) => {
@@ -113,7 +179,11 @@ export const CreateEventSchema = z.object({
     regione: z
     .string()
     .nonempty("Il comune è obbligatorio"),
-  price: z
+    ticketTypes: TicketTypeArraySchema,
+})
+;
+  /*
+price: z
     .string()
     .refine((val) => {
       if (val === undefined) return true;
@@ -148,52 +218,4 @@ export const CreateEventSchema = z.object({
   message: "Se il prezzo è pari a 0 l'ingresso deve essere libero",
   path: ["isFree"]
 })
-;
-
-
-
-  export const organizationSchema = z.object({
-    name: z
-      .string()
-      .min(3, "Il titolo deve contenere almeno 3 caratteri")
-      .max(50, "Il titolo non può superare i 50 caratteri"),
-    description: z
-      .string()
-      .min(10, "La descrizione deve contenere almeno 10 caratteri")
-      .max(300, "La descrizione non può superare i 300 caratteri"),
-    indirizzo: z
-      .union([z.string().min(3, "Il luogo deve contenere almeno 3 caratteri")
-        .max(50, "Il luogo non può superare i 50 caratteri"), z.literal('')])
-      .optional()
-      .default(''),
-    phone: z
-      .union([z.string().regex(/^[0-9+\-\s]+$/, "Numero di telefono non valido"), z.literal('')])
-      .optional()
-      .default(''),
-    email: z
-      .union([z.string().email("Email non valida"), z.literal('')]) // Permette stringa vuota o email valida
-      .optional()
-      .default(''),
-    linkEsterno: z
-      .union([z.string().url("Link non valido"), z.literal('')]) // Permette stringa vuota o URL valido
-      .optional()
-      .default(''),
-    imageSrc: z
-      .union([z.string().url("L'immagine deve essere un URL valido"), z.literal('')])
-      .optional()
-      .default(''),
-    // Nuovi campi per comune, provincia e seoUrl
-    comune: z
-      .union([z.string(), z.literal('')])
-      .optional(),
-    provincia: z
-      .union([z.string(), z.literal('')])
-      .optional(),
-    regione: z
-    .union([z.string(), z.literal('')])
-    .optional(),
-    seoUrl: z
-      .union([z.string().regex(/^[a-z0-9-]+$/i, "SEO URL non valido"), z.literal('')]) // Permette stringa vuota o slug valido
-      .optional()
-      .default(''),
-  });
+  */
