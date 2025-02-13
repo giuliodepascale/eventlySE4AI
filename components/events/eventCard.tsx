@@ -134,6 +134,11 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
             </div>
           )}
         </Link>
+        {isEventCreator && (
+        <Link href={`/events/${data.id}/ticket-management/${data.organizationId}`}>
+          Gestisci Biglietteria
+        </Link>
+      )}
       </div>
     </Suspense>
   );

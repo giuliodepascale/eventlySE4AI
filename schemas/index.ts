@@ -117,21 +117,7 @@ export const SettingsSchema = z.object({
   // Scheda biglietto (nome, prezzo, quantità, ecc.)
 
 
-export const TicketTypeSchema = z.object({
-  id: z.string().optional(),     // se esiste, significa che è un ticket già creato
-  name: z.string().min(1),
-  description: z.string().optional(),
-  price: z.number().int().min(0),
-  // quantità attuale (readonly su form se id è presente)
-  quantity: z.number().int().min(0).optional(),
-  // quantità da aggiungere
-  addQuantity: z.number().int().min(0).optional(),
-  isActive: z.boolean().optional(),
-});
 
-
-// un array di TicketType
-export const TicketTypeArraySchema = z.array(TicketTypeSchema).optional();
 
 
 export const CreateEventSchema = z.object({
@@ -179,9 +165,37 @@ export const CreateEventSchema = z.object({
     regione: z
     .string()
     .nonempty("Il comune è obbligatorio"),
-    ticketTypes: TicketTypeArraySchema,
+    
 })
 ;
+export const UpdateTicketTypeSchema = z.object({
+  eventId: z.string(),
+  name: z.string().min(1, "Il nome è obbligatorio"),
+  description: z.string().optional(),
+  price: z.preprocess(
+    (val) => (typeof val === "string" ? parseFloat(val) : val),
+    z.number().nonnegative().optional()
+  ),
+  quantity: z.preprocess(
+    (val) => (typeof val === "string" ? parseInt(val) : val),
+    z.number().int().min(0, "La quantità deve essere almeno 0 (sold out)")
+  ),
+  isActive: z.boolean().optional(),
+});
+
+export const CreateTicketTypeSchema = z.object({
+  eventId: z.string(),
+  name: z.string().min(1, "Il nome è obbligatorio"),
+  description: z.string().optional(),
+  price: z.preprocess(
+    (val) => (typeof val === "string" ? parseFloat(val) : val),
+    z.number().nonnegative().optional()
+  ),
+  quantity: z.preprocess(
+    (val) => (typeof val === "string" ? parseInt(val) : val),
+    z.number().int().min(1, "La quantità deve essere almeno 1")
+  ),
+});
   /*
 price: z
     .string()

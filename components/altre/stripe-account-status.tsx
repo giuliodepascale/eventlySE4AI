@@ -9,12 +9,14 @@ interface StripeAccountStatusProps {
 export default function StripeAccountStatus({ organizationId }: StripeAccountStatusProps) {
   const [loading, setLoading] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [onboardingLoading, setOnboardingLoading] = useState(false);
   const [status, setStatus] = useState<null | {
     payouts_enabled: boolean;
     charges_enabled: boolean;
     details_submitted: boolean;
     stripeAccountId: string;
     requirements: string[];
+    dashboard_url: string;
   }>(null);
 
   const checkAccountStatus = async () => {
@@ -25,9 +27,7 @@ export default function StripeAccountStatus({ organizationId }: StripeAccountSta
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ organizationId }),
       });
-
       const data = await response.json();
-
       if (data.error) {
         alert("Errore: " + data.error);
       } else {
@@ -41,6 +41,30 @@ export default function StripeAccountStatus({ organizationId }: StripeAccountSta
     }
   };
 
+  const handleGenerateOnboardingLink = async () => {
+    setOnboardingLoading(true);
+    try {
+      const response = await fetch("/api/stripe/generate-onboarding-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizationId }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        alert("Errore nell'onboarding: " + (data.error || "Errore sconosciuto."));
+      } else if (data.url) {
+        window.open(data.url, "_blank");
+      } else {
+        alert("Nessun URL restituito per l'onboarding.");
+      }
+    } catch (error) {
+      console.error("Errore durante l'onboarding a Stripe:", error);
+      alert("Errore imprevisto durante l'onboarding a Stripe.");
+    } finally {
+      setOnboardingLoading(false);
+    }
+  };
+
   const handleLoginToStripe = async () => {
     setLoginLoading(true);
     try {
@@ -49,13 +73,13 @@ export default function StripeAccountStatus({ organizationId }: StripeAccountSta
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ organizationId }),
       });
-  
       const data = await response.json();
-  
-      if (data.url) {
-        window.open(data.url, "_blank"); // ✅ Apre la dashboard in una nuova scheda
+      if (data.error) {
+        alert("Errore nel login: " + (data.error || "Errore sconosciuto."));
+      } else if (data.url) {
+        window.open(data.url, "_blank");
       } else {
-        alert("Errore nell'accesso alla dashboard Stripe: " + data.error);
+        alert("Nessun URL restituito per il login.");
       }
     } catch (error) {
       console.error("Errore durante il login a Stripe:", error);
@@ -64,7 +88,6 @@ export default function StripeAccountStatus({ organizationId }: StripeAccountSta
       setLoginLoading(false);
     }
   };
-  
 
   useEffect(() => {
     checkAccountStatus();
@@ -78,29 +101,51 @@ export default function StripeAccountStatus({ organizationId }: StripeAccountSta
         <p>Caricamento...</p>
       ) : status ? (
         <div className="mt-2">
-          <p>🔹 **Account Stripe ID:** {status.stripeAccountId}</p>
-          <p>🔹 **Può accettare pagamenti:** {status.charges_enabled ? "✅ Sì" : "❌ No"}</p>
-          <p>🔹 **Può ricevere fondi:** {status.payouts_enabled ? "✅ Sì" : "❌ No"}</p>
-          <p>🔹 **Dati inviati:** {status.details_submitted ? "✅ Completo" : "❌ Incompleto"}</p>
-
-          {!status.payouts_enabled && (
-            <div className="mt-4">
-              <p className="text-red-600">
-                ⚠️ Completa la verifica per ricevere i pagamenti sul tuo conto bancario.
-              </p>
+          <p>
+            <strong>Account Stripe ID:</strong> {status.stripeAccountId}
+          </p>
+          <p>
+            <strong>Può accettare pagamenti:</strong> {status.charges_enabled ? "✅ Sì" : "❌ No"}
+          </p>
+          <p>
+            <strong>Può ricevere fondi:</strong> {status.payouts_enabled ? "✅ Sì" : "❌ No"}
+          </p>
+          <p>
+            <strong>Dati inviati:</strong> {status.details_submitted ? "✅ Completo" : "❌ Incompleto"}
+          </p>
+          {status.requirements.length > 0 && (
+            <div className="mt-2">
+              <p className="text-yellow-600">Requisiti da completare:</p>
+              <ul className="list-disc ml-6">
+                {status.requirements.map((req, index) => (
+                  <li key={index}>{req}</li>
+                ))}
+              </ul>
             </div>
           )}
-
-          {/* ✅ Bottone per accedere alla dashboard Stripe */}
-          <div className="mt-4">
-            <button
-              onClick={handleLoginToStripe}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-              disabled={loginLoading}
-            >
-              {loginLoading ? "Reindirizzamento..." : "Accedi alla Dashboard Stripe"}
-            </button>
-          </div>
+          {(!status.details_submitted || !status.payouts_enabled) && (
+            <div className="mt-4">
+              <button
+                onClick={handleGenerateOnboardingLink}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                disabled={onboardingLoading}
+              >
+                {onboardingLoading ? "Caricamento..." : "Completa Onboarding"}
+              </button>
+            </div>
+          )}
+          {status.details_submitted && (
+            <div className="mt-4">
+              <button
+                onClick={handleLoginToStripe}
+                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                disabled={loginLoading}
+              >
+                {loginLoading ? "Reindirizzamento..." : "Accedi alla Dashboard Stripe"}
+              </button>
+            </div>
+          )}
+        
         </div>
       ) : (
         <p className="text-red-500">⚠️ Nessun dato trovato per questo account.</p>
