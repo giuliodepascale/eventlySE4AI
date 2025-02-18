@@ -4,68 +4,85 @@ import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { eventId, userId } = await req.json();
+    const { ticketId, userId } = await req.json();
 
-console.log("🔍 SITE URL:", process.env.NEXT_PUBLIC_SITE_URL);
-console.log("🔍 EVENT ID:", eventId);
-console.log("🔍 USER ID:", userId);
+    console.log("🔍 TICKET ID:", ticketId);
+    console.log("🔍 USER ID:", userId);
 
-
-
-    if (!eventId || !userId) {
-      return NextResponse.json({ error: "Manca eventId o userId" }, { status: 400 });
+    if (!ticketId || !userId) {
+      return NextResponse.json({ error: "Manca ticketId o userId" }, { status: 400 });
     }
 
-    // Recuperiamo i dettagli dell'evento
-    const event = await db.event.findUnique({
-      where: { id: eventId },
-      include: { organization: true },
+    // Recuperiamo i dettagli del tipo di biglietto e l'evento associato
+    const ticketType = await db.ticketType.findUnique({
+      where: { id: ticketId },
+      include: { event: { include: { organization: true } } },
     });
-    
-console.log("🔍 EVENT PRICE:", event?.price);
-console.log("🔍 ORGANIZATION STRIPE ID:", event?.organization?.stripeAccountId);
 
-    if (!event || !event.organization || !event.organization.stripeAccountId || !event.price) {
-      return NextResponse.json({ error: "Evento o organizzazione non trovata." }, { status: 404 });
+    console.log("🔍 TICKET PRICE:", ticketType?.price);
+    console.log("🔍 ORGANIZATION STRIPE ID:", ticketType?.event.organization?.stripeAccountId);
+
+    if (!ticketType || !ticketType.event || !ticketType.event.organization || !ticketType.event.organization.stripeAccountId || !ticketType.price) {
+      return NextResponse.json({ error: "Biglietto, evento o organizzazione non trovati." }, { status: 404 });
     }
 
-    // Controllo che NEXT_PUBLIC_SITE_URL sia definito
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     if (!siteUrl) {
       console.error("❌ ERRORE: NEXT_PUBLIC_SITE_URL non è definito.");
       return NextResponse.json({ error: "Errore di configurazione: NEXT_PUBLIC_SITE_URL mancante." }, { status: 500 });
     }
 
-    // Prezzo in centesimi
-    const price = event.price * 100;
+    if (!ticketType.isActive) {
+      return NextResponse.json({ error: "Il biglietto selezionato non è attivo." }, { status: 400 });
+    }
+    
 
-    // Creiamo la sessione di pagamento su Stripe
+    const price = ticketType.price * 100;
+
     const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"], // Apple Pay e Google Pay sono inclusi automaticamente
-        line_items: [
-          {
-            price_data: {
-              currency: "eur",
-              product_data: {
-                name: `Biglietto per ${event.title}`,
-              },
-              unit_amount: price,
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: `${ticketType.name} - ${ticketType.event.title}`,
+              description: ticketType.description || "Biglietto per l'evento",
             },
-            quantity: 1,
+            unit_amount: price,
           },
-        ],
-        mode: "payment",
-        success_url: `${siteUrl}/checkout/success`,
-        cancel_url: `${siteUrl}/checkout/cancel`,
-        locale: "it", // ✅ Traduzione in italiano
-        payment_intent_data: {
-          application_fee_amount: Math.round(price * 0.1),
-          transfer_data: {
-            destination: event.organization.stripeAccountId,
-          },
+          quantity: 1,
         },
-      });
-      
+      ],
+      mode: "payment",
+      metadata: {
+        userId: userId,
+        ticketId: ticketType.id,
+        eventTitle: ticketType.event.title,
+        organizationName: ticketType.event.organization.name,
+        organizationId: ticketType.event.organization.id,
+        ticketTypeName: ticketType.name,
+      },
+      payment_intent_data: {
+        metadata: {
+          userId: userId,
+          ticketId: ticketType.id,
+          eventTitle: ticketType.event.title,
+          organizationName: ticketType.event.organization.name,
+          organizationId: ticketType.event.organization.id,
+          ticketTypeName: ticketType.name,
+        },
+        application_fee_amount: Math.round(price * 0.1),
+        transfer_data: {
+          destination: ticketType.event.organization.stripeAccountId,
+        },
+      },
+      success_url: `${siteUrl}/checkout/success`,
+      cancel_url: `${siteUrl}/checkout/cancel`,
+      locale: "it",
+    });
+    
+    
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
@@ -73,4 +90,3 @@ console.log("🔍 ORGANIZATION STRIPE ID:", event?.organization?.stripeAccountId
     return NextResponse.json({ error: "Errore nella creazione del checkout." }, { status: 500 });
   }
 }
-

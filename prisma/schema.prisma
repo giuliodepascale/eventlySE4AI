@@ -158,7 +158,7 @@ model TicketType {
   eventId        String
   name           String   // Nome del biglietto (Es. "VIP", "Early Bird")
   description    String?  // Opzionale, dettagli sul biglietto
-  price          Int?     // Prezzo in centesimi (null se gratuito)
+  price          Int     // Prezzo in centesimi (null se gratuito)
   quantity       Int      // Numero di biglietti disponibili
   sold           Int      @default(0) // Biglietti già venduti
   maxPerUser     Int?     // Numero massimo di biglietti acquistabili per utente

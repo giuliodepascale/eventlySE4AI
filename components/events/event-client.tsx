@@ -2,7 +2,7 @@
 
 import React, { Suspense } from "react";
 import { motion } from "framer-motion";
-import { SafeEvent, SafeOrganization } from "@/app/types";
+import { SafeEvent, SafeOrganization, SafeTicketType } from "@/app/types";
 import Image from "next/image";
 import Link from "next/link";
 import { User } from "@prisma/client";
@@ -14,7 +14,7 @@ import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 import Map from "@/components/altre/map";
 import EventList from "./events-list";
-import CheckoutButton from "../altre/checkout";
+import TicketRow from "../typetickets/ticket-row";
 
 
 interface EventClientProps {
@@ -22,6 +22,7 @@ interface EventClientProps {
   event: SafeEvent;
   currentUser?: User | null;
   relatedEventsCategory?: SafeEvent[];
+  ticketTypes?: SafeTicketType[];
 }
 
 const containerVariants = {
@@ -42,7 +43,11 @@ const EventClient: React.FC<EventClientProps> = ({
   event,
   currentUser,
   relatedEventsCategory,
+  ticketTypes,
 }) => {
+
+  console.log(ticketTypes);
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       {/* Container centrato con padding orizzontale reattivo:
@@ -152,12 +157,17 @@ const EventClient: React.FC<EventClientProps> = ({
             </div>
             {/* Bottone Checkout */}
             <motion.div variants={itemVariants} className="mt-6">
-            {currentUser?.id && <CheckoutButton event={event} userId={currentUser.id as string} />}
-      </motion.div>
+  {currentUser?.id && ticketTypes && ticketTypes.length > 0 ? (
+    ticketTypes.map((ticket: SafeTicketType) => (
+      <TicketRow key={ticket.id} typeTicket={ticket} userId={currentUser.id} />
+    ))
+  ) : (
+    <p className="text-gray-500 text-sm">Nessun biglietto disponibile.</p>
+  )}
+</motion.div>
 
-
-                
-              </motion.div>
+        </motion.div>
+           
           </motion.div>
       
 

@@ -17,7 +17,7 @@ export default function CheckoutButton({ event, userId }: CheckoutButtonProps) {
       return;
     }
   
-    if (event.isFree) {
+    if (event.noTickets) {
       alert("Questo evento è gratuito!");
       return;
     }
@@ -48,7 +48,7 @@ export default function CheckoutButton({ event, userId }: CheckoutButtonProps) {
   };
   
 
-  if (event.isFree) return null;
+  if (event.noTickets) return null;
 
   return (
     <button

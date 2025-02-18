@@ -1,8 +1,9 @@
 import { getOrganizationById } from "@/actions/organization";
-import { SafeEvent, SafeOrganization } from "@/app/types";
+import { SafeEvent, SafeOrganization, SafeTicketType } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/events/event-client";
 import { getEventById, getRelatedEventsByCategory } from "@/data/event";
+import { getActiveTicketsByEvent } from "@/data/ticket";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 
@@ -44,15 +45,22 @@ export default async function EventPage({ params }: EventPageProps) {
      }
 
      const relatedEventsCategory = await getRelatedEventsByCategory(event.category, 5, event.id);
-     
-     
 
-    return (
+
+        let ticketTypes = null;
+     if(event.noTickets === false) {
+         ticketTypes = await getActiveTicketsByEvent(event.id);
+     }
+
+    
+
+     return (
                 <EventClient 
                      event={event as SafeEvent}
                      organization={organizer.organization as SafeOrganization}
                      currentUser= {fullUser || null}
                      relatedEventsCategory={relatedEventsCategory}
+                     ticketTypes={ticketTypes as SafeTicketType[]}
                 />
     )
 }

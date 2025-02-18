@@ -30,6 +30,4 @@ export type SearchParams = Promise<{
   
 export type SafeTicketType = Omit<TicketType, "createdAt"> & {
   createdAt: string;
-  // price è Int? nel modello Prisma, quindi lo gestiamo come number | null in TS
-  price: number | null;
 };
