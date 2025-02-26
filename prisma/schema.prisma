@@ -47,6 +47,12 @@ enum OrganizationRole {
   ADMIN_ORGANIZZATORE
   GESTORE
 }
+
+ enum manualStatus {
+  ACTIVE
+  HIDDEN
+  CANCELED
+}
  
 model User {
   id                String              @id @default(cuid())
@@ -84,7 +90,9 @@ model Organization {
   createdAt           DateTime            @default(now())
   imageSrc            String?
   seoUrl              String?
-  stripeAccountId     String?              
+  stripeAccountId     String?
+  ticketingStatus     String              @default("no_stripe")
+               
   // Relazioni con OrganizationUser
   organizationUsers   OrganizationUser[]
 
@@ -137,12 +145,14 @@ model Event {
   regione          String
   latitudine       String
   longitudine      String       
-  noTickets        Boolean       // Non opzionale: deve essere vero o falso
   favoriteCount    Int           @default(0)
   eventDate        DateTime
   indirizzo        String
   organizationId   String
-  seoUrl           String?        
+  seoUrl           String?
+  status           manualStatus       
+  isReservationActive Boolean  
+           
 
   organization    Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
   ticketTypes     TicketType[]

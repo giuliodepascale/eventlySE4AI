@@ -1,5 +1,4 @@
 // actions/organizations.ts
-
 "use server";
 
 import { db } from "@/lib/db";
@@ -190,7 +189,8 @@ export async function getOrganizationById(organizationId: string) {
       createdAt: organization.createdAt.toISOString(),
       imageSrc: organization.imageSrc,
       seoUrl: organization.seoUrl,
-      stripeAccountId: organization.stripeAccountId
+      stripeAccountId: organization.stripeAccountId,
+      ticketingStatus: organization.ticketingStatus,
     };
 
     return { organization: safeOrganization, organizers };
@@ -244,7 +244,8 @@ export async function getOrganizationsByUser(userId: string) {
         createdAt: organization.createdAt.toISOString(),
         imageSrc: organization.imageSrc,
         seoUrl: organization.seoUrl,
-        stripeAccountId: organization.stripeAccountId
+        stripeAccountId: organization.stripeAccountId,
+        ticketingStatus: organization.ticketingStatus,
       };
     });
 
@@ -332,3 +333,7 @@ export async function updateOrganization(
    // Una volta aggiornato, si redirige alla pagina dell'evento
    redirect(`/organization/${updatedOrganization.id}`);
 }
+
+
+
+

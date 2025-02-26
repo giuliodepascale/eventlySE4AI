@@ -73,6 +73,7 @@ export async function POST(req: Request) {
           ticketTypeName: ticketType.name,
         },
         application_fee_amount: Math.round(price * 0.1),
+        description: `Pagamento per l'evento: ${ticketType.event.title}`, // Aggiunge il nome dell'evento
         transfer_data: {
           destination: ticketType.event.organization.stripeAccountId,
         },

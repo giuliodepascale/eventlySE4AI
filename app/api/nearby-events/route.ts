@@ -1,6 +1,7 @@
 // app/api/nearby-events/route.ts
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { manualStatus } from "@prisma/client";
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const toRad = (x: number) => (x * Math.PI) / 180;
@@ -37,6 +38,9 @@ export async function GET(request: Request) {
     AND: [
       ...(category ? [{ category }] : []),
       ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
+      // Filtra solo eventi con status "ACTIVE"
+      { status: manualStatus.ACTIVE },
+      // Filtra eventi con data entro 4 ore dal presente
       { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
     ],
   };

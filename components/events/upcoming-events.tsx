@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import EventList from "@/components/events/events-list";
 import ClientPagination from "@/components/altre/pagination";
 import { User } from "@prisma/client";
-import { getAllEvents } from "@/actions/event";
+import { getAllActiveEvents } from "@/data/event";
 import { SafeEvent } from "@/app/types";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -32,7 +32,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
   // Funzione per il fetch iniziale degli eventi con i filtri applicati
   const fetchInitialEvents = async () => {
     try {
-      const result = await getAllEvents(query, 10, 1, category);
+      const result = await getAllActiveEvents(query, 10, 1, category);
       if (result.events && result.events.length > 0) {
         setDisplayedEvents(result.events);
         if (result.events.length < 10) {
@@ -86,7 +86,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
   const fetchMoreEvents = async () => {
     const newServerPage = serverPage + 1;
     try {
-      const result = await getAllEvents(query, 10, newServerPage, category);
+      const result = await getAllActiveEvents(query, 10, newServerPage, category);
       if (result.events.length > 0) {
         setDisplayedEvents((prev) => [...prev, ...result.events]);
         setServerPage(newServerPage);

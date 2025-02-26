@@ -126,7 +126,8 @@ export const CreateEventSchema = z.object({
     .min(3, "Il titolo deve contenere almeno 3 caratteri")
     .max(50, "Il titolo non può superare i 50 caratteri"),
   eventDate: z.date(), 
-  noTickets: z.boolean(),
+  status: z.enum(["pubblico", "privato"]).default("pubblico"),
+  isReservationActive: z.boolean(),
   eventTime: z.date({required_error: "Il campo orario dell'evento è obbligatorio",}),
   eventDateDay: z.date({required_error: "Il campo data dell'evento è obbligatorio",}).refine(
     (date) => {

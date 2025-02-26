@@ -20,12 +20,13 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     imageSrc,
     category,
     organizationId,
-    noTickets,
     eventDate,
     indirizzo,
     comune,
     provincia,
     regione,
+    status,
+    isReservationActive,
   } = validatedFields.data;
 
   const organizer = await getOrganizationOrganizers(organizationId);
@@ -47,27 +48,31 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
 
   if (!coords.latitude || !coords.longitude) return { error: "Indirizzo non valido" };
 
-  // Convertiamo i numeri in stringa prima di salvarli
+  // Convertiamo i numeri in stringa
   latitudine = coords.latitude.toString() || "";
   longitudine = coords.longitude.toString() || "";
+
+  // Mapping dello status: "pubblico" diventa "ACTIVE", altrimenti "HIDDEN"
+  const mappedStatus = status === "pubblico" ? "ACTIVE" : "HIDDEN";
 
   let newEvent;
   try {
     newEvent = await db.event.create({
       data: {
-        title: title,
-        description: description,
+        title,
+        description,
         imageSrc: finalImageSrc,
-        indirizzo: indirizzo,
-        category: category,
-        eventDate: eventDate,
-        comune: comune,
+        indirizzo,
+        category,
+        eventDate,
+        comune,
         latitudine,
         longitudine,
-        provincia: provincia,
-        regione: regione,
-        organizationId: organizationId,
-        noTickets: noTickets,
+        provincia,
+        regione,
+        organizationId,
+        status: mappedStatus,
+        isReservationActive,
       },
     });
   } catch (error) {
@@ -75,133 +80,10 @@ export async function createEvent(values: z.infer<typeof CreateEventSchema>) {
     return { error: "Errore durante la creazione dell'evento" };
   }
 
-  // Effettua il redirect al di fuori del blocco try...catch
   redirect(`/events/${newEvent.id}`);
 }
 
-export const getAllEvents = async (query = "", limit = 6, page = 1, category = "") => {
-  try {
-    // Calcolo dell'offset per la paginazione
-    const offset = (page - 1) * limit;
 
-    // Creazione della query dinamica per Prisma
-    const filters = {
-      where: {
-        AND: [
-          ...(category ? [{ category: category }] : []),
-          ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
-          // Filtra eventi con data entro 4 ore dal presente
-          { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
-        ],
-      },
-      take: limit,
-      skip: offset,
-      orderBy: {
-        // Ordina per data di creazione, dal più recente
-        eventDate: "asc" as const,
-      },
-    };
-
-    // Eseguo la query con Prisma
-    const events = await db.event.findMany(filters);
-
-    // Conta totale degli eventi per la paginazione
-    const totalEvents = await db.event.count({ where: filters.where });
-
-    return {
-      events: events.map((event) => ({
-        ...event,
-        eventDate: event?.eventDate.toISOString(),
-        createdAt: event?.createdAt.toISOString(),
-      })),
-      pagination: {
-        total: totalEvents,
-        page,
-        limit,
-        totalPages: Math.ceil(totalEvents / limit),
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      events: [],
-      pagination: {
-        total: 0,
-        page,
-        limit,
-        totalPages: 0,
-      },
-    };
-  }
-};
-
-/**
- * Recupera tutti gli eventi associati a una specifica organizzazione.
- *
- * @param organizationId - L'ID dell'organizzazione.
- * @param limit - Numero massimo di eventi da restituire per pagina (default: 6).
- * @param page - Numero di pagina per la paginazione (default: 1).
- * @returns Un oggetto contenente gli eventi e le informazioni di paginazione o un messaggio di errore.
- */
-export const getEventsByOrganization = async (
-  organizationId: string,
-  limit = 6,
-  page = 1
-) => {
-  try {
-    // Validazione dell'ID organizzazione
-    if (!organizationId || typeof organizationId !== "string") {
-      return { error: "ID organizzazione non valido o non fornito." };
-    }
-
-    // Calcolo dell'offset per la paginazione
-    const offset = (page - 1) * limit;
-
-    // Recupero eventi associati all'organizzazione con paginazione
-    const filters = {
-      where: {
-        organizationId: organizationId,
-        // Filtra eventi con data entro 4 ore dal presente
-        eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) },
-      },
-      take: limit,
-      skip: offset,
-      orderBy: {
-        eventDate: "asc" as const,
-      },
-    };
-
-    const events = await db.event.findMany(filters);
-
-    const totalEvents = await db.event.count({ where: filters.where });
-
-    return {
-      events: events.map((event) => ({
-        ...event,
-        eventDate: event.eventDate.toISOString(),
-        createdAt: event.createdAt.toISOString(),
-      })),
-      pagination: {
-        total: totalEvents,
-        page,
-        limit,
-        totalPages: Math.ceil(totalEvents / limit),
-      },
-    };
-  } catch (error) {
-    console.error("Errore nel recuperare gli eventi per l'organizzazione:", error);
-    return {
-      events: [],
-      pagination: {
-        total: 0,
-        page,
-        limit,
-        totalPages: 0,
-      },
-      error: "Errore nel recuperare gli eventi. Riprova più tardi.",
-    };
-  }
-};
 
 export async function updateEvent(
   eventId: string,
@@ -220,12 +102,13 @@ export async function updateEvent(
     imageSrc,
     category,
     organizationId,
-    noTickets,
     eventDate,
     indirizzo,
     comune,
     provincia,
     regione,
+    status,
+    isReservationActive,
   } = validatedFields.data;
 
   // Controlla che l'evento esista
@@ -261,6 +144,9 @@ export async function updateEvent(
   latitudine = coords.latitude.toString() || "";
   longitudine = coords.longitude.toString() || "";
 
+  // Mapping dello status
+  const mappedStatus = status === "pubblico" ? "ACTIVE" : "HIDDEN";
+
   let updatedEvent;
   try {
     updatedEvent = await db.event.update({
@@ -278,7 +164,9 @@ export async function updateEvent(
         provincia,
         regione,
         organizationId,
-        noTickets,
+  
+        isReservationActive,
+        status: mappedStatus,
       },
     });
   } catch (error) {
@@ -286,6 +174,5 @@ export async function updateEvent(
     return { error: "Errore durante l'aggiornamento dell'evento" };
   }
 
-  // Una volta aggiornato, si redirige alla pagina dell'evento
   redirect(`/events/${updatedEvent.id}`);
 }

@@ -3,7 +3,7 @@ import EmptyState from "@/components/altre/empty-state";
 import EventList from "@/components/events/events-list";
 import OrganizationManagement from "@/components/organization/organization-management";
 import { currentUser } from "@/lib/auth";
-import { getEventsByOrganization } from './../../../../../actions/event';
+import { getEventsByOrganization } from "@/data/event";
 import { User } from "@prisma/client";
 import { getUserById } from "@/data/user";
 import StripeAccountButton from "@/components/altre/stripe-button";

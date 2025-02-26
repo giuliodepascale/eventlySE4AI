@@ -122,7 +122,7 @@ const TicketManagement: React.FC<TicketManagementProps> = ({ eventId, ticketType
               <th className="border p-2">Prezzo</th>
               <th className="border p-2">Quantità</th>
               <th className="border p-2">Venduti</th>
-              <th className="border p-2">Attivo</th>
+              <th className="border p-2">Stato</th>
               <th className="border p-2">Azioni</th>
             </tr>
           </thead>

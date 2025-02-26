@@ -122,6 +122,10 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
     }));
   }, [selectedProvince]);
 
+  const nowplusone = new Date();
+  nowplusone.setMinutes(0, 0, 0); // Imposta i minuti a 00 e azzera secondi e millisecondi
+  nowplusone.setDate(nowplusone.getDate() + 1);
+
   async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
     let uploadedImageUrl = defaultImageSrc;
 
@@ -168,7 +172,8 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
 
   const form = useForm<z.infer<typeof CreateEventSchema>>({
     resolver: zodResolver(CreateEventSchema),
-
+  
+    
     defaultValues:
       event && type === "update"
         ? {
@@ -186,9 +191,11 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
             eventDateDay: new Date(event.eventDate),
             eventTime: new Date(event.eventDate),
             organizationId: event.organizationId,
-            noTickets: event.noTickets,
+            isReservationActive: event.isReservationActive,
+            status: event.status === "ACTIVE" ? "pubblico" : "privato",
           }
         : {
+          
             title: "",
             description: "",
             imageSrc: "",
@@ -197,11 +204,12 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
             comune: organization.comune || "",
             provincia: organization.provincia || "",
             regione: organization.regione || "",
-            eventDate: new Date(),
-            eventDateDay: new Date(), // nuovo default
-            eventTime: new Date(), // nuovo default
+            eventDate:nowplusone,
+            eventDateDay: nowplusone, // nuovo default
+            eventTime: nowplusone, // nuovo default
             organizationId: organization.id,
-            noTickets: true,
+            isReservationActive: true,
+            status: "pubblico",
           },
   });
 
@@ -376,11 +384,11 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
             <div className="flex items-center gap-6">
               <FormField
                 control={form.control}
-                name="noTickets"
+                name="isReservationActive"
                 render={({ field }) => (
                   <FormItem className="flex items-center">
                     <FormLabel className="mr-4">
-                      Evento libero, nessuna prenotazione o biglietto
+                      Prenotazione evento disponibile
                     </FormLabel>
                     <FormControl>
                       <Checkbox
@@ -394,6 +402,27 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
                 )}
               />
             </div>
+            <FormField
+              control={form.control}
+              name="status"
+               render={({ field }) => (
+            <FormItem>
+                <FormLabel>Stato</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+           <FormControl>
+              <SelectTrigger>
+                 <SelectValue placeholder="Seleziona lo stato" />
+               </SelectTrigger>
+           </FormControl>
+         <SelectContent>
+          <SelectItem value="pubblico">Pubblico</SelectItem>
+          <SelectItem value="privato">Privato</SelectItem>
+        </SelectContent>
+        </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
             {/* REGIONE */}
             <FormField

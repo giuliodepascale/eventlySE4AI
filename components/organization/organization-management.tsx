@@ -6,6 +6,7 @@ import React from "react";
 
 import { SafeOrganization } from "@/app/types";
 import Link from "next/link";
+import OrganizationTicketingStatus from "./organization-ticketing-status";
 
 interface OrgnizationManagementProps {
   organization: SafeOrganization;
@@ -13,10 +14,13 @@ interface OrgnizationManagementProps {
 
 const OrgnizationManagement: React.FC<OrgnizationManagementProps> = ({  organization}) => {
   return (
+    <>
     <Link href={`/events/crea/${organization.id}`}>
-    Crea Evento
+      Crea Evento
     </Link>
-  
+    
+    <OrganizationTicketingStatus ticketingStatus={organization.ticketingStatus} />
+    </>
   );
 };
 
