@@ -1,42 +1,61 @@
-// app/api/stripe/webhook/route.ts
 import { updateOrganizationTicketingStatus } from '@/lib/stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Inizializza l'istanza di Stripe con la chiave segreta
+// Inizializza Stripe con la versione API corretta
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
+  console.log("🔵 Webhook ricevuto!");
+
   const sig = req.headers.get('stripe-signature');
 
   if (!sig) {
-    return NextResponse.json({ error: 'Firma di Stripe mancante' }, { status: 400 });
+    console.error("❌ Errore: Firma Stripe mancante!");
+    return new NextResponse("Firma di Stripe mancante", { status: 400 });
   }
 
   let event: Stripe.Event;
 
   try {
-    // Ottieni il corpo raw della richiesta come testo
+    // Ottieni il corpo raw della richiesta
     const rawBody = await req.text();
+    console.log("📝 Corpo ricevuto: ", rawBody);
 
-    // Verifica e costruisci l'evento utilizzando la firma e il corpo raw
+    // Verifica il webhook con la firma segreta
     event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET!);
-  } catch (err) {
-    console.error('Errore nella costruzione dell\'evento webhook di Stripe:', err);
-    return NextResponse.json({ error: 'Errore nella costruzione dell\'evento webhook' }, { status: 400 });
+  } catch {
+    console.error("❌ Webhook Error:");
+    return new NextResponse(`Webhook Error: `, { status: 400 });
   }
 
-  // Gestisci l'evento specifico
+  console.log(`✅ Evento ricevuto da Stripe: ${event.type}`);
+
   if (event.type === 'account.updated') {
     const account = event.data.object as Stripe.Account;
 
-    // Verifica se l'account è completamente verificato
-    if (account.charges_enabled && account.payouts_enabled) {
-      // Chiama la funzione per aggiornare lo stato del ticketing dell'organizzazione
-      await updateOrganizationTicketingStatus(account.id);
+    console.log(`🔄 Account aggiornato: ${account.id}`);
+    console.log(`✅ Charges Enabled: ${account.charges_enabled}`);
+    console.log(`✅ Payouts Enabled: ${account.payouts_enabled}`);
+    console.log(`✅ Details Submitted: ${account.details_submitted}`);
+    console.log(`✅ Disabled Reason: ${account.requirements?.disabled_reason}`);
+
+    let newStatus = "pending"; // Stato predefinito
+
+    if (account.charges_enabled && account.payouts_enabled && account.details_submitted) {
+      newStatus = "active"; // L'account è completamente verificato
+    } else if (!account.details_submitted) {
+      newStatus = "pending"; // L'utente non ha inviato tutti i dati
+    } else if (account.requirements?.disabled_reason) {
+      newStatus = "restricted"; // Stripe ha disabilitato il conto per qualche problema
+    } else {
+      newStatus = "pending_review"; // Lo stato è in revisione
     }
+
+    console.log(`🔵 Nuovo stato determinato: ${newStatus}`);
+    await updateOrganizationTicketingStatus(account.id, newStatus);
   }
 
-  // Rispondi a Stripe per confermare la ricezione dell'evento
-  return NextResponse.json({ received: true });
+  console.log("✅ Webhook gestito con successo!");
+  return new NextResponse(JSON.stringify({ received: true }), { status: 200 });
 }
