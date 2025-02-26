@@ -124,10 +124,7 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
           <DateFormatter dateISO={data.eventDate} showDayName/>
         </div>
 
-        {/* Prezzo o ingresso libero */}
-        <div className="text-base font-semibold">
-          {data.noTickets ? "Ingresso libero" : `€ Inserire prezzo`}
-        </div>
+       
         {data.distance !== undefined && (
             <div className="text-sm text-gray-500 mt-1">
               Distanza: {data.distance.toFixed(2)} km

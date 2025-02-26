@@ -48,9 +48,9 @@ export default async function EventPage({ params }: EventPageProps) {
 
 
         let ticketTypes = null;
-     if(event.noTickets === false) {
+     
          ticketTypes = await getActiveTicketsByEvent(event.id);
-     }
+   
 
     
 

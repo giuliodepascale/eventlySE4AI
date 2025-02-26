@@ -100,11 +100,7 @@ const EventClient: React.FC<EventClientProps> = ({
                 variants={itemVariants}
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-4"
               >
-                <span
-                  className="px-4 py-2 rounded-full font-semibold bg-green-100 text-green-700"
-                >
-                  {event.noTickets ? "Ingresso libero" : `€  Inserire prezzo `}
-                </span>
+                
                 <Link
                   href={`/?category=${event.category}`}
                   className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition duration-300"

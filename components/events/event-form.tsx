@@ -380,7 +380,7 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Check noTickets */}
+            {/* Check isReservationActive */}
             <div className="flex items-center gap-6">
               <FormField
                 control={form.control}

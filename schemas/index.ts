@@ -190,7 +190,7 @@ export const CreateTicketTypeSchema = z.object({
   description: z.string().optional(),
   price: z.preprocess(
     (val) => (typeof val === "string" ? parseFloat(val) : val),
-    z.number().nonnegative().optional()
+    z.number().nonnegative()
   ),
   quantity: z.preprocess(
     (val) => (typeof val === "string" ? parseInt(val) : val),
