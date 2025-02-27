@@ -1,58 +1,71 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { DEFAULT_LOGIN_REDIRECT, apiAuthPrefix, authRoutes, publicRoutes } from "@/routes";
+import { NextResponse } from 'next/server'
+import authConfig from "@/auth.config"
+import NextAuth from "next-auth"
+import { DEFAULT_LOGIN_REDIRECT, apiAuthPrefix, authRoutes, publicRoutes } from "@/routes"
 
-// Middleware principale
-export function middleware(req: NextRequest) {
+const { auth } = NextAuth(authConfig)
+ 
+export default auth(async (req) => {
   const { nextUrl } = req;
   console.log("🔍 Middleware attivato per:", nextUrl.pathname);
 
-  // ✅ Escludi completamente il webhook Stripe
-  if (nextUrl.pathname.includes("/api/stripe/webhook")) {
-    console.log("✅ Webhook Stripe escluso dal middleware!");
+  if (nextUrl.pathname.includes("/api/stripe/webhook")){
+    console.log("✅ Webhook escluso dal middleware!");
     return NextResponse.next();
   }
 
   console.log("🚨 Middleware in azione su:", nextUrl.pathname);
 
+
+
+  const isLoggedIn = !!req.auth;
+
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  // Gestione delle rotte API di autenticazione
+  
+
   if (isApiAuthRoute) {
     return NextResponse.next();
   }
 
-  // Gestione delle rotte di autenticazione
   if (isAuthRoute) {
-    return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.url));
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL(DEFAULT_LOGIN_REDIRECT, req.url));
+    }
+    return NextResponse.next();
   }
 
-  // Controllo se l'utente è autenticato
-  const isLoggedIn = !!req.cookies.get("authToken");
-
-  // Se la rotta è privata e l'utente non è loggato, reindirizzalo al login
   if (!isLoggedIn && !isPublicRoute) {
+
     let callbackUrl = nextUrl.pathname;
-    if (nextUrl.search) {
+    if(nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    const loginUrl = `/auth/login?callbackUrl=${encodedCallbackUrl}`;
+    const loginUrl = `/auth/login?callbackUrl=${encodedCallbackUrl}`
 
     return NextResponse.redirect(new URL(loginUrl, nextUrl));
   }
 
-  return NextResponse.next();
-}
+  const url = req.nextUrl.pathname;
 
-// ✅ Configurazione del matcher per escludere `/api/stripe/webhook`
+  // Verifica se l'URL termina con sitemap.xml
+  if (url.endsWith('sitemap.xml')) {
+    const response = NextResponse.next();
+    response.headers.set('Content-Type', 'application/xml');
+    return response;
+  }
+
+  return NextResponse.next();
+});
+
 export const config = {
   matcher: [
-    "/((?!api/stripe/webhook$).*)", // Esclude esattamente /api/stripe/webhook
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-    "/(api|trpc)(.*)",
+    "/((?!api/stripe/webhook).*)",
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
   ],
-};
+}
