@@ -13,6 +13,11 @@ export default auth(async (req) => {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+  // 🚨 Escludi completamente il webhook dal middleware
+  if (nextUrl.pathname.startsWith("/api/stripe/webhook")) {
+    return NextResponse.next();
+  }
+
   if (isApiAuthRoute) {
     return NextResponse.next();
   }
@@ -52,6 +57,6 @@ export default auth(async (req) => {
 export const config = {
   matcher: [
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)', "/((?!api/stripe/webhook).*)",
+    '/(api|trpc)(.*)',
   ],
 }
