@@ -1,3 +1,5 @@
+"use server"
+
 import { updateOrganizationTicketingStatus } from '@/lib/stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
