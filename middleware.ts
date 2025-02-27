@@ -9,7 +9,7 @@ export default auth(async (req) => {
   const { nextUrl } = req;
   console.log("🔍 Middleware attivato per:", nextUrl.pathname);
 
-  if (nextUrl.pathname === "/api/stripe/webhook") {
+  if (nextUrl.pathname.includes("/api/stripe/webhook")){
     console.log("✅ Webhook escluso dal middleware!");
     return NextResponse.next();
   }
@@ -18,7 +18,7 @@ export default auth(async (req) => {
 
   return NextResponse.next();
 
-  
+
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
