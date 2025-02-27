@@ -4,6 +4,8 @@ import { updateOrganizationTicketingStatus } from '@/lib/stripe';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
+export const dynamic = "force-dynamic";
+
 // Inizializza Stripe con la versione API corretta
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
