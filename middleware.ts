@@ -7,12 +7,18 @@ const { auth } = NextAuth(authConfig)
  
 export default auth(async (req) => {
   const { nextUrl } = req;
+  console.log("🔍 Middleware attivato per:", nextUrl.pathname);
 
-  // 🚨 Escludi completamente il webhook dal middleware
-  if (nextUrl.pathname.startsWith("/api/stripe/webhook")) {
+  if (nextUrl.pathname === "/api/stripe/webhook") {
+    console.log("✅ Webhook escluso dal middleware!");
     return NextResponse.next();
   }
 
+  console.log("🚨 Middleware in azione su:", nextUrl.pathname);
+
+  return NextResponse.next();
+
+  
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -59,6 +65,7 @@ export default auth(async (req) => {
 
 export const config = {
   matcher: [
+    "/((?!api/stripe/webhook).*)",
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',
   ],
