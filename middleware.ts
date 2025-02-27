@@ -7,16 +7,19 @@ const { auth } = NextAuth(authConfig)
  
 export default auth(async (req) => {
   const { nextUrl } = req;
+
+  // 🚨 Escludi completamente il webhook dal middleware
+  if (nextUrl.pathname.startsWith("/api/stripe/webhook")) {
+    return NextResponse.next();
+  }
+
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  // 🚨 Escludi completamente il webhook dal middleware
-  if (nextUrl.pathname.startsWith("/api/stripe/webhook")) {
-    return NextResponse.next();
-  }
+  
 
   if (isApiAuthRoute) {
     return NextResponse.next();
