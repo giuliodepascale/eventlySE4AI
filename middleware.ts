@@ -16,7 +16,6 @@ export default auth(async (req) => {
 
   console.log("🚨 Middleware in azione su:", nextUrl.pathname);
 
-  return NextResponse.next();
 
 
   const isLoggedIn = !!req.auth;
