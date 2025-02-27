@@ -82,7 +82,7 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
       const { pathname } = request.nextUrl;
 
       // ✅ Escludi il webhook di Stripe da NextAuth
-      if (pathname.startsWith("/api/stripe/webhook")) {
+      if (pathname.includes("/api/stripe/webhook")) {
         console.log("✅ Webhook Stripe escluso da NextAuth!");
         return true;
       }
