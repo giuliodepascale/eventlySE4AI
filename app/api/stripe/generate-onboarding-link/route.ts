@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     // Creiamo un link di onboarding per completare la verifica
     const accountLink = await stripe.accountLinks.create({
       account: organization.stripeAccountId,
-      refresh_url: "https://eventlyitalia.com/",  // URL se qualcosa va storto
-      return_url: "https://eventlyitalia.com/", // Dove tornare dopo la verifica
+      refresh_url: "https://eventlyitalia.com",  // URL se qualcosa va storto
+      return_url: "https://eventlyitalia.com", // Dove tornare dopo la verifica
       type: "account_onboarding",
     });
 
