@@ -9,7 +9,7 @@ import { User } from "@prisma/client";
 import DateFormatter from "@/components/altre/date-formatter";
 import { FcCalendar } from "react-icons/fc";
 import { CiLocationOn } from "react-icons/ci";
-import { FaPen } from "react-icons/fa6";
+import { FaInstagram, FaPen } from "react-icons/fa6";
 import HeartButton from "@/components/altre/heart-button";
 import Loader from "../loader";
 import Map from "@/components/altre/map";
@@ -174,6 +174,17 @@ const EventClient: React.FC<EventClientProps> = ({
         >
           <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization.name}`} />
         </motion.div>
+
+        <motion.div variants={itemVariants} className="mt-6">
+  <Link
+    href={`/instagram-story/${event.id}`}
+    className="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 hover:scale-105"
+  >
+    <FaInstagram size={20} />
+    Genera Storia Instagram
+  </Link>
+  </motion.div>
+
 
         {/* Sezione EventList: Eventi correlati */}
         <motion.section
