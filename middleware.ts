@@ -34,7 +34,6 @@ export default auth(async (req) => {
     if(nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
-
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
     const loginUrl = `/auth/login?callbackUrl=${encodedCallbackUrl}`
 
