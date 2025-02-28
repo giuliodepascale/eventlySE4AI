@@ -3,12 +3,21 @@ import { db } from "./db";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-export async function updateOrganizationTicketingStatus(organizationId: string, status: string) {
-  const organization = await db.organization.findUnique({
-    where: { id: organizationId },
+export async function updateOrganizationTicketingStatus(stripeId: string, status: string) {
+  // 🔍 Trova l'organizzazione collegata all'account Stripe
+  const organization = await db.organization.findFirst({
+    where: { stripeAccountId: stripeId },
   });
 
-  if (!organization) throw new Error("Organizzazione non trovata.");
+  if (!organization) {
+    console.error(`❌ Organizzazione non trovata per Stripe ID: ${stripeId}`);
+    throw new Error("Organizzazione non trovata.");
+  }
+
+  // ✅ Prendi l'ID dell'organizzazione corretta
+  const organizationId = organization.id;
+
+  // 🔹 Se non c'è uno Stripe ID, assegna stato "no_stripe"
   if (!organization.stripeAccountId) {
     await db.organization.update({
       where: { id: organizationId },
@@ -17,12 +26,12 @@ export async function updateOrganizationTicketingStatus(organizationId: string, 
     return "no_stripe";
   }
 
-  // Aggiorna lo stato nel database con il valore ricevuto dal webhook
+  // ✅ Aggiorna lo stato nel database
   await db.organization.update({
     where: { id: organizationId },
     data: { ticketingStatus: status },
   });
 
-  console.log(`✅ Stato aggiornato per ${organizationId}: ${status}`);
+  console.log(`✅ Stato aggiornato per Organization ID ${organizationId}: ${status}`);
   return status;
 }
