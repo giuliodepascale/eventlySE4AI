@@ -9,15 +9,6 @@ export default auth(async (req) => {
   const { nextUrl } = req;
   console.log("🔍 Middleware attivato per:", nextUrl.pathname);
 
-  if (nextUrl.pathname.includes("/api/stripe/webhook")){
-    console.log("✅ Webhook escluso dal middleware!");
-    return NextResponse.next();
-  }
-
-  console.log("🚨 Middleware in azione su:", nextUrl.pathname);
-
-
-
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -50,21 +41,11 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL(loginUrl, nextUrl));
   }
 
-  const url = req.nextUrl.pathname;
-
-  // Verifica se l'URL termina con sitemap.xml
-  if (url.endsWith('sitemap.xml')) {
-    const response = NextResponse.next();
-    response.headers.set('Content-Type', 'application/xml');
-    return response;
-  }
-
   return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    "/((?!api/stripe/webhook).*)",
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     '/(api|trpc)(.*)',
   ],

@@ -56,9 +56,6 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
      return session;
    },
     async jwt({ token }) { //tutto parte da qui, poi il token viene mandato alla sessione
-      if (token.sub && token.email?.includes("stripe")) {
-        return token;
-      }
       if(!token.sub){
       return token;
       }
@@ -77,19 +74,8 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
       
 
       return token; 
-    },
-    async authorized({ request }) {
-      const { pathname } = request.nextUrl;
-
-      // ✅ Escludi il webhook di Stripe da NextAuth
-      if (pathname.includes("/api/stripe/webhook")) {
-        console.log("✅ Webhook Stripe escluso da NextAuth!");
-        return true;
-      }
-
-      return false;
     }
-
+    
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
