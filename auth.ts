@@ -76,19 +76,6 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
 
       return token; 
     },
-    async redirect({ url, baseUrl }) {
-      // Se viene passato un parametro "callback", significa che il login viene da Expo
-      const callbackUrl = new URL(url, baseUrl);
-      const deepLink = callbackUrl.searchParams.get("callback");
-
-      if (deepLink) {
-        return deepLink;
-      }
-
-      return baseUrl;
-    },
-  
-    
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
