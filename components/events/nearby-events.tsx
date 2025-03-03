@@ -1,4 +1,3 @@
-// components/events/NearbyEvents.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,18 +9,16 @@ import ClientPagination from "@/components/altre/pagination";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
- // Importa il componente
-
 interface NearbyEventsProps {
+  userCoords: { lat: number; lng: number } | null;
   currentUser?: User | null;
 }
 
-const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
+const NearbyEvents: React.FC<NearbyEventsProps> = ({ userCoords, currentUser }) => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
   const query = searchParams.get("query") || "";
 
-  const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [nearbyEvents, setNearbyEvents] = useState<SafeNearbyEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [pageNearby, setPageNearby] = useState<number>(1);
@@ -29,52 +26,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
 
-   // Ascolta i messaggi inviati dalla WebView e salva le coordinate nel localStorage
-   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      console.log("Messaggio ricevuto dalla WebView:", event.data);
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === "location" && data.coords) {
-          console.log("Coordinate ricevute e salvate:", data.coords);
-          localStorage.setItem("userCoords", JSON.stringify(data.coords)); // Salva le coordinate nel localStorage
-          setUserCoords(data.coords);
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error("Errore nel parsing del messaggio:", error);
-      }
-    };
-
-    window.addEventListener("message", handleMessage);
-
-    // Al mount, prova a recuperare le coordinate dal localStorage
-    const savedCoords = localStorage.getItem("userCoords");
-    if (savedCoords) {
-      setUserCoords(JSON.parse(savedCoords));
-      setLoading(false);
-    }
-
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
-
-  // Se le coordinate non arrivano, usa navigator.geolocation
-  useEffect(() => {
-    if (!userCoords && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          console.log("Coordinate da geolocation:", { lat: latitude, lng: longitude });
-          setUserCoords({ lat: latitude, lng: longitude });
-          localStorage.setItem("userCoords", JSON.stringify({ lat: latitude, lng: longitude }));
-          setLoading(false);
-        },
-        () => setLoading(false)
-      );
-    }
-  }, [userCoords]);
-
-  // Ricarica gli eventi quando le coordinate o i filtri cambiano
+  // Carica gli eventi solo quando le coordinate sono disponibili
   useEffect(() => {
     if (userCoords) {
       setNearbyEvents([]);
@@ -105,9 +57,9 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     }
   }, [userCoords, category, query]);
 
-  if (loading) return null;
+  if (loading) return <div>Caricamento eventi vicini...</div>;
   if (!userCoords) return <div>Coordinate non disponibili.</div>;
-  if (!nearbyEvents || nearbyEvents.length === 0)
+  if (!nearbyEvents.length)
     return (
       <>
         <div>Nessun evento trovato.</div>
@@ -151,7 +103,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
         key={pageNearby}
         className="pt-5 animate-slideIn grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8"
       >
-        <EventList events={paginatedEvents} currentUser={currentUser as User} />
+        <EventList events={paginatedEvents} currentUser={currentUser as User } />
       </div>
       <ClientPagination totalPages={totalPages} page={pageNearby} setPage={setPageNearby} />
       {nearbyEvents.length >= eventsPerPage && (
