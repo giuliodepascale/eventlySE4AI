@@ -9,7 +9,7 @@ import { User } from "@prisma/client";
 import ClientPagination from "@/components/altre/pagination";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import RequestLocation from "../location/request-location";
+
  // Importa il componente
 
 interface NearbyEventsProps {
@@ -135,8 +135,6 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
 
   return (
     <div>
-      {/* Inserisci il componente che invia la richiesta di posizione */}
-      <RequestLocation />
       <div
         key={pageNearby}
         className="pt-5 animate-slideIn grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8"
