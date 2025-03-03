@@ -8,13 +8,13 @@ import { User } from "@prisma/client";
 import ClientPagination from "@/components/altre/pagination";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import useLocation from "@/hooks/use-location";
 
 interface NearbyEventsProps {
-  userCoords: { lat: number; lng: number } | null;
   currentUser?: User | null;
 }
 
-const NearbyEvents: React.FC<NearbyEventsProps> = ({ userCoords, currentUser }) => {
+const NearbyEvents: React.FC<NearbyEventsProps> = ({  currentUser }) => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
   const query = searchParams.get("query") || "";
@@ -25,6 +25,8 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ userCoords, currentUser }) 
   const [serverPage, setServerPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
+
+  const { userCoords } = useLocation();
 
   // Carica gli eventi solo quando le coordinate sono disponibili
   useEffect(() => {
