@@ -15,6 +15,7 @@ import Loader from "../loader";
 import Map from "@/components/altre/map";
 import EventList from "./events-list";
 import TicketRow from "../typetickets/ticket-row";
+import PrenotaOraButton from "./prenotazione/prenota-button";
 
 
 interface EventClientProps {
@@ -23,6 +24,7 @@ interface EventClientProps {
   currentUser?: User | null;
   relatedEventsCategory?: SafeEvent[];
   ticketTypes?: SafeTicketType[];
+  reservationId?: string
 }
 
 const containerVariants = {
@@ -44,6 +46,7 @@ const EventClient: React.FC<EventClientProps> = ({
   currentUser,
   relatedEventsCategory,
   ticketTypes,
+  reservationId
 }) => {
 
   console.log(ticketTypes);
@@ -161,6 +164,18 @@ const EventClient: React.FC<EventClientProps> = ({
     <p className="text-gray-500 text-sm">Nessun biglietto disponibile.</p>
   )}
 </motion.div>
+
+{event.isReservationActive && (
+        reservationId ? (
+          <Link href={`/prenotazione/${reservationId}`}>
+            <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
+              Vai alla tua prenotazione
+            </button>
+          </Link>
+        ) : (
+          <PrenotaOraButton eventId={event.id} userId={currentUser?.id || ""} />
+        )
+      )}
 
         </motion.div>
            

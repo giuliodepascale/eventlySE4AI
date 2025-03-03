@@ -8,6 +8,8 @@ import Search from "./search";
 import UserMenu from "./user-menu";
 import { usePathname } from "next/navigation";
 import Categories from "./categories";
+import { FcHome } from "react-icons/fc";
+import Link from "next/link";
 
 //la navbar non è responsive per ora (non è lo scopo del tutotrial auth)
 
@@ -35,6 +37,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         md:gap-0
         ">
          <Logo />
+         
+         <Link href={"/"} className="block md:hidden">
+         <FcHome size={25}></FcHome>
+         </Link>
          {pathname === '/' && (<Search/>)}
          { // crea spazio per schermo responsive anche senza funzionalità ricerca
          pathname !== '/' && (<div className="w-full md:w-auto"> </div>)}

@@ -3,6 +3,7 @@ import { SafeEvent, SafeOrganization, SafeTicketType } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/events/event-client";
 import { getEventById, getRelatedEventsByCategory } from "@/data/event";
+import { hasUserReservation } from "@/data/prenotazione";
 import { getActiveTicketsByEvent } from "@/data/ticket";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
@@ -52,6 +53,13 @@ export default async function EventPage({ params }: EventPageProps) {
          ticketTypes = await getActiveTicketsByEvent(event.id);
    
 
+         let reservationId: string | null = null;
+     
+         if (event.isReservationActive && fullUser?.id) {
+            reservationId = await hasUserReservation(fullUser.id, event.id);
+          }
+       
+     
     
 
      return (
@@ -61,6 +69,7 @@ export default async function EventPage({ params }: EventPageProps) {
                      currentUser= {fullUser || null}
                      relatedEventsCategory={relatedEventsCategory}
                      ticketTypes={ticketTypes as SafeTicketType[]}
+                     reservationId={reservationId || undefined}
                 />
     )
 }

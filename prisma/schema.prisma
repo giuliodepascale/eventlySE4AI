@@ -68,7 +68,8 @@ model User {
   favoriteIds       String[]
   accounts          Account[]
   orders            Order[]              // Un utente ha ordini (biglietti acquistati)
-  tickets           Ticket[]             // Biglietti posseduti dall'utente
+  tickets           Ticket[]
+  prenotazioni      Prenotazione[]       
 
   @@map("users")
   OrganizationUser OrganizationUser[]
@@ -158,6 +159,7 @@ model Event {
   ticketTypes     TicketType[]
   orders          Order[]
   tickets         Ticket[]
+  prenotazioni         Prenotazione[] @relation("PrenotazioneOnEvent")
 
   @@map("events")
 }
@@ -225,3 +227,15 @@ model Ticket {
   @@map("tickets")
 }
 
+model Prenotazione {
+  id         String   @id @default(cuid())
+  eventId    String
+  userId     String
+  reservedAt DateTime @default(now())
+  qrCode     String   @unique  // Campo per memorizzare il codice univoco (che poi servirà a generare il QR)
+
+  event      Event    @relation("PrenotazioneOnEvent", fields: [eventId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@map("prenotazioni")
+}
