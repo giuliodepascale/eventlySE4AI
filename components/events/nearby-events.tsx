@@ -9,6 +9,8 @@ import { User } from "@prisma/client";
 import ClientPagination from "@/components/altre/pagination";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import RequestLocation from "../location/request-location";
+
 
 interface NearbyEventsProps {
   currentUser?: User | null;
@@ -27,9 +29,10 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
 
-  // 1. Ascolta i messaggi inviati dall'app (da Expo WebView)
+  // Ascolta i messaggi inviati dall'app Expo
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
+      console.log("Messaggio ricevuto dalla WebView:", event.data);
       try {
         const data = JSON.parse(event.data);
         if (data.type === 'location' && data.coords) {
@@ -45,7 +48,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  // 2. Fallback: se non abbiamo ricevuto coordinate tramite postMessage, usa navigator.geolocation
+  // Fallback: usa navigator.geolocation se non ricevi coordinate
   useEffect(() => {
     if (!userCoords && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -59,10 +62,9 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     }
   }, [userCoords]);
 
-  // Quando i filtri (query o category) cambiano, resettiamo la paginazione e ricarichiamo gli eventi
+  // Quando i filtri cambiano, resettiamo la paginazione e ricarichiamo gli eventi
   useEffect(() => {
     if (userCoords) {
-      // Reset di tutti gli stati di paginazione e caricamento
       setNearbyEvents([]);
       setPageNearby(1);
       setServerPage(1);
@@ -105,12 +107,10 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
       </>
     );
 
-  // Paginazione locale: seleziona gli eventi per la pagina corrente
   const startIndex = (pageNearby - 1) * eventsPerPage;
   const paginatedEvents = nearbyEvents.slice(startIndex, startIndex + eventsPerPage);
   const totalPages = Math.ceil(nearbyEvents.length / eventsPerPage);
 
-  // Funzione per caricare altri eventi dal server
   const fetchMoreEvents = async () => {
     const newServerPage = serverPage + 1;
     const url = `/api/nearby-events?lat=${userCoords.lat}&lng=${userCoords.lng}&category=${encodeURIComponent(
@@ -135,6 +135,8 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
 
   return (
     <div>
+      {/* Inserisci il componente che invia la richiesta di posizione */}
+      <RequestLocation />
       <div
         key={pageNearby}
         className="pt-5 animate-slideIn grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8"
