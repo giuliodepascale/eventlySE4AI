@@ -10,7 +10,7 @@ import ClientPagination from "@/components/altre/pagination";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import RequestLocation from "../location/request-location";
-
+ // Importa il componente
 
 interface NearbyEventsProps {
   currentUser?: User | null;
@@ -29,7 +29,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
 
-  // Ascolta i messaggi inviati dall'app Expo
+  // Ascolta i messaggi inviati dalla WebView (dall'app Expo)
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       console.log("Messaggio ricevuto dalla WebView:", event.data);
@@ -48,7 +48,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  // Fallback: usa navigator.geolocation se non ricevi coordinate
+  // Fallback: se non riceviamo coordinate, usa navigator.geolocation
   useEffect(() => {
     if (!userCoords && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -62,7 +62,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     }
   }, [userCoords]);
 
-  // Quando i filtri cambiano, resettiamo la paginazione e ricarichiamo gli eventi
+  // Ricarica gli eventi quando le coordinate o i filtri cambiano
   useEffect(() => {
     if (userCoords) {
       setNearbyEvents([]);

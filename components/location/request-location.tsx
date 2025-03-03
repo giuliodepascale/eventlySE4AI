@@ -3,7 +3,7 @@
 
 import { useEffect } from "react";
 
-// Estendi l'interfaccia globale per dichiarare la proprietà ReactNativeWebView
+// Estendiamo l'interfaccia globale per TypeScript
 declare global {
   interface Window {
     ReactNativeWebView?: {
@@ -14,6 +14,7 @@ declare global {
 
 const RequestLocation = () => {
   useEffect(() => {
+    // Controlla se siamo all'interno di una WebView di React Native
     if (
       window.ReactNativeWebView &&
       typeof window.ReactNativeWebView.postMessage === "function"
@@ -23,7 +24,7 @@ const RequestLocation = () => {
         JSON.stringify({ type: "request-location" })
       );
     } else {
-      console.log("ReactNativeWebView non disponibile");
+      console.log("ReactNativeWebView non disponibile nella pagina web");
     }
   }, []);
 
