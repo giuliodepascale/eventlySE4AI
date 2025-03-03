@@ -7,7 +7,6 @@ const { auth } = NextAuth(authConfig)
  
 export default auth(async (req) => {
   const { nextUrl } = req;
-  console.log("🔍 Middleware attivato per:", nextUrl.pathname);
 
   const isLoggedIn = !!req.auth;
 

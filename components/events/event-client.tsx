@@ -49,7 +49,6 @@ const EventClient: React.FC<EventClientProps> = ({
   reservationId
 }) => {
 
-  console.log(ticketTypes);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -156,13 +155,11 @@ const EventClient: React.FC<EventClientProps> = ({
             </div>
             {/* Bottone Checkout */}
             <motion.div variants={itemVariants} className="mt-6">
-  {currentUser?.id && ticketTypes && ticketTypes.length > 0 ? (
+  {currentUser?.id && ticketTypes && ticketTypes.length > 0 && (
     ticketTypes.map((ticket: SafeTicketType) => (
       <TicketRow key={ticket.id} typeTicket={ticket} userId={currentUser.id} />
-    ))
-  ) : (
-    <p className="text-gray-500 text-sm">Nessun biglietto disponibile.</p>
-  )}
+    )))
+  }
 </motion.div>
 
 {event.isReservationActive && (

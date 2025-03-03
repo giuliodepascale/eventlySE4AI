@@ -6,7 +6,7 @@ import { getUserById } from "@/data/user";
 import BookingDetails from "@/components/events/prenotazione/prenotazione-client";
 
 interface BookingPageProps {
-    params: { [key: string]: string | string[] | undefined };
+    params: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export default async function BookingPage({ params }: BookingPageProps) {
