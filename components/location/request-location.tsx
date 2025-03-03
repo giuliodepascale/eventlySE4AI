@@ -1,4 +1,4 @@
-// components/RequestLocation.tsx
+
 "use client";
 
 import { useEffect } from "react";
@@ -13,22 +13,29 @@ declare global {
 }
 
 const RequestLocation = () => {
-  useEffect(() => {
-    // Controlla se siamo all'interno di una WebView di React Native
-    if (
-      window.ReactNativeWebView &&
-      typeof window.ReactNativeWebView.postMessage === "function"
-    ) {
-      console.log("Invio richiesta di posizione dalla pagina web");
+  const sendRequest = () => {
+    if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === "function") {
+      console.log("Invio richiesta di posizione dalla pagina web tramite bottone");
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ type: "request-location" })
       );
     } else {
       console.log("ReactNativeWebView non disponibile nella pagina web");
     }
+  };
+
+  useEffect(() => {
+    console.log("RequestLocation montato");
+    // Prova a inviare subito la richiesta all'avvio (opzionale)
+    sendRequest();
   }, []);
 
-  return null;
+  return (
+    <div style={{ padding: "10px", background: "#f9f9f9", textAlign: "center" }}>
+      <p>Premi il bottone per richiedere la posizione:</p>
+      <button onClick={sendRequest}>Richiedi Posizione</button>
+    </div>
+  );
 };
 
 export default RequestLocation;
