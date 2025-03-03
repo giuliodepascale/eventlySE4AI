@@ -9,6 +9,7 @@ import NearbyEvents from "@/components/events/nearby-events";
 import UpcomingEvents from "@/components/events/upcoming-events";
 import Section from "@/components/events/section";
 import IpNearbyEvents from "@/components/events/ip-nearby-events";
+import RequestLocation from "@/components/location/request-location";
 
 
 
@@ -31,6 +32,7 @@ export default async function Home(props: {searchParams: SearchParams}) {
   return (
     <main>
       <div className="pt-20">
+    <RequestLocation/>
     <Section title="I prossimi eventi" >
       <Suspense fallback={<Loading />}>
         <UpcomingEvents currentUser={fullUser} />
