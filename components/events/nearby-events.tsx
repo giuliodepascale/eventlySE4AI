@@ -29,13 +29,15 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
 
-  // Ascolta i messaggi inviati dalla WebView (dall'app Expo)
-  useEffect(() => {
+   // Ascolta i messaggi inviati dalla WebView e salva le coordinate nel localStorage
+   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       console.log("Messaggio ricevuto dalla WebView:", event.data);
       try {
         const data = JSON.parse(event.data);
-        if (data.type === 'location' && data.coords) {
+        if (data.type === "location" && data.coords) {
+          console.log("Coordinate ricevute e salvate:", data.coords);
+          localStorage.setItem("userCoords", JSON.stringify(data.coords)); // Salva le coordinate nel localStorage
           setUserCoords(data.coords);
           setLoading(false);
         }
@@ -45,16 +47,26 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
     };
 
     window.addEventListener("message", handleMessage);
+
+    // Al mount, prova a recuperare le coordinate dal localStorage
+    const savedCoords = localStorage.getItem("userCoords");
+    if (savedCoords) {
+      setUserCoords(JSON.parse(savedCoords));
+      setLoading(false);
+    }
+
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
-  // Fallback: se non riceviamo coordinate, usa navigator.geolocation
+  // Se le coordinate non arrivano, usa navigator.geolocation
   useEffect(() => {
     if (!userCoords && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
+          console.log("Coordinate da geolocation:", { lat: latitude, lng: longitude });
           setUserCoords({ lat: latitude, lng: longitude });
+          localStorage.setItem("userCoords", JSON.stringify({ lat: latitude, lng: longitude }));
           setLoading(false);
         },
         () => setLoading(false)
