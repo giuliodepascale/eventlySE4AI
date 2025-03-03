@@ -27,20 +27,37 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   const [hasMore, setHasMore] = useState(true);
   const eventsPerPage = 5;
 
-  // Ottieni le coordinate dell'utente
+  // 1. Ascolta i messaggi inviati dall'app (da Expo WebView)
   useEffect(() => {
-    if (navigator.geolocation) {
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'location' && data.coords) {
+          setUserCoords(data.coords);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error("Errore nel parsing del messaggio:", error);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  // 2. Fallback: se non abbiamo ricevuto coordinate tramite postMessage, usa navigator.geolocation
+  useEffect(() => {
+    if (!userCoords && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserCoords({ lat: latitude, lng: longitude });
+          setLoading(false);
         },
         () => setLoading(false)
       );
-    } else {
-      setLoading(false);
     }
-  }, []);
+  }, [userCoords]);
 
   // Quando i filtri (query o category) cambiano, resettiamo la paginazione e ricarichiamo gli eventi
   useEffect(() => {
@@ -77,16 +94,16 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({ currentUser }) => {
   if (loading) return null;
   if (!userCoords) return <div>Coordinate non disponibili.</div>;
   if (!nearbyEvents || nearbyEvents.length === 0)
-    return ( <>
-    <div>Nessun evento trovato.</div>
-    <Link href="/">
-  <Button 
-  variant={"outline"}
-  size={"default"}
->
-  Rimuovi i filtri
-</Button>
-    </Link> </>)
+    return (
+      <>
+        <div>Nessun evento trovato.</div>
+        <Link href="/">
+          <Button variant={"outline"} size={"default"}>
+            Rimuovi i filtri
+          </Button>
+        </Link>
+      </>
+    );
 
   // Paginazione locale: seleziona gli eventi per la pagina corrente
   const startIndex = (pageNearby - 1) * eventsPerPage;

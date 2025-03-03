@@ -12,8 +12,7 @@ export const publicRoutes = [
     "/api/ip",
     "/api/stripe/create-account",
     "/api/stripe/check-account-status",
-    "/api/stripe/webhook",
-    "/api/auth/mobile-callback"
+    "/api/stripe/webhook"
 
 ];
 
