@@ -126,39 +126,54 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
   nowplusone.setMinutes(0, 0, 0); // Imposta i minuti a 00 e azzera secondi e millisecondi
   nowplusone.setDate(nowplusone.getDate() + 1);
 
-  async function handleImageUpload(files: File[], defaultImageSrc: string): Promise<string> {
+  async function handleImageUpload(
+    files: File[], 
+    defaultImageSrc: string, 
+    eventTitle: string
+  ): Promise<string> {
     let uploadedImageUrl = defaultImageSrc;
-
+  
     if (files.length > 0) {
       const file = files[0];
-      const filePath = `events/${Date.now()}-${file.name}`;
-
+  
+      // Formattazione della data (giorno-mese-anno)
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, "0");
+      const month = String(now.getMonth() + 1).padStart(2, "0"); // Mesi 0-based, quindi +1
+      const year = now.getFullYear();
+  
+      // Normalizzazione del titolo evento per evitare problemi nei percorsi
+      const sanitizedTitle = eventTitle.replace(/\s+/g, "_").toLowerCase();
+  
+      // Definizione del percorso fisso del file
+      const filePath = `events/${year}/${month}/${day}/${sanitizedTitle}/cover.jpg`;
+  
+      // Caricamento su Supabase con sovrascrittura automatica
       const { error: uploadError } = await supabase.storage
-        .from("immagini") // Assicurati che il bucket "immagini" esista
-        .upload(filePath, file);
-
+        .from("immagini")
+        .upload(filePath, file, { upsert: true }); // upsert: true → sovrascrive se già esiste
+  
       if (uploadError) {
         console.error("Errore durante il caricamento dell'immagine:", uploadError.message);
         setError("Errore durante il caricamento dell'immagine. Riprova.");
         return uploadedImageUrl;
       }
-
+  
       // Ottieni l'URL pubblico
       const { data } = supabase.storage.from("immagini").getPublicUrl(filePath);
-
+  
       if (!data?.publicUrl) {
         console.error("Errore nel recupero dell'URL pubblico");
         setError("Errore nel recupero dell'URL pubblico.");
         return uploadedImageUrl;
       }
-
-      const publicUrl = data.publicUrl;
-      uploadedImageUrl = publicUrl;
+  
+      uploadedImageUrl = data.publicUrl;
     }
-
+  
     return uploadedImageUrl;
   }
-
+  
   const handleEventDateTime = (date: Date, time: Date): Date => {
     if (!date || !time) {
       throw new Error("Sia la data che l'orario sono obbligatori.");
@@ -218,7 +233,7 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
     setError("");
     setSuccess("");
 
-    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "");
+    let uploadedImageUrl = await handleImageUpload(files, values.imageSrc || "", values.title);
     if (!uploadedImageUrl) {
       uploadedImageUrl = values.imageSrc || "";
     }
