@@ -8,6 +8,8 @@ const NotFound = () => {
         <EmptyState
             title="404 - Not Found"
             subtitle="La pagina che stai cercando non esiste"
+            showToHome
+
         /> 
     )
 }       

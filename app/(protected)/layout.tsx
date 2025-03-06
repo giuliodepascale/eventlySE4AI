@@ -1,21 +1,24 @@
+"use client";
+
+import { Suspense } from 'react';
+import Loading from '../loading';
 
 
-interface ProtectedLayoutProps {
-    children: React.ReactNode;
-}
-
-const ProtectedLayout = async ({ children }:ProtectedLayoutProps ) => {
-
-    
-
-    return (
-    
-        <div className="flex min-h-screen items-center justify-center bg-white-100 px-4 sm:px-6 lg:px-8">
+export default function ProtectedLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow">
+        <Suspense fallback={<Loading/>}>
+          <main>
             {children}
+          </main>
+        </Suspense>
+      </div>
+     
     </div>
-  
-
-    )
-};
-
-export default ProtectedLayout;
+  );
+}

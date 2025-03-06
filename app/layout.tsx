@@ -6,9 +6,11 @@ import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
-import { currentUser } from "@/lib/auth";
 import Navbar from "@/components/altre/navbar";
-
+import { Suspense } from "react";
+import Loading from "./loading";
+import  Footer  from "@/components/footer";
+import BottomNavbar from "@/components/bottom-navbar";
 
 
 const geistSans = Geist({
@@ -22,10 +24,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Evently Italia - Trova Eventi Unici Nella Tua Città",
-  description: "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
-};
+  title: "Evently Italia – Eventi Salerno",
+  description:
+    "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
+  
+  alternates: {
+    canonical: "https://www.evently.com/",
+  },
 
+  // Metadati Open Graph (per Facebook, LinkedIn, ecc.)
+  openGraph: {
+    title: "Evently Italia – Eventi Salerno",
+    description:
+      "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro.",
+    url: "https://www.evently.com/",
+    siteName: "Evently Italia",
+    locale: "it_IT",
+    type: "website",
+  },
+};
 
 export default async function RootLayout({
   children,
@@ -34,9 +51,10 @@ export default async function RootLayout({
 }>) {
 
   const session = await auth();
-  const user = await currentUser();
 
+ // const embedUrl = `https://www.google.com/maps?q=${encodeURIComponent("Salerno B-side")}&output=embed`;
 
+  
   return (
     
     <SessionProvider session={session}>
@@ -44,11 +62,18 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar currentUser={user}/>
+        <div className="flex h-screen flex-col">
+        <Navbar currentUser={session?.user}/>
         <Toaster/>
-        <div className="pb-20 pt-28">
-        {children}
+        <Suspense fallback={<Loading/>}>
+        <main className="flex-1 pt-[7rem] md:pt-[9rem] py-4 px-4">{children}</main>
+        <div className="sticky bottom-0 z-50">
+        <BottomNavbar />
+      </div>
+        <Footer/>
+        </Suspense>
         </div>
+        
         <Analytics/>
         <SpeedInsights/>
       </body>

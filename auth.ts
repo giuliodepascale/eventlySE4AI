@@ -22,6 +22,7 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
     }
   },
   callbacks: {
+    
   // ACCEDERE SOLO SE HAI VERIFICATO L'EMAIL  
   async signIn({user, account}){
 
@@ -75,7 +76,6 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
 
       return token; 
     },
-
   },
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },

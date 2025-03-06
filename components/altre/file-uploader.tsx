@@ -1,6 +1,7 @@
+'use client';
+
 import React, { Dispatch, useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-
 import Image from "next/image";
 import { Input } from '../ui/input';
 
@@ -14,9 +15,7 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
   const [error, setError] = useState<string | null>(null); // Stato per gestire gli errori
 
   const onDrop = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (acceptedFiles: File[], fileRejections: any[]) => {
-      // Gestione dei file rifiutati
+    (acceptedFiles: File[], fileRejections: unknown[]) => {
       if (fileRejections.length > 0) {
         setError("Formato file non supportato. Seleziona un'immagine valida.");
         return;
@@ -25,13 +24,16 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
       setError(null); // Resetta gli errori
       setFiles(acceptedFiles);
 
-      // Carica l'immagine e genera l'URL
+      const file = acceptedFiles[0];
       const fileReader = new FileReader();
+
+      // Genera un'anteprima dell'immagine caricata
       fileReader.onload = () => {
-        const uploadedUrl = fileReader.result as string;
-        onFieldChange(uploadedUrl);
+        const previewUrl = fileReader.result as string;
+        onFieldChange(previewUrl);
       };
-      fileReader.readAsDataURL(acceptedFiles[0]);
+
+      fileReader.readAsDataURL(file);
     },
     [setFiles, onFieldChange]
   );
@@ -41,14 +43,16 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
     accept: {
       'image/jpeg': ['.jpg', '.jpeg'],
       'image/png': ['.png'],
+      'image/webp': ['.webp'],
+      'image/gif': ['.gif'],
       'image/bmp': ['.bmp'],
       'image/svg+xml': ['.svg'],
     },
   });
 
   const handleRemoveImage = () => {
-    onFieldChange(""); // Resetta l'immagine
-    setFiles([]); // Svuota i file
+    onFieldChange(""); // Resetta l'URL dell'immagine
+    setFiles([]); // Svuota i file caricati
   };
 
   return (
@@ -68,23 +72,23 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
           )}
         </div>
       ) : (
-        <div className="relative">
+        <div className="relative flex h-full w-full flex-1 justify-center">
           <Image
             src={imageUrl}
             width={250}
             height={250}
             alt="Anteprima"
-            className="max-w-full max-h-48 rounded-lg shadow-md"
+            className="w-full object-cover object-center"
           />
           <button
             onClick={handleRemoveImage}
-            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 shadow-lg"
           >
-            ✕
+            X
           </button>
         </div>
       )}
       {error && <p className="text-red-500 mt-2">{error}</p>}
     </div>
   );
-};
+}

@@ -64,7 +64,6 @@ export const RegisterForm = () => {
         headerLabel="Registrati"
         backButtonLabel="Hai già un account?"
         backButtonHref="/auth/login"
-        showSocial
         > 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}

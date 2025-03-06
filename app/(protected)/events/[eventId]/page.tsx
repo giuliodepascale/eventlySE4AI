@@ -1,40 +1,76 @@
+import { getOrganizationById } from "@/actions/organization";
+import { SafeEvent, SafeOrganization, SafeTicketType } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
-import EventClient from "@/components/altre/event-client";
-import { getEventById } from "@/data/event";
-import  {currentUser}  from "@/lib/auth";
+import EventClient from "@/components/events/event-client";
+import { getEventById, getRelatedEventsByCategory } from "@/data/event";
+import { hasUserReservation } from "@/data/prenotazione";
+import { getActiveTicketsByEvent } from "@/data/ticket";
+import { getUserById } from "@/data/user";
+import { currentUser } from "@/lib/auth";
 
 
 interface EventPageProps {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+    params: Promise<{ [key: string]: string | string[] | undefined }>;
   }
 
 
-export default async function EventPage({ searchParams }: EventPageProps) {
+export default async function EventPage({ params }: EventPageProps) {
     
-    const params = await searchParams;
+    const {eventId} = await params;
     
     // Estrai l'ID dai parametri di ricerca
 
-    const id = typeof params.id === 'string' ? params.id : "";
+  
+    const event = await getEventById(eventId as string || '');
 
-    const event = await getEventById(id);
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const user = await currentUser();
+   
 
     if(!event) {
         return (
-                <EmptyState />
+                <EmptyState title="Evento non trovato" subtitle="La pagina che stai cercando non esiste " />
         )
     }
 
-    return (
-            
+    const organizer = await getOrganizationById(event?.organizationId)
+    
+    const user = await currentUser();
+
+    let fullUser = null;
+    if(user && user.id){
+    fullUser = await getUserById(user.id);
+    }
+     else {
+        return (
+            <EmptyState title="Effettua il login" subtitle="Qualcosa è andato storto" showToHome />
+    )
+     }
+
+     const relatedEventsCategory = await getRelatedEventsByCategory(event.category, 5, event.id);
+
+
+        let ticketTypes = null;
+     
+         ticketTypes = await getActiveTicketsByEvent(event.id);
+   
+
+         let reservationId: string | null = null;
+     
+         if (event.isReservationActive && fullUser?.id) {
+            reservationId = await hasUserReservation(fullUser.id, event.id);
+          }
+       
+     
+    
+
+     return (
                 <EventClient 
-                  //  event={event}
-                   // currentUser={user}
+                     event={event as SafeEvent}
+                     organization={organizer.organization as SafeOrganization}
+                     currentUser= {fullUser || null}
+                     relatedEventsCategory={relatedEventsCategory}
+                     ticketTypes={ticketTypes as SafeTicketType[]}
+                     reservationId={reservationId || undefined}
                 />
-           
     )
 }
 
