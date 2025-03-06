@@ -7,7 +7,6 @@ import ReservationList from "@/components/events/prenotazione/reservation-list";
 import { getReservationsByUser } from "@/data/prenotazione";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
-import { User } from "@prisma/client";
 import { Suspense } from "react";
 
 const ReservationsPage = async () => {
@@ -53,7 +52,7 @@ const ReservationsPage = async () => {
                     "
                 >
                     <Suspense fallback={<Loading />}>
-                        <ReservationList reservations={result} currentUser={fullUser as User} /> 
+                        <ReservationList reservations={result} /> 
                     </Suspense>
                 </div>
             </Container>
