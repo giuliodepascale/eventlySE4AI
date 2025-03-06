@@ -38,9 +38,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         ">
          <Logo />
          
-         <Link href={"/"} className="block md:hidden">
-         <FcHome size={25}></FcHome>
-         </Link>
          {pathname === '/' && (<Search/>)}
          { // crea spazio per schermo responsive anche senza funzionalità ricerca
          pathname !== '/' && (<div className="w-full md:w-auto"> </div>)}

@@ -31,3 +31,24 @@ export async function hasUserReservation(userId: string, eventId: string) {
 
   return reservation ? reservation.id : null;
 }
+
+export async function getReservationsByUser(userId: string) {
+  try {
+    const prenotazioni = await db.prenotazione.findMany({
+      where: { userId },
+      include: {
+        event: true,
+        user: true
+      },
+      orderBy: {
+        reservedAt: 'desc'
+      }
+    });
+
+    return prenotazioni;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Errore nel recupero delle prenotazioni');
+  }
+}
+

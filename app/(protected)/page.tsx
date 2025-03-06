@@ -2,14 +2,15 @@
 import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
 import { Suspense } from "react";
-import Loading from "./loading";
-import { SearchParams } from "./types";
+
 
 import UpcomingEvents from "@/components/events/upcoming-events";
 import Section from "@/components/events/section";
 import IpNearbyEvents from "@/components/events/ip-nearby-events";
 
 import NearbyEvents from "@/components/events/nearby-events";
+import Loading from "../loading";
+import { SearchParams } from "../types";
 
 
 
@@ -44,11 +45,7 @@ export default async function Home(props: {searchParams: SearchParams}) {
         <NearbyEvents currentUser={fullUser} />
       </Suspense>
     </Section>
-    <Section title="Eventi in base alla tua città">
-      <Suspense fallback={<Loading />}>
-        <IpNearbyEvents currentUser={fullUser} />
-      </Suspense>
-    </Section>
+    
   </main>
   );
 }

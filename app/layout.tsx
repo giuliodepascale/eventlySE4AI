@@ -10,6 +10,7 @@ import Navbar from "@/components/altre/navbar";
 import { Suspense } from "react";
 import Loading from "./loading";
 import  Footer  from "@/components/footer";
+import BottomNavbar from "@/components/bottom-navbar";
 
 
 const geistSans = Geist({
@@ -66,6 +67,9 @@ export default async function RootLayout({
         <Toaster/>
         <Suspense fallback={<Loading/>}>
         <main className="flex-1 pt-[7rem] md:pt-[9rem] py-4 px-4">{children}</main>
+        <div className="sticky bottom-0 z-50">
+        <BottomNavbar />
+      </div>
         <Footer/>
         </Suspense>
         </div>

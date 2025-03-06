@@ -1,30 +1,46 @@
 "use client";
 
-import React from 'react';
-import  Link  from 'next/link';
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { FaHome, FaUser } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
+import { LuTickets } from "react-icons/lu";
 
-import { FaHome } from "react-icons/fa";
+const BottomNavbar = () => {
+  const pathname = usePathname(); // Ottiene il percorso attuale
 
-export const BottomNavBar = () => {
+  const navItems = [
+    { href: "/", icon: <FaHome className="w-6 h-6" />, label: "Home" },
+    { href: "/my-favorites", icon: <CiHeart className="w-6 h-6" />, label: "Preferiti" },
+    { href: "/my-reservations", icon: <LuTickets className="w-6 h-6" />, label: "Ticketing" },
+    { href: "/settings", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
+  ];
+
   return (
-    <div className="fixed bottom-5 left-10 right-10 flex justify-between items-center bg-white border-t border-gray-200 shadow-lg p-4 z-10 md:hidden rounded-3xl ">
-      <Link href="/" className="flex flex-col items-center text-gray-700 hover:text-blue-600">
-      <FaHome className="h-5 w-5"/> Home
-      </Link>
-      <Link href="/search" className="flex flex-col items-center text-gray-700 hover:text-red-500">
-        <i className="fas fa-search text-xl mb-1"></i>
-        <span className="text-xs">Search</span>
-      </Link>
-      <Link href="/settings" className="flex flex-col items-center text-gray-700 hover:text-red-500">
-        <i className="fas fa-bed text-xl mb-1"></i>
-        <span className="text-xs">Bookings</span>
-      </Link>
-      <Link href="/profile" className="flex flex-col items-center text-gray-700 hover:text-red-500">
-        <i className="fas fa-user text-xl mb-1"></i>
-        <span className="text-xs">Profile</span>
-      </Link>
-    </div>
+    <nav className="fixed bottom-0 left-0 z-50 w-full h-16 bg-white border-t border-gray-200 md:hidden">
+      <div className="grid h-full max-w-lg grid-cols-4 mx-auto">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex flex-col items-center justify-center px-5 ${
+                isActive ? "text-blue-600 font-semibold" : "text-gray-500 hover:text-blue-600"
+              }`}
+            >
+              {React.cloneElement(item.icon, {
+                className: `w-6 h-6 ${isActive ? "text-blue-600" : "text-gray-500"}`,
+              })}
+              <span className="text-sm">{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
   );
 };
 
-export default BottomNavBar;
+export default BottomNavbar;
