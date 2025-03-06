@@ -5,7 +5,6 @@ import EmptyState from "@/components/altre/empty-state";
 import ReservationList from "@/components/events/prenotazione/reservation-list";
 
 import { getReservationsByUser } from "@/data/prenotazione";
-import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 import { Suspense } from "react";
 
