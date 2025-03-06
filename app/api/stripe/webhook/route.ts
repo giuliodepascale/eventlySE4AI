@@ -35,11 +35,6 @@ export async function POST(req: NextRequest) {
   if (event.type === 'account.updated') {
     const account = event.data.object as Stripe.Account;
 
-    console.log(`🔄 Account aggiornato: ${account.id}`);
-    console.log(`✅ Charges Enabled: ${account.charges_enabled}`);
-    console.log(`✅ Payouts Enabled: ${account.payouts_enabled}`);
-    console.log(`✅ Details Submitted: ${account.details_submitted}`);
-    console.log(`✅ Disabled Reason: ${account.requirements?.disabled_reason}`);
 
     let newStatus = 'pending'; // Stato predefinito
 
@@ -56,6 +51,21 @@ export async function POST(req: NextRequest) {
     console.log(`🔵 Nuovo stato determinato: ${newStatus}`);
     await updateOrganizationTicketingStatus(account.id, newStatus);
   }
+
+  if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+  
+    console.log('💰 Pagamento ricevuto!');
+    console.log(`ID Pagamento: ${paymentIntent.id}`);
+    console.log(`Importo: ${paymentIntent.amount / 100} ${paymentIntent.currency.toUpperCase()}`);
+    console.log(`Stato: ${paymentIntent.status}`);
+    console.log(`Metodo di pagamento: ${paymentIntent.payment_method}`);
+    console.log(`Email del cliente: ${paymentIntent.receipt_email}`);
+    console.log(`ID Cliente: ${paymentIntent.customer}`);
+    console.log(`Metadati: ${JSON.stringify(paymentIntent.metadata)}`);
+  }
+  
+
 
   console.log('✅ Webhook gestito con successo!');
   return new NextResponse(JSON.stringify({ received: true }), { status: 200 });
