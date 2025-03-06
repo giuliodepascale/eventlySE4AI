@@ -1,12 +1,12 @@
-import { Prenotazione, Event } from "@prisma/client";
+import { Prenotazione, Event, User } from "@prisma/client";
 import Link from "next/link";
 
 interface ReservationCardProps {
     reservation: Prenotazione & { event: Event };
-    currentUser: any;
+    
 }
 
-const ReservationCard: React.FC<ReservationCardProps> = ({ reservation, currentUser }) => {
+const ReservationCard: React.FC<ReservationCardProps> = ({ reservation }) => {
     return (
         <div className="border rounded-lg p-4 shadow-md">
             <h4 className="text-lg font-bold">{reservation.event.title}</h4>
