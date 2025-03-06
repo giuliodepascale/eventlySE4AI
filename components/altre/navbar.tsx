@@ -8,8 +8,7 @@ import Search from "./search";
 import UserMenu from "./user-menu";
 import { usePathname } from "next/navigation";
 import Categories from "./categories";
-import { FcHome } from "react-icons/fc";
-import Link from "next/link";
+
 
 //la navbar non è responsive per ora (non è lo scopo del tutotrial auth)
 

@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 import UpcomingEvents from "@/components/events/upcoming-events";
 import Section from "@/components/events/section";
-import IpNearbyEvents from "@/components/events/ip-nearby-events";
+
 
 import NearbyEvents from "@/components/events/nearby-events";
 import Loading from "../loading";

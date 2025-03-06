@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import Loading from '../loading';
-import BottomNavbar from '@/components/bottom-navbar';
+
 
 export default function ProtectedLayout({
   children,
