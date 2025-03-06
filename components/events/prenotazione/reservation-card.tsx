@@ -1,4 +1,4 @@
-import { Prenotazione, Event, User } from "@prisma/client";
+import { Prenotazione, Event } from "@prisma/client";
 import Link from "next/link";
 
 interface ReservationCardProps {
