@@ -4,7 +4,7 @@ import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/events/event-client";
 import { getEventById, getRelatedEventsByCategory } from "@/data/event";
 import { hasUserReservation } from "@/data/prenotazione";
-import { getActiveTicketsByEvent } from "@/data/ticket";
+import { getActiveTicketsByEvent } from "@/data/ticket-type";
 import { getUserById } from "@/data/user";
 import { currentUser } from "@/lib/auth";
 

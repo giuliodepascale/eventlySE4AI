@@ -3,7 +3,7 @@
 import { getOrganizationById } from "@/actions/organization";
 import { getEventById } from "@/data/event";
 import { currentUser } from "@/lib/auth";
-import { getTicketTypesForEvent } from "@/data/ticket"; // Server action per recuperare i TicketType dell'evento
+import { getTicketTypesForEvent } from "@/data/ticket-type"; // Server action per recuperare i TicketType dell'evento
 import EmptyState from "@/components/altre/empty-state";
 import TicketManagement from "@/components/typetickets/ticket-management";
 

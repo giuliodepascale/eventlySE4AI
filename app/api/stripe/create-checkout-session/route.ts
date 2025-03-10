@@ -58,8 +58,8 @@ export async function POST(req: Request) {
       metadata: {
         type:"ticket",
         userId: userId,
-        ticketId: ticketType.id,
-        eventTitle: ticketType.event.title,
+        ticketTypeId: ticketType.id,
+        eventId: ticketType.event.id,
         organizationName: ticketType.event.organization.name,
         organizationId: ticketType.event.organization.id,
         ticketTypeName: ticketType.name,
@@ -69,8 +69,8 @@ export async function POST(req: Request) {
         metadata: {
           type:"ticket",
           userId: userId,
-          ticketId: ticketType.id,
-          eventTitle: ticketType.event.title,
+          ticketTypeId: ticketType.id,
+          eventId: ticketType.event.id,
           organizationName: ticketType.event.organization.name,
           organizationId: ticketType.event.organization.id,
           ticketTypeName: ticketType.name,
