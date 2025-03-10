@@ -6,8 +6,7 @@ export async function POST(req: Request) {
   try {
     const { ticketId, userId } = await req.json();
 
-    console.log("🔍 TICKET ID:", ticketId);
-    console.log("🔍 USER ID:", userId);
+
 
     if (!ticketId || !userId) {
       return NextResponse.json({ error: "Manca ticketId o userId" }, { status: 400 });
