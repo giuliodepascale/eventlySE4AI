@@ -24,13 +24,34 @@ export async function POST(req: NextRequest) {
     const buf = Buffer.from(rawBody);
 
     // Verifica il webhook con la firma segreta
-    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET_EXPRESS!);
   } catch (err) {
     console.error('❌ Errore nella verifica del webhook:', err);
     return new NextResponse(`Webhook Error:`, { status: 400 });
   }
 
- 
+  console.log(`✅ Evento ricevuto da Stripe: ${event.type}`);
+
+  if (event.type === 'account.updated') {
+    const account = event.data.object as Stripe.Account;
+
+
+    let newStatus = 'pending'; // Stato predefinito
+
+    if (account.charges_enabled && account.payouts_enabled && account.details_submitted) {
+      newStatus = 'active'; // L'account è completamente verificato
+    } else if (!account.details_submitted) {
+      newStatus = 'pending'; // L'utente non ha inviato tutti i dati
+    } else if (account.requirements?.disabled_reason) {
+      newStatus = 'restricted'; // Stripe ha disabilitato il conto per qualche problema
+    } else {
+      newStatus = 'pending_review'; // Lo stato è in revisione
+    }
+
+    console.log(`🔵 Nuovo stato determinato: ${newStatus}`);
+    await updateOrganizationTicketingStatus(account.id, newStatus);
+  }
+
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object as Stripe.PaymentIntent;
   
