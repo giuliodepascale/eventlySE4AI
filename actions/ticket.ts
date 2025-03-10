@@ -1,33 +1,38 @@
-import { NextResponse } from "next/server";
+"use server";
+
 import { db } from "@/lib/db";
+import { v4 as uuidv4 } from "uuid";
 
-export async function POST(req: Request) {
+export async function createTicketAction(
+  eventId: string,
+  userId: string,
+  ticketTypeId: string,
+  paymentStripeId: string,
+  methodPaymentId: string,
+  paid: number
+) {
   try {
-    const { eventId, name, description, price, quantity, maxPerUser, isActive } = await req.json();
+    // Genera un codice univoco per il biglietto (QR Code)
+    const ticketCode = uuidv4();
 
-    // ✅ Validazione input
-    if (!eventId || !name || price === undefined || quantity === undefined) {
-      return NextResponse.json({ error: "Manca un campo obbligatorio." }, { status: 400 });
-    }
-
-    // 🔄 Creazione del nuovo tipo di biglietto
-    const newTicketType = await db.ticketType.create({
+    // Creazione del biglietto nel database
+    const ticket = await db.ticket.create({
       data: {
         eventId,
-        name,
-        description: description || null,
-        price,
-        quantity,
-        maxPerUser: maxPerUser || null,
-        isActive: isActive ?? true, // Default true se non specificato
+        userId,
+        ticketTypeId,
+        qrCode: ticketCode,
+        isValid: true,
+        paymentStripeId,
+        methodPaymentId,
+        paid,
       },
     });
 
-    console.log("🎟️ Nuovo TicketType creato:", newTicketType);
-
-    return NextResponse.json({ ticketType: newTicketType }, { status: 201 });
+    console.log("✅ Biglietto creato con successo:", ticket);
+    return { success: true, ticket };
   } catch (error) {
-    console.error("❌ Errore nella creazione del TicketType:", error);
-    return NextResponse.json({ error: "Errore interno del server." }, { status: 500 });
+    console.error("❌ Errore nella creazione del biglietto:", error);
+    return { success: false, error: "Errore nella creazione del biglietto" };
   }
 }

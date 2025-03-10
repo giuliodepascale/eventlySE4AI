@@ -183,6 +183,9 @@ model Ticket {
   isValid        Boolean    @default(true) // Se falso, il biglietto non può essere usato
   usedAt         DateTime?  // Quando il biglietto è stato validato
   createdAt      DateTime   @default(now())
+  paymentStripeId String    @unique
+  methodPaymentId String    @unique
+  paid            Int        
 
   event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
