@@ -1,10 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,7 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
         
-
 
 model Account {
   id                 String  @id @default(cuid())
@@ -66,8 +58,7 @@ model User {
   location          String?
 
   favoriteIds       String[]
-  accounts          Account[]
-  orders            Order[]              // Un utente ha ordini (biglietti acquistati)
+  accounts          Account[]            // Un utente ha ordini (biglietti acquistati)
   tickets           Ticket[]
   prenotazioni      Prenotazione[]       
 
@@ -99,7 +90,7 @@ model Organization {
 
   // Relazioni con Event e Reservation
   events              Event[]             @relation("OrganizationEvents")
-  orders              Order[]
+
   @@map("organizations")
   
 }
@@ -157,7 +148,6 @@ model Event {
 
   organization    Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
   ticketTypes     TicketType[]
-  orders          Order[]
   tickets         Ticket[]
   prenotazioni         Prenotazione[] @relation("PrenotazioneOnEvent")
 
@@ -184,42 +174,16 @@ model TicketType {
 }
 
 
-
-model Order {
-  id             String     @id @default(cuid())
-  userId         String
-  eventId        String
-  totalPrice     Int
-  status         String
-  paymentIntent  String?
-  ticketCount    Int
-  createdAt      DateTime   @default(now())
-  
-  // Aggiungi questi due campi per creare la relazione con Organization
-  organizationId String
-  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  
-  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  tickets        Ticket[]
-
-  @@map("orders")
-}
-
-
 model Ticket {
   id             String     @id @default(cuid()) // ID del biglietto
-  orderId        String?
   eventId        String
   userId         String
   ticketTypeId   String
   qrCode         String     @unique // Identificativo univoco per il QR code
   isValid        Boolean    @default(true) // Se falso, il biglietto non può essere usato
   usedAt         DateTime?  // Quando il biglietto è stato validato
-  seatNumber     String?    // (Opzionale) Numero del posto, se implementato in futuro
   createdAt      DateTime   @default(now())
 
-  order          Order?     @relation(fields: [orderId], references: [id], onDelete: Cascade)
   event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
   user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   ticketType     TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)

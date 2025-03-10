@@ -56,15 +56,18 @@ export async function POST(req: Request) {
       ],
       mode: "payment",
       metadata: {
+        type:"ticket",
         userId: userId,
         ticketId: ticketType.id,
         eventTitle: ticketType.event.title,
         organizationName: ticketType.event.organization.name,
         organizationId: ticketType.event.organization.id,
         ticketTypeName: ticketType.name,
+
       },
       payment_intent_data: {
         metadata: {
+          type:"ticket",
           userId: userId,
           ticketId: ticketType.id,
           eventTitle: ticketType.event.title,

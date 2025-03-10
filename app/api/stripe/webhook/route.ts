@@ -63,6 +63,10 @@ export async function POST(req: NextRequest) {
     console.log(`Email del cliente: ${paymentIntent.receipt_email}`);
     console.log(`ID Cliente: ${paymentIntent.customer}`);
     console.log(`Metadati: ${JSON.stringify(paymentIntent.metadata)}`);
+
+    if(paymentIntent.metadata.type ==="ticket"){
+      console.log("azione biglietto")
+    }
   }
   
 
