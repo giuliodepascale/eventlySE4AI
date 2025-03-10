@@ -80,7 +80,7 @@ export async function POST(req: Request) {
           destination: ticketType.event.organization.stripeAccountId,
         },
       },
-      success_url: `${siteUrl}`,
+      success_url: `${siteUrl}/my-tickets`,
       cancel_url: `${siteUrl}`,
       locale: "it",
     });

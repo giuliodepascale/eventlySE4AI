@@ -57,6 +57,25 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 </div>
                 <div>
                     <Link 
+                        href="/my-tickets"
+                        className="
+                            hidden
+                            md:block
+                            text-sm
+                            font-semibold
+                            py-2
+                            px-3
+                            rounded-full
+                            hover:bg-neutral-100
+                            transition
+                            cursor-pointer
+                        "
+                    >
+                        Biglietti
+                    </Link>
+                </div>
+                <div>
+                    <Link 
                         href="/my-favorites"
                         className="
                             hidden
