@@ -30,13 +30,13 @@ export default async function EventPage({ params }: EventPageProps) {
   // Return the page shell immediately with Suspense boundaries
   return (
     <Suspense fallback={<EventSkeleton />}>
-      <EventDetails eventId={event.id} event={event} />
+      <EventDetails event={event} />
     </Suspense>
   );
 }
 
 // Move the heavy data fetching to a separate component
-async function EventDetails({ eventId, event }: { eventId: string, event: SafeEvent }) {
+async function EventDetails({ event }: {  event: SafeEvent }) {
   // Fetch all data in parallel
   const [organizerPromise, userPromise, relatedEventsPromise, ticketTypesPromise] = await Promise.allSettled([
     getOrganizationById(event.organizationId),
