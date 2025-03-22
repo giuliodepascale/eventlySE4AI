@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { v4 as uuidv4 } from "uuid";
 
-export async function createTicketAction(
+export async function createTicketActionandUpdateSold(
   eventId: string,
   userId: string,
   ticketTypeId: string,

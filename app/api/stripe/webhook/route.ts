@@ -1,4 +1,5 @@
-import { createTicketAction } from "@/actions/ticket";
+
+import { createTicketActionandUpdateSold } from "@/actions/ticket";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -41,10 +42,10 @@ export async function POST(req: NextRequest) {
       const methodPaymentId = paymentIntent.payment_method as string;
       const paid = paymentIntent.amount; // Stripe invia gli importi in centesimi
 
-      console.log("🎟 Creazione biglietto in corso...");
+      
 
       try {
-        const ticket = await createTicketAction(eventId, userId, ticketTypeId, paymentStripeId, methodPaymentId, paid);
+        const ticket = await createTicketActionandUpdateSold(eventId, userId, ticketTypeId, paymentStripeId, methodPaymentId, paid);
         console.log("✅ Biglietto creato:", ticket);
       } catch (error) {
         console.error("❌ Errore nella creazione del biglietto:", error);

@@ -14,7 +14,6 @@ const BottomNavbar = () => {
     { href: "/", icon: <FaHome className="w-6 h-6" />, label: "Home" },
     { href: "/my-favorites", icon: <CiHeart className="w-6 h-6" />, label: "Preferiti" },
     { href: "/my-reservations", icon: <LuTickets className="w-6 h-6" />, label: "Prenotazioni" },
-    { href: "/my-tickets", icon: <LuTickets className="w-6 h-6" />, label: "Biglietti" },
     { href: "/settings", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
   ];
 

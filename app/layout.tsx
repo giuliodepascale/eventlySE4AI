@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro: trova ora il tuo prossimo evento!",
   
   alternates: {
-    canonical: "https://www.evently.com/",
+    canonical: "https://www.eventlyitalia.com/",
   },
 
   // Metadati Open Graph (per Facebook, LinkedIn, ecc.)
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Evently Italia – Eventi Salerno",
     description:
       "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro.",
-    url: "https://www.evently.com/",
+    url: "https://https://www.eventlyitalia.com/",
     siteName: "Evently Italia",
     locale: "it_IT",
     type: "website",
