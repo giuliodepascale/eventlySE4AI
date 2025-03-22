@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { getOrganizationById } from "@/actions/organization";
-import { SafeEvent, SafeOrganization, SafeTicketType } from "@/app/types";
+import { SafeEvent, SafeTicketType } from "@/app/types";
 import EmptyState from "@/components/altre/empty-state";
 import EventClient from "@/components/events/event-client";
 
