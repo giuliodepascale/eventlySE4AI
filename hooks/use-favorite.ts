@@ -19,10 +19,17 @@ export const useFavorite = ({ eventId, currentUser }: UseFavoriteProps) => {
    * `hasFavorited` calcolato sulla base dei dati da server.
    */
   const hasFavoritedFromServer = useMemo(() => {
-    if (currentUser?.favoriteIds) {
-      return currentUser.favoriteIds.includes(eventId);
-    }
-    return false;
+    // Check if currentUser exists and has favoriteIds property
+    if (!currentUser) return false;
+    
+    // Handle the case where favoriteIds might be undefined or not an array
+    const favoriteIds = currentUser.favoriteIds;
+    
+    // If favoriteIds is undefined or null, we can't determine the state yet
+    if (!favoriteIds) return false;
+    
+    // Ensure we're working with an array and check if it includes the eventId
+    return Array.isArray(favoriteIds) && favoriteIds.includes(eventId);
   }, [currentUser, eventId]);
 
   /**
@@ -38,13 +45,18 @@ export const useFavorite = ({ eventId, currentUser }: UseFavoriteProps) => {
     setIsFavorited(hasFavoritedFromServer);
   }, [hasFavoritedFromServer]);
 
+  // Log per debug
+  useEffect(() => {
+  }, [eventId, currentUser, isFavorited]);
+
   /**
    * Funzione per aggiungere/rimuovere preferito.
    */
   const toggleFavorite = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
-      e.preventDefault()
+      e.preventDefault();
+      
       // Se l'utente non è loggato, reindirizziamo alla login.
       if (!currentUser) {
         router.push("/auth/login");
