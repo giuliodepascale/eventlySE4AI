@@ -1,5 +1,5 @@
 const config = {
-  siteUrl: 'https://eventlyitalia.com',
+  siteUrl: 'https://www.eventlyitalia.com',
   generateRobotsTxt: true,
   additionalPaths: async () => {
     return [

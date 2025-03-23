@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Evently Italia – Eventi Salerno",
     description:
       "Evently ti aiuta a scoprire gli eventi più interessanti di Salerno. Concerti, festival e molto altro.",
-    url: "https://https://www.eventlyitalia.com/",
+    url: "https://www.eventlyitalia.com/",
     siteName: "Evently Italia",
     locale: "it_IT",
     type: "website",
