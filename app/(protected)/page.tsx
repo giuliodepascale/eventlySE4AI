@@ -6,22 +6,25 @@ import Section from "@/components/events/section";
 import NearbyEvents from "@/components/events/nearby-events";
 import Loading from "../loading";
 import { currentUser } from "@/lib/auth";
-import { getUserById } from "@/data/user";
+import { getUserByIdCached } from "@/lib/cache";
+import { User } from "@prisma/client";
 
 export default async function Home() {
+  const user = await currentUser();
+  const fullUser = user?.id ? await getUserByIdCached(user.id) : null;
   // Renderizza immediatamente uno skeleton UI mentre i dati vengono caricati
   return (
     <main>
       <div className="pt-20">
         <Section title="I prossimi eventi">
           <Suspense fallback={<Loading />}>
-            <UpcomingEventsWrapper />
+            <UpcomingEventsWrapper fullUser={fullUser} />
           </Suspense>
         </Section>
       </div>
       <Section title="Eventi Vicini a Te">
         <Suspense fallback={<Loading />}>
-          <NearbyEventsWrapper />
+          <NearbyEventsWrapper fullUser={fullUser}/>
         </Suspense>
       </Section>
     </main>
@@ -29,14 +32,10 @@ export default async function Home() {
 }
 
 // Componenti wrapper per spostare il caricamento dei dati in componenti separati
-async function UpcomingEventsWrapper() {
-  const user = await currentUser();
-  const fullUser = await getUserById(user?.id || "");
+async function UpcomingEventsWrapper({ fullUser }: { fullUser: User | null }) {
   return <UpcomingEvents currentUser={fullUser} />;
 }
 
-async function NearbyEventsWrapper() {
-  const user = await currentUser();
-  const fullUser = await getUserById(user?.id || "");
+async function NearbyEventsWrapper({ fullUser }: { fullUser: User | null }) {
   return <NearbyEvents currentUser={fullUser} />;
 }

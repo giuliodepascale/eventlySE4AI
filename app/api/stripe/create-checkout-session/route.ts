@@ -35,6 +35,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Il biglietto selezionato non è attivo." }, { status: 400 });
     }
     
+    if (ticketType.quantity <= ticketType.sold) {
+      return NextResponse.json({ error: "I biglietti in questione sono esuariti." }, { status: 400 });
+    }
 
     const price = ticketType.price * 100;
 
