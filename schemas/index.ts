@@ -24,7 +24,13 @@ export const RegisterSchema = z.object({
     }),
     name: z.string().min(1, {
         message: "Inserisci il tuo nome",
-    }).max(25)
+    }).max(25),
+    privacyPolicy: z.boolean().refine(val => val === true, {
+        message: "Devi accettare la Privacy Policy",
+    }),
+    termsAndConditions: z.boolean().refine(val => val === true, {
+        message: "Devi accettare i Termini e Condizioni",
+    })
 });
 
 export const ResetSchema = z.object({
