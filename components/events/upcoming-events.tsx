@@ -20,6 +20,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "";
+  const dateFilter = searchParams.get("dateFilter") || "";
 
   // Stati per gestire gli eventi, la paginazione e il caricamento
   const [displayedEvents, setDisplayedEvents] = useState<SafeEvent[]>([]);
@@ -32,7 +33,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
   // Funzione per il fetch iniziale degli eventi con i filtri applicati
   const fetchInitialEvents = async () => {
     try {
-      const result = await getAllActiveEvents(query, 10, 1, category);
+      const result = await getAllActiveEvents(query, 10, 1, category, dateFilter);
       if (result.events && result.events.length > 0) {
         setDisplayedEvents(result.events);
         if (result.events.length < 10) {
@@ -49,7 +50,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
     }
   };
 
-  // Quando query o category cambiano, resettiamo tutta la paginazione e rilanciamo il fetch iniziale
+  // Quando query, category o dateFilter cambiano, resettiamo tutta la paginazione e rilanciamo il fetch iniziale
   useEffect(() => {
     setDisplayedEvents([]);
     setPage(1);
@@ -58,7 +59,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
     setLoading(true);
     fetchInitialEvents();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, category]);
+  }, [query, category, dateFilter]);
 
   if (loading) {
     return null;
@@ -86,7 +87,7 @@ const UpcomingEvents: React.FC<UpcomingEventsProps> = ({ currentUser }) => {
   const fetchMoreEvents = async () => {
     const newServerPage = serverPage + 1;
     try {
-      const result = await getAllActiveEvents(query, 10, newServerPage, category);
+      const result = await getAllActiveEvents(query, 10, newServerPage, category, dateFilter);
       if (result.events.length > 0) {
         setDisplayedEvents((prev) => [...prev, ...result.events]);
         setServerPage(newServerPage);

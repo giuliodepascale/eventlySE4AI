@@ -8,6 +8,7 @@ import Loading from "../loading";
 import { currentUser } from "@/lib/auth";
 import { getUserByIdCached } from "@/lib/cache";
 import { User } from "@prisma/client";
+import DateFilterBar from "@/components/altre/date-filter-bar";
 
 export default async function Home() {
   const user = await currentUser();
@@ -16,6 +17,7 @@ export default async function Home() {
   return (
     <main>
       <div className="pt-20">
+        <DateFilterBar />
         <Section title="I prossimi eventi">
           <Suspense fallback={<Loading />}>
             <UpcomingEventsWrapper fullUser={fullUser} />
