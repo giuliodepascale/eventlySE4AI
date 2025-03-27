@@ -14,7 +14,7 @@ const BottomNavbar = () => {
     { href: "/", icon: <FaHome className="w-6 h-6" />, label: "Home" },
     { href: "/my-favorites", icon: <CiHeart className="w-6 h-6" />, label: "Preferiti" },
     { href: "/my-reservations", icon: <LuTickets className="w-6 h-6" />, label: "Prenotazioni" },
-    { href: "/settings", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
+    { href: "/admin", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
   ];
 
   return (

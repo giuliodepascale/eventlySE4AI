@@ -40,6 +40,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "expo-server-sdk": "^3.14.0",
     "framer-motion": "^12.4.2",
     "html2canvas": "^1.4.1",
     "italia": "^1.0.1",

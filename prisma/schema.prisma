@@ -206,3 +206,14 @@ model Prenotazione {
 
   @@map("prenotazioni")
 }
+
+model PushToken {
+  id        String   @id @default(cuid())
+  userId    String?  // Nullable: associato dopo login
+  deviceId  String   @unique
+  token     String   @unique
+  lastSeen  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+

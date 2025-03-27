@@ -1,6 +1,7 @@
 "use client"
 
 import { admin } from "@/actions/admin";
+import { sendPushToUser } from "@/actions/sendPushNotificationToUser";
 import { RoleGate } from "@/components/auth/role-gate";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,21 @@ import { UserRole } from "@prisma/client";
 import { toast } from "sonner";
 
 
+
 const AdminPage = () => {
+
+    const notify = async () => {
+       const userId = "cm7mdnmma0000sjyg2d4lh2kh"
+        const result = await sendPushToUser(
+           userId,
+          'Messaggio per te!',
+          'Hai ricevuto una notifica di test 🎉',
+          { url: '/eventi/preview' }
+        );
+    
+        if (result.success) alert('Notifica inviata!');
+        else alert('Errore: ' + result.error);
+      };
 
     const onServerActionClick = () => {
         admin()
@@ -37,6 +52,7 @@ const AdminPage = () => {
     }
 
     return (
+        <>
         <Card className="w-[600px]"> 
             <CardHeader>
                 <p className="text-2xl font-semibold text-center">
@@ -67,7 +83,10 @@ const AdminPage = () => {
             </CardContent>     
                
         </Card> 
+
+            <button onClick={notify}>Invia notifica di test</button>;
+            </>
+
     )
 }
-
 export default AdminPage;
