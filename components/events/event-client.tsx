@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FcCalendar } from "react-icons/fc";
 import { CiLocationOn } from "react-icons/ci";
-import { FaInstagram, FaPen } from "react-icons/fa6";
+import { FaPen } from "react-icons/fa6";
 import HeartButton from "@/components/altre/heart-button";
 import Map from "@/components/altre/map";
 import DateFormatter from "@/components/altre/date-formatter";
@@ -153,18 +153,6 @@ const EventClient: React.FC<EventClientProps> = ({
             <Map placeName={`${event.indirizzo}, ${event.comune}, ${organization?.name || ''}`} />
           </motion.div>
         </Suspense>
-
-       
-
-        <motion.div variants={itemVariants} className="mt-6">
-          <Link
-            href={`/instagram-story/${event.id}`}
-            className="flex items-center justify-center gap-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 hover:scale-105"
-          >
-            <FaInstagram size={20} />
-            Genera Storia Instagram
-          </Link>
-        </motion.div>
 
         {relatedEventsSection && <div className="mt-16">{relatedEventsSection}</div>}
       </div>
