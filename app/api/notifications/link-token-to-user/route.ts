@@ -10,10 +10,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing deviceId or userId' }, { status: 400 });
     }
 
-    const token = await db.pushToken.update({
-      where: { deviceId },
-      data: { userId },
-    });
+    const token = await db.pushToken.updateMany({
+        where: { deviceId },
+        data: { userId },
+      });
 
     return NextResponse.json({ success: true, token });
   } catch (error) {

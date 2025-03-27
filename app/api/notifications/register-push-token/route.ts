@@ -7,6 +7,8 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { deviceId, token } = body;
 
+    console.log('[📩 register-push-token]', { deviceId, token });
+
     if (!deviceId || !token) {
       return NextResponse.json({ error: 'Missing deviceId or token' }, { status: 400 });
     }
