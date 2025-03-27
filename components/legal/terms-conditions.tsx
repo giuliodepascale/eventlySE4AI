@@ -23,7 +23,7 @@ export const TermsConditions = ({ trigger }: TermsConditionsProps) => {
         </DialogHeader>
         <DialogDescription>
           <div className="mt-4 text-sm">
-            <h3 className="font-bold mb-2">Termini e Condizioni d'Uso</h3>
+            <h3 className="font-bold mb-2">Termini e Condizioni d&apos;Uso</h3>
             <p className="mb-2">Utilizzando la nostra piattaforma, accetti di essere vincolato dai seguenti termini e condizioni.</p>
             <h4 className="font-semibold mt-3 mb-1">1. Registrazione</h4>
             <p className="mb-2">Per utilizzare alcuni servizi della piattaforma, è necessario registrarsi fornendo informazioni accurate e complete.</p>
@@ -32,7 +32,7 @@ export const TermsConditions = ({ trigger }: TermsConditionsProps) => {
             <h4 className="font-semibold mt-3 mb-1">3. Account</h4>
             <p className="mb-2">Sei responsabile del mantenimento della riservatezza delle credenziali del tuo account e di tutte le attività che si verificano sotto il tuo account.</p>
             <h4 className="font-semibold mt-3 mb-1">4. Limitazione di responsabilità</h4>
-            <p className="mb-2">La piattaforma non sarà responsabile per eventuali danni diretti, indiretti, incidentali o consequenziali derivanti dall'utilizzo o dall'impossibilità di utilizzare il servizio.</p>
+            <p className="mb-2">La piattaforma non sarà responsabile per eventuali danni diretti, indiretti, incidentali o consequenziali derivanti dall&apos;utilizzo o dall&apos;impossibilità di utilizzare il servizio.</p>
           </div>
         </DialogDescription>
       </DialogContent>

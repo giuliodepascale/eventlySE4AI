@@ -16,7 +16,6 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-    FormDescription
     
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,6 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
-import Link from "next/link";
 import { PrivacyPolicy } from "@/components/legal/privacy-policy";
 import { TermsConditions } from "@/components/legal/terms-conditions";
 
