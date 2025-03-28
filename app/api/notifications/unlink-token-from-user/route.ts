@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing deviceId' }, { status: 400 });
     }
 
-    const updated = await db.pushToken.update({
+    const updated = await db.pushToken.updateMany({
       where: { deviceId },
       data: { userId: null },
     });

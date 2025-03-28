@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect , useRef } from 'react';
 import Loading from '../loading';
 import { useSession } from 'next-auth/react';
 
@@ -11,19 +11,29 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   const { data: session } = useSession();
+  const lastUserId = useRef<string | null>(null);
 
   useEffect(() => {
-    if (session?.user && /EventlyApp/i.test(navigator.userAgent)) {
-      (window as Window & { ReactNativeWebView?: { postMessage: (message: string) => void } }).ReactNativeWebView?.postMessage(
-        JSON.stringify({ type: 'USER_LOGGED_IN', userId: session.user.id })
-      );
+    const isInApp = /EventlyApp/i.test(navigator.userAgent);
+    const rnWebView = (window as Window & {
+      ReactNativeWebView?: { postMessage: (message: string) => void };
+    }).ReactNativeWebView;
+
+    if (!isInApp || !rnWebView) return;
+
+    const currentUserId = session?.user?.id ?? null;
+
+    if (currentUserId && currentUserId !== lastUserId.current) {
+      rnWebView.postMessage(JSON.stringify({ type: 'USER_LOGGED_IN', userId: currentUserId }));
+      lastUserId.current = currentUserId;
     }
-    if (!session?.user &&/EventlyApp/i.test(navigator.userAgent)) {
-      (window as Window & { ReactNativeWebView?: { postMessage: (message: string) => void } }).ReactNativeWebView?.postMessage(
-        JSON.stringify({ type: 'USER_LOGGED_OUT' })
-      );
+
+    if (!currentUserId && lastUserId.current !== null) {
+      rnWebView.postMessage(JSON.stringify({ type: 'USER_LOGGED_OUT' }));
+      lastUserId.current = null;
     }
-  }, [session])
+  }, [session]);
+
 
 
 
