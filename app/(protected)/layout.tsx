@@ -18,7 +18,7 @@ export default function ProtectedLayout({
         JSON.stringify({ type: 'USER_LOGGED_IN', userId: session.user.id })
       );
     }
-    if (!session &&/EventlyApp/i.test(navigator.userAgent)) {
+    if (!session?.user &&/EventlyApp/i.test(navigator.userAgent)) {
       (window as Window & { ReactNativeWebView?: { postMessage: (message: string) => void } }).ReactNativeWebView?.postMessage(
         JSON.stringify({ type: 'USER_LOGGED_OUT' })
       );
