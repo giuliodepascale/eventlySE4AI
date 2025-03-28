@@ -1,6 +1,7 @@
 "use client";
 
-import { logout } from "@/actions/logout";
+
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface LogoutButtonProps {
@@ -9,17 +10,22 @@ interface LogoutButtonProps {
 
 export const LogoutButton = ({children}:LogoutButtonProps) => {
     const router = useRouter();
-    const onClick = () => {
-         // Prima manda USER_LOGGED_OUT a WebView
+
+  const onClick = async () => {
+    // 🔁 Invia evento logout alla WebView, se sei in app
     if (/EventlyApp/i.test(navigator.userAgent)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (window as any).ReactNativeWebView?.postMessage(
+      (window as Window & { ReactNativeWebView?: { postMessage: (message: string) => void } })
+        .ReactNativeWebView?.postMessage(
           JSON.stringify({ type: "USER_LOGGED_OUT" })
         );
-      }
-        logout();
-        router.push("/");
     }
+
+    // 🔐 Logout lato client
+    await signOut({ redirect: false });
+
+    // ↪️ Redirect manuale
+    router.push("/");
+  };
     return (
         <span onClick={onClick} className="cursor-pointer">
             {children}
