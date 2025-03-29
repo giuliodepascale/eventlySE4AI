@@ -26,12 +26,16 @@ import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+
 
 export const LoginForm = () => {
 
     const searchParams = useSearchParams();
     const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ? "Email usata con un altro provider" : "";
     const callbackUrl = searchParams.get("callbackUrl");
+    const router = useRouter();
 
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -50,11 +54,14 @@ export const LoginForm = () => {
         setSuccess("");
 
         startTransition(() => {
-            login(values, callbackUrl || undefined)
-            .then((data) => {
+            login(values)
+            .then(async (data) => {
                 setError(data?.error);
                 setSuccess(data?.success);
-
+                if(data?.success) {
+                    router.refresh(); // ✅ aggiorna tutta la sessione, triggera useSession e layout
+                    router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT); // oppure pusha in seguito // redirect manuale
+                }
             });
         });
     }
