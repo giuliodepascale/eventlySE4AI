@@ -87,7 +87,7 @@ const SettingsForm = ({ user }: SettingsFormProps) => {
                 </FormItem>
               )}
             />
-            {user?.isOAuth === false && (
+          
               <>
             <FormField
               control={form.control}
@@ -129,7 +129,7 @@ const SettingsForm = ({ user }: SettingsFormProps) => {
               )}
             />
             </>
-            )}
+            
             <Button type="submit" >Aggiorna</Button>
             <FormSuccess message={success} />
             <FormError message={error} />

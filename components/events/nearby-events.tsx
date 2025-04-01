@@ -18,6 +18,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({  currentUser }) => {
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
   const query = searchParams.get("query") || "";
+  const dateFilter = searchParams.get("dateFilter") || "";
 
   const [nearbyEvents, setNearbyEvents] = useState<SafeNearbyEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -41,7 +42,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({  currentUser }) => {
         try {
           const url = `/api/nearby-events?lat=${userCoords.lat}&lng=${userCoords.lng}&category=${encodeURIComponent(
             category
-          )}&query=${encodeURIComponent(query)}&limit=10&page=1`;
+          )}&query=${encodeURIComponent(query)}&dateFilter=${encodeURIComponent(dateFilter)}&limit=10&page=1`;
           const res = await fetch(url);
           const data = await res.json();
           if (data.error) {
@@ -57,7 +58,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({  currentUser }) => {
       };
       fetchNearbyEvents();
     }
-  }, [userCoords, category, query]);
+  }, [userCoords, category, query, dateFilter]);
 
   if (loading) return <div>Caricamento eventi vicini...</div>;
   if (!userCoords) return <div>Coordinate non disponibili.</div>;
@@ -81,7 +82,7 @@ const NearbyEvents: React.FC<NearbyEventsProps> = ({  currentUser }) => {
     const newServerPage = serverPage + 1;
     const url = `/api/nearby-events?lat=${userCoords.lat}&lng=${userCoords.lng}&category=${encodeURIComponent(
       category
-    )}&query=${encodeURIComponent(query)}&limit=10&page=${newServerPage}`;
+    )}&query=${encodeURIComponent(query)}&dateFilter=${encodeURIComponent(dateFilter)}&limit=10&page=${newServerPage}`;
     try {
       const res = await fetch(url);
       const data = await res.json();

@@ -27,12 +27,61 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Coordinate mancanti" }, { status: 400 });
   }
   
-  // Altri parametri: query, category, page, limit
+  // Altri parametri: query, category, dateFilter, page, limit
   const query = searchParams.get("query") || "";
   const category = searchParams.get("category") || "";
+  const dateFilter = searchParams.get("dateFilter") || "";
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "5");
 
+  // Gestione del filtro per data
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  
+  const dayOfWeek = today.getDay(); // 0 = domenica, 6 = sabato
+  const friday = new Date(today);
+  friday.setDate(friday.getDate() + (dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + 7 - dayOfWeek));
+  friday.setHours(0, 0, 0, 0);
+  
+  const sunday = new Date(friday);
+  sunday.setDate(sunday.getDate() + 2);
+  sunday.setHours(23, 59, 59, 999);
+  
+  // Costruzione del filtro per data in base all'opzione selezionata
+  let dateFilterCondition = {};
+  if (dateFilter === 'today') {
+    const endOfDay = new Date(today);
+    endOfDay.setHours(23, 59, 59, 999);
+    dateFilterCondition = {
+      eventDate: {
+        gte: today,
+        lte: endOfDay
+      }
+    };
+  } else if (dateFilter === 'tomorrow') {
+    const endOfTomorrow = new Date(tomorrow);
+    endOfTomorrow.setHours(23, 59, 59, 999);
+    dateFilterCondition = {
+      eventDate: {
+        gte: tomorrow,
+        lte: endOfTomorrow
+      }
+    };
+  } else if (dateFilter === 'weekend') {
+    dateFilterCondition = {
+      eventDate: {
+        gte: friday,
+        lte: sunday
+      }
+    };
+  } else {
+    // Se non c'è un filtro per data, mantieni il filtro predefinito (eventi futuri)
+    dateFilterCondition = { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } };
+  }
+  
   // Costruzione dei filtri dinamici per Prisma (simile a getAllEvents)
   const filterConditions = {
     AND: [
@@ -40,8 +89,8 @@ export async function GET(request: Request) {
       ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
       // Filtra solo eventi con status "ACTIVE"
       { status: manualStatus.ACTIVE },
-      // Filtra eventi con data entro 4 ore dal presente
-      { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
+      // Applica il filtro per data
+      dateFilterCondition,
     ],
   };
 

@@ -38,6 +38,44 @@ const UserMenu: React.FC<UserMenuProps> = ({
             <div className="flex flex-row items-center gap-2 md:gap-3">
                 <div>
                     <Link 
+                        href="/my-reservations"
+                        className="
+                            hidden
+                            md:block
+                            text-sm
+                            font-semibold
+                            py-2
+                            px-3
+                            rounded-full
+                            hover:bg-neutral-100
+                            transition
+                            cursor-pointer
+                        "
+                    >
+                        Prenotazioni
+                    </Link>
+                </div>
+                <div>
+                    <Link 
+                        href="/my-tickets"
+                        className="
+                            hidden
+                            md:block
+                            text-sm
+                            font-semibold
+                            py-2
+                            px-3
+                            rounded-full
+                            hover:bg-neutral-100
+                            transition
+                            cursor-pointer
+                        "
+                    >
+                        Biglietti
+                    </Link>
+                </div>
+                <div>
+                    <Link 
                         href="/my-favorites"
                         className="
                             hidden
@@ -52,7 +90,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                             cursor-pointer
                         "
                     >
-                        I miei preferiti
+                         I miei preferiti
                     </Link>
                 </div>
 

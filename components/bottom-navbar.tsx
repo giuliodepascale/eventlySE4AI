@@ -13,8 +13,8 @@ const BottomNavbar = () => {
   const navItems = [
     { href: "/", icon: <FaHome className="w-6 h-6" />, label: "Home" },
     { href: "/my-favorites", icon: <CiHeart className="w-6 h-6" />, label: "Preferiti" },
-    { href: "/my-reservations", icon: <LuTickets className="w-6 h-6" />, label: "Ticketing" },
-    { href: "/settings", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
+    { href: "/my-reservations", icon: <LuTickets className="w-6 h-6" />, label: "Prenotazioni" },
+    { href: "/admin", icon: <FaUser className="w-6 h-6" />, label: "Profilo" },
   ];
 
   return (

@@ -1,48 +1,39 @@
 "use server";
+
 import { db } from "@/lib/db";
+import { Ticket } from "@prisma/client";
 
-export async function getTicketTypesForEvent(eventId: string) {
-  if (!eventId) {
-    throw new Error("L'ID dell'evento è richiesto.");
-  }
-
-  try {
-    const ticketTypes = await db.ticketType.findMany({
-      where: { eventId },
-    });
-
-    return ticketTypes.map(ticket => ({
-      ...ticket,
-      createdAt: ticket.createdAt.toISOString(),
-    }));
-  } catch (error) {
-    console.error("Errore durante il recupero dei tipi di biglietti:", error);
-    throw new Error("Impossibile recuperare i tipi di biglietti per l'evento.");
-  }
+export async function getTicketById(ticketId: string) {
+    try {
+        const ticket = await db.ticket.findUnique({
+            where: { id: ticketId },
+            include: {
+                event: true, // Includi i dettagli dell'evento
+                ticketType: true, // Includi il tipo di biglietto
+            },
+        });
+        return ticket;
+    } catch (error) {
+        console.error("Errore nel recupero del biglietto:", error);
+        return null;
+    }
 }
 
-export async function getActiveTicketsByEvent(eventId: string) {
-  if (!eventId) {
-    throw new Error("L'ID dell'evento è richiesto.");
-  }
 
-  try {
-    const activeTickets = await db.ticketType.findMany({
-      where: {
-        eventId,
-        isActive: true,
-      },
-      orderBy: {
-        price: 'asc',
-      },
-    });
+export async function getTicketsByUser(userId: string) {
+    try {
+        const tickets = await db.ticket.findMany({
+            where: { userId },
+            include: {
+                event: true, // Includi i dettagli dell'evento
+                ticketType: true, // Includi i dettagli del tipo di biglietto
+            },
+            orderBy: { createdAt: "desc" }, // Ordina i biglietti dal più recente al più vecchio
+        });
 
-    return activeTickets.map(ticket => ({
-      ...ticket,
-      createdAt: ticket.createdAt.toISOString(),
-    }));
-  } catch (error) {
-    console.error("Errore durante il recupero dei biglietti attivi:", error);
-    throw new Error("Impossibile recuperare i biglietti attivi per l'evento.");
-  }
+        return tickets;
+    } catch (error) {
+        console.error("❌ Errore nel recupero dei biglietti:", error);
+        return [];
+    }
 }

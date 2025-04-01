@@ -42,19 +42,67 @@ export const getEvents = async () => {
 }
 
 
-export const getAllEvents = async (query = "", limit = 6, page = 1, category = "") => {
+export const getAllEvents = async (query = "", limit = 6, page = 1, category = "", dateFilter = "") => {
   try {
     // Calcolo dell'offset per la paginazione
     const offset = (page - 1) * limit;
 
     // Creazione della query dinamica per Prisma
+    // Gestione del filtro per data
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const dayOfWeek = today.getDay(); // 0 = domenica, 6 = sabato
+    const friday = new Date(today);
+    friday.setDate(friday.getDate() + (dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + 7 - dayOfWeek));
+    friday.setHours(0, 0, 0, 0);
+    
+    const sunday = new Date(friday);
+    sunday.setDate(sunday.getDate() + 2);
+    sunday.setHours(23, 59, 59, 999);
+    
+    // Costruzione del filtro per data in base all'opzione selezionata
+    let dateFilterCondition = {};
+    if (dateFilter === 'today') {
+      const endOfDay = new Date(today);
+      endOfDay.setHours(23, 59, 59, 999);
+      dateFilterCondition = {
+        eventDate: {
+          gte: today,
+          lte: endOfDay
+        }
+      };
+    } else if (dateFilter === 'tomorrow') {
+      const endOfTomorrow = new Date(tomorrow);
+      endOfTomorrow.setHours(23, 59, 59, 999);
+      dateFilterCondition = {
+        eventDate: {
+          gte: tomorrow,
+          lte: endOfTomorrow
+        }
+      };
+    } else if (dateFilter === 'weekend') {
+      dateFilterCondition = {
+        eventDate: {
+          gte: friday,
+          lte: sunday
+        }
+      };
+    } else {
+      // Se non c'è un filtro per data, mantieni il filtro predefinito (eventi futuri)
+      dateFilterCondition = { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } };
+    }
+    
     const filters = {
       where: {
         AND: [
           ...(category ? [{ category: category }] : []),
           ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
-          // Filtra eventi con data entro 4 ore dal presente
-          { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
+          // Applica il filtro per data
+          dateFilterCondition,
         ],
       },
       take: limit,
@@ -103,21 +151,70 @@ export const getAllActiveEvents = async (
   query = "",
   limit = 6,
   page = 1,
-  category = ""
+  category = "",
+  dateFilter = ""
 ) => {
   try {
     // Calcolo dell'offset per la paginazione
     const offset = (page - 1) * limit;
 
     // Creazione della query dinamica per Prisma
+    // Gestione del filtro per data
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    const dayOfWeek = today.getDay(); // 0 = domenica, 6 = sabato
+    const friday = new Date(today);
+    friday.setDate(friday.getDate() + (dayOfWeek <= 5 ? 5 - dayOfWeek : 5 + 7 - dayOfWeek));
+    friday.setHours(0, 0, 0, 0);
+    
+    const sunday = new Date(friday);
+    sunday.setDate(sunday.getDate() + 2);
+    sunday.setHours(23, 59, 59, 999);
+    
+    // Costruzione del filtro per data in base all'opzione selezionata
+    let dateFilterCondition = {};
+    if (dateFilter === 'today') {
+      const endOfDay = new Date(today);
+      endOfDay.setHours(23, 59, 59, 999);
+      dateFilterCondition = {
+        eventDate: {
+          gte: today,
+          lte: endOfDay
+        }
+      };
+    } else if (dateFilter === 'tomorrow') {
+      const endOfTomorrow = new Date(tomorrow);
+      endOfTomorrow.setHours(23, 59, 59, 999);
+      dateFilterCondition = {
+        eventDate: {
+          gte: tomorrow,
+          lte: endOfTomorrow
+        }
+      };
+    } else if (dateFilter === 'weekend') {
+      dateFilterCondition = {
+        eventDate: {
+          gte: friday,
+          lte: sunday
+        }
+      };
+    } else {
+      // Se non c'è un filtro per data, mantieni il filtro predefinito (eventi futuri)
+      dateFilterCondition = { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } };
+    }
+    
     const filters = {
       where: {
         AND: [
           ...(category ? [{ category: category }] : []),
           ...(query ? [{ title: { contains: query, mode: "insensitive" as const } }] : []),
           { status: manualStatus.ACTIVE },
-          // Filtra eventi con data entro 4 ore dal presente
-          { eventDate: { gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } },
+          // Applica il filtro per data
+          dateFilterCondition,
         ],
       },
       take: limit,

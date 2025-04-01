@@ -15,14 +15,16 @@ import {
     FormField,
     FormItem,
     FormLabel,
-    FormMessage
-
+    FormMessage,
     
 } from "@/components/ui/form"
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { useState, useTransition } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { PrivacyPolicy } from "@/components/legal/privacy-policy";
+import { TermsConditions } from "@/components/legal/terms-conditions";
 
 export const RegisterForm = () => {
 
@@ -35,8 +37,9 @@ export const RegisterForm = () => {
         defaultValues: {
             name: "" , 
             email: "",
-            password: "" 
-            
+            password: "",
+            privacyPolicy: false,
+            termsAndConditions: false
         }
     });
 
@@ -116,6 +119,50 @@ export const RegisterForm = () => {
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="privacyPolicy"
+                            render={({ field }) => (
+                                <>
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-2">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel className="text-sm font-medium leading-none">
+                                            Accetto la <PrivacyPolicy />
+                                        </FormLabel>
+                                    </div>
+                                </FormItem>
+                                <FormMessage className="ml-6 mt-1" />
+                                </>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="termsAndConditions"
+                            render={({ field }) => (
+                                <>
+                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-2">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel className="text-sm font-medium leading-none">
+                                            Accetto i <TermsConditions />
+                                        </FormLabel>
+                                    </div>
+                                </FormItem>
+                                <FormMessage className="ml-6 mt-1" />
+                                </>
                             )}
                         />
                         <FormError message={error}/>

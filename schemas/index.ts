@@ -24,7 +24,13 @@ export const RegisterSchema = z.object({
     }),
     name: z.string().min(1, {
         message: "Inserisci il tuo nome",
-    }).max(25)
+    }).max(25),
+    privacyPolicy: z.boolean().refine(val => val === true, {
+        message: "Devi accettare la Privacy Policy",
+    }),
+    termsAndConditions: z.boolean().refine(val => val === true, {
+        message: "Devi accettare i Termini e Condizioni",
+    })
 });
 
 export const ResetSchema = z.object({
@@ -114,12 +120,6 @@ export const SettingsSchema = z.object({
   });
 
 
-  // Scheda biglietto (nome, prezzo, quantità, ecc.)
-
-
-
-
-
 export const CreateEventSchema = z.object({
   title: z
     .string()
@@ -197,40 +197,3 @@ export const CreateTicketTypeSchema = z.object({
     z.number().int().min(1, "La quantità deve essere almeno 1")
   ),
 });
-  /*
-price: z
-    .string()
-    .refine((val) => {
-      if (val === undefined) return true;
-
-      // Converte in intero.
-      const intVal = parseInt(val, 10);
-
-      // Controlla che non sia NaN e non sia negativo.
-      if (isNaN(intVal) || intVal < 0) {
-        return false;
-      }
-
-      // Se `intVal.toString()` è uguale a `val`, significa che non c'erano decimali.
-      return intVal.toString() === val;
-    }, {
-      message: "Il prezzo deve essere un intero non negativo",
-    })
-}).refine((data) => {
-  if(data.isFree && parseInt(data.price) > 0) {
-      return false
-  }
-  return true
-}, {
-  message: "Il prezzo deve essere pari a 0 se l'evento ha ingresso libero",
-  path: ["price"]
-}).refine((data) => {
-  if(!data.isFree && parseInt(data.price) === 0) {
-      return false
-  }
-  return true
-}, {
-  message: "Se il prezzo è pari a 0 l'ingresso deve essere libero",
-  path: ["isFree"]
-})
-  */

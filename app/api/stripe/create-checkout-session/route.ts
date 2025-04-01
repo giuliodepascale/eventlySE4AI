@@ -6,8 +6,7 @@ export async function POST(req: Request) {
   try {
     const { ticketId, userId } = await req.json();
 
-    console.log("🔍 TICKET ID:", ticketId);
-    console.log("🔍 USER ID:", userId);
+
 
     if (!ticketId || !userId) {
       return NextResponse.json({ error: "Manca ticketId o userId" }, { status: 400 });
@@ -36,6 +35,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Il biglietto selezionato non è attivo." }, { status: 400 });
     }
     
+    if (ticketType.quantity <= ticketType.sold) {
+      return NextResponse.json({ error: "I biglietti in questione sono esuariti." }, { status: 400 });
+    }
 
     const price = ticketType.price * 100;
 
@@ -56,18 +58,21 @@ export async function POST(req: Request) {
       ],
       mode: "payment",
       metadata: {
+        type:"ticket",
         userId: userId,
-        ticketId: ticketType.id,
-        eventTitle: ticketType.event.title,
+        ticketTypeId: ticketType.id,
+        eventId: ticketType.event.id,
         organizationName: ticketType.event.organization.name,
         organizationId: ticketType.event.organization.id,
         ticketTypeName: ticketType.name,
+
       },
       payment_intent_data: {
         metadata: {
+          type:"ticket",
           userId: userId,
-          ticketId: ticketType.id,
-          eventTitle: ticketType.event.title,
+          ticketTypeId: ticketType.id,
+          eventId: ticketType.event.id,
           organizationName: ticketType.event.organization.name,
           organizationId: ticketType.event.organization.id,
           ticketTypeName: ticketType.name,
@@ -78,7 +83,7 @@ export async function POST(req: Request) {
           destination: ticketType.event.organization.stripeAccountId,
         },
       },
-      success_url: `${siteUrl}`,
+      success_url: `${siteUrl}/my-tickets`,
       cancel_url: `${siteUrl}`,
       locale: "it",
     });

@@ -17,7 +17,12 @@ export const register = async (values:z.infer<typeof RegisterSchema>) => {
         return { error: "Campi non validi" };
     }
 
-    const {email, password, name} = validatedFields.data;
+    const {email, password, name, privacyPolicy, termsAndConditions} = validatedFields.data;
+    
+    // Verifica che l'utente abbia accettato la privacy policy e i termini e condizioni
+    if (!privacyPolicy || !termsAndConditions) {
+        return { error: "Devi accettare la Privacy Policy e i Termini e Condizioni" };
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
