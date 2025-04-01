@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { Ticket } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 
 export async function createTicketActionandUpdateSold(
@@ -10,7 +11,7 @@ export async function createTicketActionandUpdateSold(
   paymentStripeId: string,
   methodPaymentId: string,
   paid: number
-) {
+): Promise<{ success: boolean; ticket?: Ticket; error?: string }> {
   try {
     // Genera un codice univoco per il biglietto (QR Code)
     const ticketCode = uuidv4();
