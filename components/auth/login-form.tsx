@@ -33,7 +33,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 export const LoginForm = () => {
 
     const searchParams = useSearchParams();
-    const urlError = searchParams.get("error")==="OAuthAccountNotLinked" ? "Email usata con un altro provider" : "";
+    
     const callbackUrl = searchParams.get("callbackUrl");
     const router = useRouter();
 
@@ -112,7 +112,7 @@ export const LoginForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormError message={error || urlError}/>
+                        <FormError message={error}/>
                         <FormSuccess message={success}/>
                         <Button type="submit"
                         className="w-full"

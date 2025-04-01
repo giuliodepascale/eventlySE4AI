@@ -4,13 +4,12 @@ import { db } from "@/lib/db"
 import { getUserById } from "@/data/user" 
 import NextAuth from "next-auth"
 import { UserRole } from "@prisma/client"
-import { getAccountByUserId } from "./data/account"
  
 
 
 export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
   pages: {
-    signIn: "/auth/login",    //redirect giusti alle pagine mie e non di nextAuth
+    signIn: "/auth/login",    
     error: "/auth/error",
   },
   events: {
@@ -27,7 +26,7 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
   async signIn({user, account}){
 
     if(account?.provider!== 'credentials'){
-      return true;
+      return false;
     }
     //Per fare il login devi verificare l'email
     const existingUser = await getUserById(user.id!);
@@ -51,7 +50,6 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
     if(session.user) {
       session.user.name = token.name ?? '';
       session.user.email = token.email ?? '';
-      session.user.isOAuth =  token.isOAuth as boolean;
     }
 
      return session;
@@ -66,9 +64,7 @@ export const { auth, handlers: { GET, POST }, signIn, signOut } = NextAuth({
         return token;
       }
 
-      const existingAccount = await getAccountByUserId(existingUser.id);
 
-      token.isOAuth = !!existingAccount;
       token.role = existingUser.role;
       token.name = existingUser.name;
       token.email = existingUser.email;

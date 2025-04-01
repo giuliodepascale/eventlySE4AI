@@ -30,12 +30,6 @@ export const settings = async (
         values.password = undefined;
         values.newPassword = undefined;
     }
-    if(user.isOAuth){
-        values.email = undefined;
-        values.password = undefined;
-        values.newPassword = undefined;
-    }
-
     
 
     if(values.email && values.email !== user.email){
