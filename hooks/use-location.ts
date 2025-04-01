@@ -19,7 +19,7 @@ const useLocation = () => {
           console.error("Errore nel recupero della posizione:", error);
           setLoadingLocation(false);
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
       );
     } else {
       console.error("Geolocalizzazione non supportata");

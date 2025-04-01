@@ -45,9 +45,6 @@ export const useFavorite = ({ eventId, currentUser }: UseFavoriteProps) => {
     setIsFavorited(hasFavoritedFromServer);
   }, [hasFavoritedFromServer]);
 
-  // Log per debug
-  useEffect(() => {
-  }, [eventId, currentUser, isFavorited]);
 
   /**
    * Funzione per aggiungere/rimuovere preferito.
