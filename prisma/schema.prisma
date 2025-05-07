@@ -34,6 +34,7 @@ model User {
   image             String?
   password          String             
   role              UserRole            @default(USER)
+  regione           String?
 
   location          String?
 

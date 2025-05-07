@@ -38,6 +38,7 @@ export const RegisterForm = () => {
             name: "" , 
             email: "",
             password: "",
+            regione: "",
             privacyPolicy: false,
             termsAndConditions: false
         }
@@ -82,6 +83,22 @@ export const RegisterForm = () => {
                                     <FormControl>
                                         <Input {...field} 
                                         placeholder="Inserisci il tuo nome"
+                                        type="text"
+                                        disabled={isPending}/>
+                                    </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="regione"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Regione</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} 
+                                        placeholder="Inserisci la tua regione"
                                         type="text"
                                         disabled={isPending}/>
                                     </FormControl>
