@@ -9,10 +9,17 @@ import { currentUser } from "@/lib/auth";
 import { getUserByIdCached } from "@/lib/cache";
 import { User } from "@prisma/client";
 import DateFilterBar from "@/components/altre/date-filter-bar";
+import { getAllActiveEventsNoLimits } from "@/data/event";
+import AIComponent from "@/components/ML-AI/ai";
+import { getCountLikeForCatagoryEventsByUser } from "@/data/user";
 
 export default async function Home() {
   const user = await currentUser();
   const fullUser = user?.id ? await getUserByIdCached(user.id) : null;
+
+  const allActiveEvents = await getAllActiveEventsNoLimits();
+
+  const categoryCounts = await getCountLikeForCatagoryEventsByUser(user?.id as string);
   // Renderizza immediatamente uno skeleton UI mentre i dati vengono caricati
   return (
     <main>
@@ -29,7 +36,16 @@ export default async function Home() {
           <NearbyEventsWrapper fullUser={fullUser}/>
         </Suspense>
       </Section>
+
+      <Section title="Eventi consigliati per te ">
+        <Suspense fallback={<Loading />}>
+          <AIComponent user={fullUser} events={allActiveEvents} categoryCount={categoryCounts}/>
+        </Suspense>
+      </Section>
     </main>
+
+
+
   );
 }
 
