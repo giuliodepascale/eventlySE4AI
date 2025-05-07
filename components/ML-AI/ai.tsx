@@ -11,7 +11,7 @@ interface AIComponentProps {
 }
 
 const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }) => {
-  const [eventScores, setEventScores] = useState<any[]>([]);
+  const [eventScores, setEventScores] = useState<{prediction: number}[]>([]);
 
   useEffect(() => {
     const fetchEventScores = async () => {
