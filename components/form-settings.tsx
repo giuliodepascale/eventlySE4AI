@@ -15,17 +15,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ExtendedUser } from "@/next-auth";
+
 import { SettingsSchema } from "@/schemas";
 import { FormSuccess } from "./form-success";
 import { FormError } from "./form-error";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { useSession } from "next-auth/react";
+import { User } from "@prisma/client";
 
 
 
 interface SettingsFormProps {
-    user?: ExtendedUser      //user con il ruolo (Extended user definito nel file next-auth.d.ts)
+    user?: User      //user con il ruolo (Extended user definito nel file next-auth.d.ts)
 }
 
 const SettingsForm = ({ user }: SettingsFormProps) => {
@@ -41,6 +42,7 @@ const SettingsForm = ({ user }: SettingsFormProps) => {
     defaultValues: {
       name: user?.name || undefined,
       email: user?.email || undefined,
+      regione: user?.regione || undefined,
       password: "",
       newPassword: ""
     }
@@ -87,7 +89,19 @@ const SettingsForm = ({ user }: SettingsFormProps) => {
                 </FormItem>
               )}
             />
-          
+            <FormField
+              control={form.control}
+              name="regione"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Regione</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Regione" {...field} disabled={isPending} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
               <>
             <FormField
               control={form.control}

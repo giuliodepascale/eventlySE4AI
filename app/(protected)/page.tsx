@@ -39,7 +39,9 @@ export default async function Home() {
 
       <Section title="Eventi consigliati per te ">
         <Suspense fallback={<Loading />}>
+          
           <AIComponent user={fullUser} events={allActiveEvents} categoryCount={categoryCounts}/>
+        
         </Suspense>
       </Section>
     </main>

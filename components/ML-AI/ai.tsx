@@ -3,6 +3,8 @@
 import { SafeEvent } from '@/app/types';
 import { User } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
+import EventCard from '../events/eventCard';
+ // Assicurati che il percorso sia corretto
 
 interface AIComponentProps {
   user: User | null;
@@ -28,15 +30,21 @@ const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }
     fetchEventScores();
   }, [user, events, categoryCount]);
 
+  // Ordina gli eventi per punteggio in ordine decrescente
+  const sortedEvents = eventScores
+    .map((score, index) => ({ ...score, event: events[index] }))
+    .sort((a, b) => b.prediction - a.prediction);
+
   return (
     <div>
-      <h2>Risultati dei punteggi degli eventi</h2>
-      {eventScores.map((score, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+      {sortedEvents.map((item, index) => (
         <div key={index}>
-          <p>Evento: {events[index].title}</p>
-          <p>Punteggio: {score.prediction}</p>
+          <p>Punteggio: {item.prediction}</p>
+          <EventCard data={item.event} currentUser={user} />
         </div>
       ))}
+      </div>
     </div>
   );
 };

@@ -1,14 +1,20 @@
-"use client"
+"use server"
 
 import SettingsForm from "@/components/form-settings";
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { getUserById } from "@/data/user";
+
+import { currentUser } from "@/lib/auth";
 
 
-const SettingsPage =  () => {
-  const user =  useCurrentUser();
+const SettingsPage = async () => {
+  const user = await currentUser();
+  console.log(user);
+  if (!user || !user.id) return null;
+  const fullUser = await getUserById(user.id);
 
+  console.log(fullUser);
   return (
-        <SettingsForm user={user} />
+        <SettingsForm user={fullUser || undefined} />
   );
 };
 

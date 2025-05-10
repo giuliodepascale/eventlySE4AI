@@ -53,6 +53,7 @@ export const NewPasswordSchema = z.object({
 export const SettingsSchema = z.object({
     name: z.optional(z.string().min(1).max(25)),
     email: z.optional(z.string().email()),
+    regione: z.optional(z.string().min(1)),
     password: z.optional(z.string().min(5).max(20)).or(z.literal('')),
     newPassword: z.optional(z.string().min(5).max(20)).or(z.literal('')),
 
