@@ -4,6 +4,7 @@ import { SafeEvent } from '@/app/types';
 import { User } from '@prisma/client';
 import React, { useEffect, useState } from 'react';
 import EventCard from '../events/eventCard';
+import Section from '../events/section';
  // Assicurati che il percorso sia corretto
 
 interface AIComponentProps {
@@ -25,6 +26,9 @@ const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }
           console.error('Errore nel recupero dei punteggi degli eventi:', error);
         }
       }
+      else {
+        return ;
+      }
     };
 
     fetchEventScores();
@@ -36,6 +40,7 @@ const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }
     .sort((a, b) => b.prediction - a.prediction);
 
   return (
+    <Section title="Consigliati per te">
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
       {sortedEvents.map((item, index) => (
@@ -46,7 +51,9 @@ const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }
       ))}
       </div>
     </div>
+     </Section>
   );
+
 };
 
 export default AIComponent;
