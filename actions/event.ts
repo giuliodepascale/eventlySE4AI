@@ -176,3 +176,25 @@ export async function updateEvent(
 
   redirect(`/events/${updatedEvent.id}`);
 }
+
+
+export async function deleteEvent(eventId: string) {
+  try {
+    const event = await db.event.findUnique({
+      where: { id: eventId },
+    });
+
+    if (!event) {
+      return { error: "Evento non trovato" };
+    }
+
+    await db.event.delete({
+      where: { id: eventId },
+    });
+
+    return { success: "Evento eliminato con successo" };
+  } catch (error) {
+    console.error("Errore durante l'eliminazione dell'evento:", error);
+    return { error: "Errore durante l'eliminazione dell'evento. Riprova più tardi." };
+  }
+}

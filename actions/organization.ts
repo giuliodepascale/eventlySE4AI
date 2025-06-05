@@ -337,3 +337,24 @@ export async function updateOrganization(
 
 
 
+export async function deleteOrganization(organizationId: string) {
+  try {
+    const organization = await db.organization.findUnique({
+      where: { id: organizationId },
+    });
+
+    if (!organization) {
+      return { error: "Organizzazione non trovata." };
+    }
+
+  
+    await db.organization.delete({
+      where: { id: organizationId },
+    });
+
+    return { success: "Organizzazione eliminata con successo." };
+  } catch (error) {
+    console.error("Errore durante l'eliminazione dell'organizzazione:", error);
+    return { error: "Errore durante l'eliminazione dell'organizzazione. Riprova più tardi." };
+  }
+}

@@ -9,6 +9,7 @@ import { SafeEvent } from "@/app/types";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
 import { FaEdit } from "react-icons/fa";
+import { deleteEvent } from "@/actions/event";
 
 interface EventCardProps {
   data: SafeEvent & Partial<{ distance: number }>;
@@ -17,21 +18,15 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator }) => {
-
   const router = useRouter();
-
   const searchParams = useSearchParams();
 
-  // Recuperiamo l'eventuale categoria presente nei parametri
   const currentCategory = searchParams.get("category");
-  // Se la categoria corrisponde a quella dell'evento e ci clicchiamo di nuovo,
-  // resettiamo andando su "/", altrimenti imposta la categoria.
   const categoryLink =
     currentCategory === data.category ? "/" : `/?category=${data.category}`;
 
   return (
     <Suspense>
-      {/* Contenitore principale: un DIV, non un Link */}
       <div
         className="
           group 
@@ -48,7 +43,6 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
           text-neutral-800
         "
       >
-        {/* Link per l’evento (immagine + titolo) */}
         <Link href={`/events/${data.id}`}>
           <div
             className="
@@ -62,7 +56,7 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
           >
             <Image
               alt="Evento"
-              src={data.imageSrc || "/images/NERO500.jpg"} // TODO IMMAGINE ORGANIZZAZIONE???
+              src={data.imageSrc || "/images/NERO500.jpg"}
               priority
               fill
               className="
@@ -72,35 +66,57 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
                 group-hover:scale-110
               "
             />
-         {isEventCreator ? (
-        <div className="absolute right-2 top-2 flex flex-col items-center gap-2 transition-all hover:scale-110">
-        {/* Pulsante per la modifica */}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            router.push(`/events/${data.id}/update/${data.organizationId}`);
-          }}
-          className="flex items-center justify-center p-3 transition-colors duration-200 rounded-full bg-blue-500 hover:bg-blue-600 text-white focus:outline-none shadow-md"
-          title="Modifica"
-        >
-          <FaEdit width={20} height={20} />
-        </button>
-      </div>
-      
-      ) : (
-        <div className="absolute top-3 right-3">
-          <HeartButton eventId={data.id} currentUser={currentUser} />
-        </div>
-      )}
-            
+            {isEventCreator ? (
+              <div className="absolute right-2 top-2 flex flex-row-reverse items-center gap-2 transition-all">
+                {/* Modifica */}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    router.push(`/events/${data.id}/update/${data.organizationId}`);
+                  }}
+                  className="flex items-center justify-center p-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-md transition-colors duration-200"
+                  title="Modifica"
+                >
+                  <FaEdit width={20} height={20} />
+                </button>
+
+                {/* Elimina */}
+                <form
+                  action={async () => {
+                    await deleteEvent(data.id);
+                    alert("Evento eliminato con successo.");
+                    router.refresh();
+                  }}
+                >
+                  <button
+                    type="submit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const confirmed = window.confirm(
+                        "Sei sicuro di voler eliminare questo evento?"
+                      );
+                      if (!confirmed) e.preventDefault();
+                    }}
+                    className="flex items-center justify-center p-3 rounded-full bg-red-500 hover:bg-red-600 text-white shadow-md transition-colors duration-200"
+                    title="Elimina"
+                  >
+                    🗑️
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <div className="absolute top-3 right-3">
+                <HeartButton eventId={data.id} currentUser={currentUser} />
+              </div>
+            )}
           </div>
+
           <h3 className="text-lg font-semibold mb-1 break-words line-clamp-2">
             {data.title}
           </h3>
         </Link>
 
-        {/* Link per la categoria */}
         <Link
           href={categoryLink}
           className="
@@ -118,24 +134,24 @@ const EventCard: React.FC<EventCardProps> = ({ data, currentUser, isEventCreator
         >
           {data.category}
         </Link>
-        <Link href={`/events/${data.id}`}>
-        {/* Data evento */}
-        <div className="text-sm text-neutral-500 mb-2">
-          <DateFormatter dateISO={data.eventDate} showDayName/>
-        </div>
 
-       
-        {data.distance !== undefined && (
+        <Link href={`/events/${data.id}`}>
+          <div className="text-sm text-neutral-500 mb-2">
+            <DateFormatter dateISO={data.eventDate} showDayName />
+          </div>
+
+          {data.distance !== undefined && (
             <div className="text-sm text-gray-500 mt-1">
               Distanza: {data.distance.toFixed(2)} km
             </div>
           )}
         </Link>
+
         {isEventCreator && (
-        <Link href={`/events/${data.id}/ticket-management/${data.organizationId}`}>
-          Gestisci Biglietteria
-        </Link>
-      )}
+          <Link href={`/events/${data.id}/ticket-management/${data.organizationId}`}>
+            Gestisci Biglietteria
+          </Link>
+        )}
       </div>
     </Suspense>
   );
