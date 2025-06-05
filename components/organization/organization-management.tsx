@@ -6,7 +6,7 @@ import React from "react";
 
 import { SafeOrganization } from "@/app/types";
 import Link from "next/link";
-import OrganizationTicketingStatus from "./organization-ticketing-status";
+
 
 interface OrgnizationManagementProps {
   organization: SafeOrganization;
@@ -19,7 +19,7 @@ const OrgnizationManagement: React.FC<OrgnizationManagementProps> = ({  organiza
       Crea Evento
     </Link>
     
-    <OrganizationTicketingStatus ticketingStatus={organization.ticketingStatus} />
+  
     </>
   );
 };

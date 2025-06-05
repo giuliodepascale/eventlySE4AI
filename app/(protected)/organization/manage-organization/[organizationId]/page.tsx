@@ -6,8 +6,7 @@ import { currentUser } from "@/lib/auth";
 import { getEventsByOrganization } from "@/data/event";
 import { User } from "@prisma/client";
 import { getUserById } from "@/data/user";
-import StripeAccountButton from "@/components/altre/stripe-button";
-import StripeAccountStatus from "@/components/altre/stripe-account-status";
+
 
 interface OrganizationPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -99,8 +98,7 @@ export default async function OrganizationPage({ params }: OrganizationPageProps
           "
         >
               {/* ✅ Aggiunto il componente per verificare lo stato dell'account Stripe */}
-      <StripeAccountStatus organizationId={organization.id} />
-            <StripeAccountButton organizationId={organization.id} email={organization.email || ""} stripeAccountId={organization.stripeAccountId || null}  />
+     
             <EventList events={events.events || []} currentUser={fullUser as User} isEventCreator={true}/>
             </div>
         </>

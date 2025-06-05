@@ -542,7 +542,7 @@ interface OrganizationFormProps {
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Creando..." : "Crea Organizzazione"}
+                 { type === "update" ? "Aggiorna Organizzazione" : "Crea Organizzazione"}
               </Button>
             </form>
           </Form>

@@ -622,7 +622,8 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
             disabled={isSubmitting}
           >
-            Crea evento
+            { type === "update" ? "Aggiorna evento" : "Crea evento"}
+
           </Button>
         </form>
       </Form>
