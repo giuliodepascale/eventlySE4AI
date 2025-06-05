@@ -9,7 +9,7 @@ import { SafeEvent } from "@/app/types";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
 import { FaEdit } from "react-icons/fa";
-import { deleteEvent } from "@/app/MONGODB/CRUD/events";
+import { deleteEvent } from "@/MONGODB/CRUD/events";
 
 
 interface EventCardProps {

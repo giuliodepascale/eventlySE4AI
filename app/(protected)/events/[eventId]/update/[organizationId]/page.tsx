@@ -1,10 +1,11 @@
-import { getOrganizationById, getOrganizationsByUser } from "@/app/MONGODB/CRUD/organization";
+import { getOrganizationById, getOrganizationsByUser } from "@/MONGODB/CRUD/organization";
 import EmptyState from "@/components/altre/empty-state";
 import EventForm from "@/components/events/event-form";
 
 import { currentUser } from "@/lib/auth";
 import type { SafeEvent, SafeOrganization } from "@/app/types";
-import { getEventById } from "@/data/event";
+import { getEventById } from "@/MONGODB/CRUD/events";
+
 
 interface UpdateEventPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;

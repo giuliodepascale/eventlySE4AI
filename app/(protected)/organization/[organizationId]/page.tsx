@@ -1,4 +1,4 @@
-import { getOrganizationById } from "@/app/MONGODB/CRUD/organization";
+import { getOrganizationById } from "@/MONGODB/CRUD/organization";
 import EmptyState from "@/components/altre/empty-state";
 import OrganizationClient from "@/components/organization/organization-client";
 import { getUserById } from "@/data/user";

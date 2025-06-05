@@ -2,7 +2,7 @@
 import EmptyState from "@/components/altre/empty-state";
 import { currentUser } from "@/lib/auth";
 import OrganizationList from "@/components/organization/organization-list";
-import { getOrganizationsByUser } from "@/app/MONGODB/CRUD/organization";
+import { getOrganizationsByUser } from "@/MONGODB/CRUD/organization";
 import type { SafeOrganization } from "@/app/types";
 
 export default async function MyOrganizationPage() {

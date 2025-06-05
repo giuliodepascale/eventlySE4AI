@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SafeOrganization } from "@/app/types";
-import { createOrganization, updateOrganization } from "@/app/MONGODB/CRUD/organization";
+import { createOrganization, updateOrganization } from "@/MONGODB/CRUD/organization";
 
 
 

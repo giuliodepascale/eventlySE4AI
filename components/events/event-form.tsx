@@ -39,7 +39,7 @@ import Loader from "../loader";
 import { supabaseStorage } from "@/lib/supabaseStorage";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import italia from "italia";
-import { createEvent, updateEvent } from "@/app/MONGODB/CRUD/events";
+import { createEvent, updateEvent } from "@/MONGODB/CRUD/events";
 
 dayjs.locale("it");
 

@@ -1,4 +1,4 @@
-import { getEventsWithOrganizationData } from "@/app/MONGODB/join-operation";
+import { getEventsWithOrganizationData } from "@/MONGODB/join-operation";
 
 
 export default async function ListJoin() {

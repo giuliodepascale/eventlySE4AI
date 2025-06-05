@@ -14,9 +14,10 @@ import EventList from "@/components/events/events-list";
 import type { SafeTicketType } from "@/app/types";
 import type { User } from "@prisma/client";
 import { getEventByIdCached, getUserByIdCached } from "@/lib/cache";
-import { getOrganizationById } from "@/app/MONGODB/CRUD/organization";
+import { getOrganizationById } from "@/MONGODB/CRUD/organization";
 import type { SafeOrganization } from "@/app/types";
-import { getEventById, getRelatedEventsByCategory } from "@/data/event";
+import { getEventById, getRelatedEventsByCategory } from "@/MONGODB/CRUD/events";
+
 
 interface EventPageProps {
   params: Promise<{ [key: string]: string | string[] | undefined }>;

@@ -5,10 +5,11 @@ import OrganizationManagement from "@/components/organization/organization-manag
 import { currentUser } from "@/lib/auth";
 
 import { getUserById } from "@/data/user";
-import { getOrganizationById, getOrganizationsByUser } from "@/app/MONGODB/CRUD/organization";
+import { getOrganizationById, getOrganizationsByUser } from "@/MONGODB/CRUD/organization";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import { User } from "@prisma/client";
-import { getEventsByOrganization } from "@/data/event";
+import { getEventsByOrganization } from "@/MONGODB/CRUD/events";
+
 
 interface OrganizationPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;
