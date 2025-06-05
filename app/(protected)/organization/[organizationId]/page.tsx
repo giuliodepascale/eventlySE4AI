@@ -54,20 +54,7 @@ export default async function OrganizationPage({ params }: OrganizationPageProps
     }   
 
     
-    // Verifica se l'utente corrente è tra gli organizzatori
-    const isOrganizer = organizers.some((organizer) => organizer.id === user.id);
-
     
-
-    if (!isOrganizer) {
-        return (
-            <EmptyState 
-                title="Accesso Negato" 
-                subtitle="Solo gli organizzatori possono accedere a questa pagina." 
-                showToHome
-            />
-        );
-    }
 
     let fullUser = null;
     if(user && user.id){
