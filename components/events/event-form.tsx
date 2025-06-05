@@ -37,7 +37,7 @@ import {
 import { FileUploader } from "@/components/altre/file-uploader";
 import { Checkbox } from "@/components/ui/checkbox";
 import Loader from "../loader";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseStorage } from "@/lib/supabaseStorage";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import italia from "italia";
 
@@ -149,7 +149,7 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
       const filePath = `events/${year}/${month}/${day}/${sanitizedTitle}/cover.jpg`;
   
       // Caricamento su Supabase con sovrascrittura automatica
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabaseStorage.storage
         .from("immagini")
         .upload(filePath, file, { upsert: true }); // upsert: true → sovrascrive se già esiste
   
@@ -160,7 +160,7 @@ export const EventForm = ({ organization, type, event }: EventFormProps) => {
       }
   
       // Ottieni l'URL pubblico
-      const { data } = supabase.storage.from("immagini").getPublicUrl(filePath);
+      const { data } = supabaseStorage.storage.from("immagini").getPublicUrl(filePath);
   
       if (!data?.publicUrl) {
         console.error("Errore nel recupero dell'URL pubblico");

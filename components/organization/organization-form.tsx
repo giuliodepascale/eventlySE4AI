@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import {  useForm } from "react-hook-form";
 import * as z from "zod";
 import { FileUploader } from "@/components/altre/file-uploader";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseStorage } from "@/lib/supabaseStorage";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { Button } from "../ui/button";
@@ -176,7 +176,7 @@ interface OrganizationFormProps {
           const filePath = `organization/${year}/${month}/${day}/${sanitizedTitle}/cover.jpg`;
       
           // Caricamento su Supabase con sovrascrittura automatica
-          const { error: uploadError } = await supabase.storage
+          const { error: uploadError } = await supabaseStorage.storage
             .from("immagini")
             .upload(filePath, file, { upsert: true }); // upsert: true → sovrascrive se già esiste
       
@@ -187,7 +187,7 @@ interface OrganizationFormProps {
           }
       
           // Ottieni l'URL pubblico
-          const { data } = supabase.storage.from("immagini").getPublicUrl(filePath);
+          const { data } = supabaseStorage.storage.from("immagini").getPublicUrl(filePath);
       
           if (!data?.publicUrl) {
             console.error("Errore nel recupero dell'URL pubblico");

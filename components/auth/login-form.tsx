@@ -53,9 +53,6 @@ export const LoginForm = () => {
             .then(async (data) => {
                 setError(data?.error);
                 setSuccess(data?.success);
-                if(data?.success) {
-     // oppure pusha in seguito // redirect manuale
-                }
             });
         });
     }
