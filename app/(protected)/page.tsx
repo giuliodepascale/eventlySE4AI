@@ -19,7 +19,10 @@ export default async function Home() {
 
   const allActiveEvents = await getAllActiveEventsNoLimits();
 
-  const categoryCounts = await getCountLikeForCatagoryEventsByUser(user?.id as string);
+  let categoryCount = null;
+  if(fullUser?.id){
+    categoryCount = await getCountLikeForCatagoryEventsByUser(user?.id as string);
+  }
   // Renderizza immediatamente uno skeleton UI mentre i dati vengono caricati
   return (
     <main>
@@ -39,9 +42,9 @@ export default async function Home() {
 
       
         <Suspense fallback={<Loading />}>
-          
-          <AIComponent user={fullUser} events={allActiveEvents} categoryCount={categoryCounts}/>
-        
+          {user && fullUser && fullUser.id &&
+          <AIComponent user={fullUser} events={allActiveEvents} categoryCount={categoryCount as Record<string, number> | null}/>
+        }
         </Suspense>
      
     </main>

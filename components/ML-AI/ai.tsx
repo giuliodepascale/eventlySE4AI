@@ -10,15 +10,16 @@ import Section from '../events/section';
 interface AIComponentProps {
   user: User | null;
   events: SafeEvent[];
-  categoryCount: Record<string, number>;
+  categoryCount: Record<string, number> | null;
 }
 
 const AIComponent: React.FC<AIComponentProps> = ({ user, events, categoryCount }) => {
+ 
   const [eventScores, setEventScores] = useState<{prediction: number}[]>([]);
 
   useEffect(() => {
     const fetchEventScores = async () => {
-      if (user && events.length > 0) {
+      if (user?.id && events.length > 0 && categoryCount) {
         try {
           const scores = await getEventScores(user, events, categoryCount);
           setEventScores(scores);

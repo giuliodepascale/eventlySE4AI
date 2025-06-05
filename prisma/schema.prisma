@@ -3,13 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
-        
- 
- enum UserRole {
+
+enum UserRole {
   USER
   ORGANIZER
   ADMIN
@@ -20,180 +18,169 @@ enum OrganizationRole {
   GESTORE
 }
 
- enum manualStatus {
+enum manualStatus {
   ACTIVE
   HIDDEN
   CANCELED
 }
- 
+
 model User {
-  id                String              @id @default(cuid())
+  id                String              @id @default(auto()) @map("_id") @db.ObjectId
   name              String?
   email             String?             @unique
   emailVerified     DateTime?           @map("email_verified")
   image             String?
-  password          String             
+  password          String
   role              UserRole            @default(USER)
   regione           String?
-
   location          String?
-
   favoriteIds       String[]
   tickets           Ticket[]
-  prenotazioni      Prenotazione[]       
+  prenotazioni      Prenotazione[]
+  organizationUsers OrganizationUser[]
 
   @@map("users")
-  OrganizationUser OrganizationUser[]
 }
 
 model Organization {
-  id                  String              @id @default(cuid())
+  id                  String              @id @default(auto()) @map("_id") @db.ObjectId
   name                String
   description         String
   indirizzo           String?
-  comune              String?             
+  comune              String?
   provincia           String?
-  regione             String?  
+  regione             String?
   phone               String?
   email               String
   linkEsterno         String?
   latitudine          String?
-  longitudine         String?  
+  longitudine         String?
   createdAt           DateTime            @default(now())
   imageSrc            String?
   seoUrl              String?
   stripeAccountId     String?
   ticketingStatus     String              @default("no_stripe")
-               
-  // Relazioni con OrganizationUser
   organizationUsers   OrganizationUser[]
-
-  // Relazioni con Event e Reservation
-  events              Event[]             @relation("OrganizationEvents")
+  events              Event[]
 
   @@map("organizations")
-  
 }
+
 model OrganizationUser {
-  userId              String
-  organizationId      String
-  role                OrganizationRole
+  id                String             @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String             @db.ObjectId
+  organizationId    String             @db.ObjectId
+  role              OrganizationRole
 
-  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  organization        Organization        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user              User               @relation(fields: [userId], references: [id])
+  organization      Organization       @relation(fields: [organizationId], references: [id])
 
-  @@id([userId, organizationId])
   @@map("organization_users")
 }
 
-model VerificationToken {   //per la verifica della mail
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model VerificationToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
-model PasswordResetToken {   //per il reset della password
-  id String @id @default(cuid())
-  email String
-  token String @unique
+model PasswordResetToken {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
-
 
 model Event {
-  id               String        @id @default(cuid())
-  title            String
-  description      String
-  imageSrc         String?
-  createdAt        DateTime      @default(now())
-  category         String
-  comune           String        
-  provincia        String
-  regione          String
-  latitudine       String
-  longitudine      String       
-  favoriteCount    Int           @default(0)
-  eventDate        DateTime
-  indirizzo        String
-  organizationId   String
-  seoUrl           String?
-  status           manualStatus       
-  isReservationActive Boolean  
-           
+  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
+  title               String
+  description         String
+  imageSrc            String?
+  createdAt           DateTime      @default(now())
+  category            String
+  comune              String
+  provincia           String
+  regione             String
+  latitudine          String
+  longitudine         String
+  favoriteCount       Int           @default(0)
+  eventDate           DateTime
+  indirizzo           String
+  organizationId      String        @db.ObjectId
+  seoUrl              String?
+  status              manualStatus
+  isReservationActive Boolean
 
-  organization    Organization  @relation("OrganizationEvents", fields: [organizationId], references: [id], onDelete: Cascade)
-  ticketTypes     TicketType[]
-  tickets         Ticket[]
-  prenotazioni         Prenotazione[] @relation("PrenotazioneOnEvent")
+  organization        Organization  @relation(fields: [organizationId], references: [id])
+  ticketTypes         TicketType[]
+  tickets             Ticket[]
+  prenotazioni        Prenotazione[]
 
   @@map("events")
 }
 
-
 model TicketType {
-  id             String   @id @default(cuid())
-  eventId        String
-  name           String   // Nome del biglietto (Es. "VIP", "Early Bird")
-  description    String?  // Opzionale, dettagli sul biglietto
-  price          Int     // Prezzo in centesimi (null se gratuito)
-  quantity       Int      // Numero di biglietti disponibili
-  sold           Int      @default(0) // Biglietti già venduti
-  maxPerUser     Int?     // Numero massimo di biglietti acquistabili per utente
-  isActive       Boolean  @default(true) // Se falso, il biglietto non può essere acquistato
-  createdAt      DateTime @default(now())
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  eventId        String     @db.ObjectId
+  name           String
+  description    String?
+  price          Int
+  quantity       Int
+  sold           Int        @default(0)
+  maxPerUser     Int?
+  isActive       Boolean    @default(true)
+  createdAt      DateTime   @default(now())
 
-  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event          Event      @relation(fields: [eventId], references: [id])
   tickets        Ticket[]
 
   @@map("ticket_types")
 }
 
-
 model Ticket {
-  id             String     @id @default(cuid()) // ID del biglietto
-  eventId        String
-  userId         String
-  ticketTypeId   String
-  qrCode         String     @unique // Identificativo univoco per il QR code
-  isValid        Boolean    @default(true) // Se falso, il biglietto non può essere usato
-  usedAt         DateTime?  // Quando il biglietto è stato validato
-  createdAt      DateTime   @default(now())
-  paymentStripeId String    @unique
-  methodPaymentId String    @unique
-  paid            Int        
+  id              String     @id @default(auto()) @map("_id") @db.ObjectId
+  eventId         String     @db.ObjectId
+  userId          String     @db.ObjectId
+  ticketTypeId    String     @db.ObjectId
+  qrCode          String     @unique
+  isValid         Boolean    @default(true)
+  usedAt          DateTime?
+  createdAt       DateTime   @default(now())
+  paymentStripeId String     @unique
+  methodPaymentId String     @unique
+  paid            Int
 
-  event          Event      @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ticketType     TicketType @relation(fields: [ticketTypeId], references: [id], onDelete: Cascade)
+  event           Event      @relation(fields: [eventId], references: [id])
+  user            User       @relation(fields: [userId], references: [id])
+  ticketType      TicketType @relation(fields: [ticketTypeId], references: [id])
 
   @@map("tickets")
 }
 
 model Prenotazione {
-  id         String   @id @default(cuid())
-  eventId    String
-  userId     String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  eventId    String   @db.ObjectId
+  userId     String   @db.ObjectId
   reservedAt DateTime @default(now())
-  qrCode     String   @unique  // Campo per memorizzare il codice univoco (che poi servirà a generare il QR)
+  qrCode     String   @unique
 
-  event      Event    @relation("PrenotazioneOnEvent", fields: [eventId], references: [id], onDelete: Cascade)
+  event      Event    @relation(fields: [eventId], references: [id])
   user       User     @relation(fields: [userId], references: [id])
 
   @@map("prenotazioni")
 }
 
 model PushToken {
-  id        String   @id @default(cuid())
-  userId    String?  // Nullable: associato dopo login
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String?  @db.ObjectId
   deviceId  String   @unique
   token     String   @unique
   lastSeen  DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-

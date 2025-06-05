@@ -31,6 +31,10 @@ export const getUserById = async (id: string) => {
 }
 
 export const getCountLikeForCatagoryEventsByUser = async (userId: string) => {
+    if (!userId) {
+        console.warn("⚠️ Nessun userId passato a getCountLike...");
+        return 0;
+      }
     try {
         // Ottieni l'utente con i suoi favoriti
         const user = await db.user.findUnique({
