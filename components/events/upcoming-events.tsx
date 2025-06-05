@@ -6,10 +6,10 @@ import { useSearchParams } from "next/navigation";
 import EventList from "@/components/events/events-list";
 import ClientPagination from "@/components/altre/pagination";
 import { User } from "@prisma/client";
-import { getAllActiveEvents } from "@/data/event";
 import { SafeEvent } from "@/app/types";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { getAllActiveEvents } from "@/MONGODB/CRUD/events";
 
 interface UpcomingEventsProps {
   currentUser: User | null;

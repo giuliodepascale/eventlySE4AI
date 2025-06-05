@@ -13,10 +13,11 @@ import PrenotaOraButton from "@/components/events/prenotazione/prenota-button";
 import EventList from "@/components/events/events-list";
 import type { SafeTicketType } from "@/app/types";
 import type { User } from "@prisma/client";
-import { getEventByIdCached, getUserByIdCached } from "@/lib/cache";
+
 import { getOrganizationById } from "@/MONGODB/CRUD/organization";
 import type { SafeOrganization } from "@/app/types";
 import { getEventById, getRelatedEventsByCategory } from "@/MONGODB/CRUD/events";
+import { getUserById } from "@/data/user";
 
 
 interface EventPageProps {
@@ -29,7 +30,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
   const [event, fullUser] = await Promise.all([
     getEventById(eventId as string),
-    user?.id ? getUserByIdCached(user.id) : Promise.resolve(null),
+    user?.id ? getUserById(user.id) : Promise.resolve(null),
   ]);
 
   if (!event) {
@@ -70,7 +71,7 @@ export default async function EventPage({ params }: EventPageProps) {
 
 async function TicketSection({ eventId }: { eventId: string }) {
   const user = await currentUser();
-  const fullUser = user?.id ? await getUserByIdCached(user.id) : null;
+  const fullUser = user?.id ? await getUserById(user.id) : null;
 
   if (!fullUser) {
     return (
@@ -81,7 +82,7 @@ async function TicketSection({ eventId }: { eventId: string }) {
     );
   }
 
-  const event = await getEventByIdCached(eventId);
+  const event = await getEventById(eventId);
   const ticketTypes: SafeTicketType[] = await getActiveTicketsByEvent(
     eventId
   );

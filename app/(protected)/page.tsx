@@ -6,18 +6,17 @@ import Section from "@/components/events/section";
 import NearbyEvents from "@/components/events/nearby-events";
 import Loading from "../loading";
 import { currentUser } from "@/lib/auth";
-import { getUserByIdCached } from "@/lib/cache";
 import { User } from "@prisma/client";
 import DateFilterBar from "@/components/altre/date-filter-bar";
 
 import AIComponent from "@/components/ML-AI/ai";
-import { getCountLikeForCatagoryEventsByUser } from "@/data/user";
+import { getCountLikeForCatagoryEventsByUser, getUserById } from "@/data/user";
 import { SafeEvent } from "../types";
 import { getAllActiveEventsNoLimits } from "@/MONGODB/CRUD/events";
 
 export default async function Home() {
   const user = await currentUser();
-  const fullUser = user?.id ? await getUserByIdCached(user.id) : null;
+  const fullUser = user?.id ? await getUserById(user.id) : null;
 
   const allActiveEvents = await getAllActiveEventsNoLimits();
 
