@@ -24,19 +24,14 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+
+
 
 
 export const LoginForm = () => {
 
-    const searchParams = useSearchParams();
     
-    const callbackUrl = searchParams.get("callbackUrl");
-    const router = useRouter();
-
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -59,8 +54,7 @@ export const LoginForm = () => {
                 setError(data?.error);
                 setSuccess(data?.success);
                 if(data?.success) {
-                    router.refresh(); // ✅ aggiorna tutta la sessione, triggera useSession e layout
-                    router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT); // oppure pusha in seguito // redirect manuale
+     // oppure pusha in seguito // redirect manuale
                 }
             });
         });
