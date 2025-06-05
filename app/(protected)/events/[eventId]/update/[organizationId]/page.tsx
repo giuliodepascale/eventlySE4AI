@@ -1,109 +1,98 @@
-"use server";
+import { getOrganizationById, getOrganizationsByUser } from "@/app/MONGODB/CRUD/organization";
+import EmptyState from "@/components/altre/empty-state";
+import EventForm from "@/components/events/event-form";
 
-import { getOrganizationById } from '@/actions/organization';
-import EmptyState from '@/components/altre/empty-state';
-import EventForm from '@/components/events/event-form';
-import { getEventById } from '@/data/event';
-import { currentUser } from '@/lib/auth';
+import { currentUser } from "@/lib/auth";
+import type { SafeEvent, SafeOrganization } from "@/app/types";
+import { getEventById } from "@/data/event";
 
-
-interface CreateEventPageProps {
+interface UpdateEventPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function UpdateEventPage({ params }: UpdateEventPageProps) {
+  const { organizationId, eventId } = await params;
+
+  // 1. Verifica utente loggato
+  const user = await currentUser();
+  if (!user || !user.id) {
+    return (
+      <EmptyState
+        title="Non hai i permessi"
+        subtitle="Effettua il login per accedere a questa pagina."
+      />
+    );
   }
 
-
-export default async function CreateEventPage({ params }:CreateEventPageProps) {
-    
-    const {organizationId , eventId} = await params;
-
-    const organizationResult = await getOrganizationById(organizationId as string || '');
-
-    const event = await getEventById(eventId as string || '');
-
-    const user = await currentUser();
-
-    // Controlla se l'organizzazione è stata trovata e se esiste
-    if (!organizationResult || !organizationResult.organization) {
-        return (
-            <EmptyState 
-                title="Organizzazione non trovata" 
-                subtitle="La pagina che stai cercando non esiste." 
-                showToHome
-            />
-         );
-        }
-    
-        // Controlla se l'utente è loggato
-        if (!user || !user.id) {
-            return (
-            <EmptyState 
-                title="Non hai i permessi" 
-                subtitle="Effettua il login per accedere a questa pagina." 
-            />
-            );
-        }
-
-        
-        // Controlla se l'evento esiste è loggato
-        if (!event || !event.id) {
-            return (
-            <EmptyState 
-                title="L'evento non esiste" 
-                subtitle="Qualcosa è andato storto."
-                showToHome 
-            />
-            );
-        }
-    
-        // Estrai l'organizzazione e gli organizzatori dal risultato
-        const { organizers, error } = organizationResult;
-       
-        // Controlla se c'è un errore
-        if (error) {
-        return (
-            <EmptyState 
-                title="Errore" 
-                subtitle={error} 
-            />
-            );
-        }   
-
-        const isOrganizer = organizers.some((organizer) => organizer.id === user.id);
-
-    
-
-        if (!isOrganizer) {
-            return (
-                <EmptyState 
-                    title="Accesso Negato" 
-                    subtitle="Solo gli organizzatori possono accedere a questa pagina." 
-                    showToHome
-                />
-            );
-        }
-    
-        if(event.organizationId !== organizationId){
-            return (
-                <EmptyState 
-                    title="Accesso Negato" 
-                    subtitle="Non hai il permesso per modificare questo evento." 
-                    showToHome
-                />
-            );
-        }
+  // 2. Recupera l’organizzazione
+  const orgResult = await getOrganizationById(organizationId as string);
+  if (!orgResult || "error" in orgResult) {
     return (
-        <>
-        <section className="bg-primary-50 dark:bg-black/15 bg-cover bg-center py-5 md:py-10">
-  
-    <h3 className="text-2xl font-bold text-center  ">
-      Aggiorna il tuo Evento
-    </h3>
-  
-</section>
+      <EmptyState
+        title="Organizzazione non trovata"
+        subtitle="La pagina che stai cercando non esiste."
+        showToHome
+      />
+    );
+  }
+  const organization: SafeOrganization = orgResult;
 
-            <div>
-                <EventForm organization={organizationResult.organization} event={event} type="update"/>
-            </div>
-            </>
-    )
+  // 3. Recupera l’evento
+  const eventResult = await getEventById(eventId as string);
+  if (!eventResult || "error" in eventResult) {
+    return (
+      <EmptyState
+        title="Evento non trovato"
+        subtitle="Qualcosa è andato storto."
+        showToHome
+      />
+    );
+  }
+  const event: SafeEvent = eventResult;
+
+  // 4. Controlla che l’evento appartenga all’organizzazione
+  if (event.organizationId !== organization.id) {
+    return (
+      <EmptyState
+        title="Accesso Negato"
+        subtitle="Non hai il permesso per modificare questo evento."
+        showToHome
+      />
+    );
+  }
+
+  // 5. Verifica se l’utente è organizzatore di questa organizzazione
+  const userOrgsResult = await getOrganizationsByUser(user.id);
+  if (!Array.isArray(userOrgsResult) || userOrgsResult.length === 0) {
+    return (
+      <EmptyState
+        title="Accesso Negato"
+        subtitle="Solo gli organizzatori possono accedere a questa pagina."
+        showToHome
+      />
+    );
+  }
+  const isOrganizer = userOrgsResult.some((org) => org.id === organization.id);
+  if (!isOrganizer) {
+    return (
+      <EmptyState
+        title="Accesso Negato"
+        subtitle="Solo gli organizzatori possono accedere a questa pagina."
+        showToHome
+      />
+    );
+  }
+
+  // 6. Renderizza il form di aggiornamento dell’evento
+  return (
+    <>
+      <section className="bg-primary-50 dark:bg-black/15 bg-cover bg-center py-5 md:py-10">
+        <h3 className="text-2xl font-bold text-center">Aggiorna il tuo Evento</h3>
+      </section>
+
+      <div className="p-4">
+        <EventForm organization={organization} event={event} type="update" />
+      </div>
+    </>
+  );
 }

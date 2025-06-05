@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import Loader from "../loader";
 import { Input } from "@/components/ui/input";
-import { createOrganization, updateOrganization } from "@/actions/organization";
+
 import {
   Select,
   SelectContent,
@@ -30,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SafeOrganization } from "@/app/types";
+import { createOrganization, updateOrganization } from "@/app/MONGODB/CRUD/organization";
 
 
 

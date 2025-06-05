@@ -9,7 +9,8 @@ import { SafeEvent } from "@/app/types";
 import { User } from "@prisma/client";
 import DateFormatter from "../altre/date-formatter";
 import { FaEdit } from "react-icons/fa";
-import { deleteEvent } from "@/actions/event";
+import { deleteEvent } from "@/app/MONGODB/CRUD/events";
+
 
 interface EventCardProps {
   data: SafeEvent & Partial<{ distance: number }>;

@@ -57,7 +57,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 </div>
                 <div>
                     <Link 
-                        href="/my-tickets"
+                        href="/lista"
                         className="
                             hidden
                             md:block
@@ -71,7 +71,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                             cursor-pointer
                         "
                     >
-                        Biglietti
+                        ListaJoin
                     </Link>
                 </div>
                 <div>

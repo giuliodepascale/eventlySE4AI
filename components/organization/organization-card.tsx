@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FaEdit } from "react-icons/fa";
-import { deleteOrganization } from "@/actions/organization";
+import { deleteOrganization } from "@/app/MONGODB/CRUD/organization";
+
 
 
 interface OrganizationCardProps {

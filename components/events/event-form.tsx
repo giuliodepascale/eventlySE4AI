@@ -17,7 +17,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
-import { createEvent, updateEvent } from "@/actions/event";
 import { useMemo, useState } from "react";
 //import { FiMapPin } from "react-icons/fi";
 import { Controller } from "react-hook-form";
@@ -40,6 +39,7 @@ import Loader from "../loader";
 import { supabaseStorage } from "@/lib/supabaseStorage";
 import { SafeEvent, SafeOrganization } from "@/app/types";
 import italia from "italia";
+import { createEvent, updateEvent } from "@/app/MONGODB/CRUD/events";
 
 dayjs.locale("it");
 

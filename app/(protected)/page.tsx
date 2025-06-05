@@ -12,6 +12,7 @@ import DateFilterBar from "@/components/altre/date-filter-bar";
 import { getAllActiveEventsNoLimits } from "@/data/event";
 import AIComponent from "@/components/ML-AI/ai";
 import { getCountLikeForCatagoryEventsByUser } from "@/data/user";
+import { SafeEvent } from "../types";
 
 export default async function Home() {
   const user = await currentUser();
@@ -43,7 +44,11 @@ export default async function Home() {
       
         <Suspense fallback={<Loading />}>
           {user && fullUser && fullUser.id &&
-          <AIComponent user={fullUser} events={allActiveEvents} categoryCount={categoryCount as Record<string, number> | null}/>
+          <AIComponent 
+            user={fullUser} 
+            events={allActiveEvents as unknown as SafeEvent[]} 
+            categoryCount={categoryCount as Record<string, number> | null}
+          />
         }
         </Suspense>
      
