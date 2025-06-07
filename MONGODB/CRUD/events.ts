@@ -217,7 +217,7 @@ export async function getAllEvents(
  */
 export async function getAllActiveEvents(
   query = "",
-  limit = 6,
+  limit = 25,
   page = 1,
   category = "",
   dateFilter = ""

@@ -1,0 +1,2402 @@
+[
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7b9"
+    },
+    "name": "Eligibile, Rocco e Cavalli e figli",
+    "description": "intermediaria automatizzata Sovrastruttura",
+    "indirizzo": "Piazza Gundelinda 4",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+23 746 23 85 0294",
+    "email": "pelagia48@gmail.com",
+    "linkEsterno": "https://steel-louse.org",
+    "imageSrc": null,
+    "seoUrl": "votum-arto-numquam",
+    "latitudine": -80.2055,
+    "longitudine": 136.1645,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-30T03:47:06.616Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ba"
+    },
+    "name": "Baldi, Criscenti e Stanzione Group",
+    "description": "multimedia piccola Portale",
+    "indirizzo": "Contrada Aristotele 647",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+21 32 4085976",
+    "email": "salome.pasini16@yahoo.com",
+    "linkEsterno": "https://grave-smog.net",
+    "imageSrc": null,
+    "seoUrl": "turpis-doloremque-deficio",
+    "latitudine": -10.4906,
+    "longitudine": -53.2345,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-05T15:01:31.357Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7bb"
+    },
+    "name": "Abate-Iacolare Group",
+    "description": "impattante intuitiva Policy",
+    "indirizzo": "Strada Favre 637",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+39 317 849 253",
+    "email": "vivaldo31@email.it",
+    "linkEsterno": "https://hurtful-director.it/",
+    "imageSrc": null,
+    "seoUrl": "canonicus-antiquus-cresco",
+    "latitudine": -5.4575,
+    "longitudine": 167.2507,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-16T07:24:30.212Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7bc"
+    },
+    "name": "Santucci s.r.l.",
+    "description": "coerente ridotta Analizzatore",
+    "indirizzo": "Rotonda Guiscardo 481",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "326 985 463",
+    "email": "eutalia.capelli68@hotmail.com",
+    "linkEsterno": "https://dutiful-tray.net/",
+    "imageSrc": null,
+    "seoUrl": "conduco-calcar-thesis",
+    "latitudine": -13.0622,
+    "longitudine": -79.7405,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-31T12:34:06.018Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7bd"
+    },
+    "name": "Miceli e figli",
+    "description": "mobile organica Algoritmo",
+    "indirizzo": "Contrada Alcino 138",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+78 07 0945547",
+    "email": "daniela45@libero.it",
+    "linkEsterno": "https://tepid-editor.org",
+    "imageSrc": null,
+    "seoUrl": "canto-tabgo-quia",
+    "latitudine": 40.6266,
+    "longitudine": -55.4653,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-30T00:39:44.195Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7be"
+    },
+    "name": "Balzano-Litterio SPA",
+    "description": "stabile switchabile Soluzione",
+    "indirizzo": "Via Secondina 17",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+39 300 217 820",
+    "email": "olinda26@gmail.com",
+    "linkEsterno": "https://ashamed-daddy.org/",
+    "imageSrc": null,
+    "seoUrl": "amita-benigne-coma",
+    "latitudine": 70.7675,
+    "longitudine": 12.6913,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-14T16:25:07.432Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7bf"
+    },
+    "name": "Garofalo, Panetta e Angeletti SPA",
+    "description": "coesiva operativa Definizione",
+    "indirizzo": "Strada Innocente 535",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+52 94 28919593",
+    "email": "melania.maggiore@yahoo.it",
+    "linkEsterno": "https://aggravating-exploration.net/",
+    "imageSrc": null,
+    "seoUrl": "ambitus-ceno-crapula",
+    "latitudine": 9.5788,
+    "longitudine": 84.3493,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-22T15:52:15.207Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c0"
+    },
+    "name": "Puglisi, Cinelli e D'Alessandro SPA",
+    "description": "motivazionale innovativa Previsione",
+    "indirizzo": "Piazza Botta 5",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+39 093 933 551",
+    "email": "luminosa.giuliano@yahoo.it",
+    "linkEsterno": "https://bad-airbus.net",
+    "imageSrc": null,
+    "seoUrl": "ea-praesentium-summopere",
+    "latitudine": -66.5115,
+    "longitudine": 63.5737,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-13T09:26:42.782Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c1"
+    },
+    "name": "Butera Group",
+    "description": "coerente cross-platform Funzionalità",
+    "indirizzo": "Piazza Gandolfo 735",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+75 6774 69166892",
+    "email": "cremenzio_festa2@yahoo.com",
+    "linkEsterno": "https://small-shadowbox.org",
+    "imageSrc": null,
+    "seoUrl": "vix-trans-appono",
+    "latitudine": -71.1764,
+    "longitudine": -144.8043,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-11-24T14:46:15.374Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c2"
+    },
+    "name": "Pasquali e figli",
+    "description": "esplicita distribuita Interfaccia",
+    "indirizzo": "Incrocio Luana 312",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "364 624 957",
+    "email": "leonio_monti80@yahoo.it",
+    "linkEsterno": "https://silent-pepper.org",
+    "imageSrc": null,
+    "seoUrl": "una-accedo-perferendis",
+    "latitudine": 73.4973,
+    "longitudine": -104.5105,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-15T22:53:40.247Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c3"
+    },
+    "name": "Mazzanti, Cont e Fusco s.r.l.",
+    "description": "responsiva piccola Forza lavoro",
+    "indirizzo": "Piazza Turi 65",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+80 480 96233062",
+    "email": "flaviana.potenza62@hotmail.com",
+    "linkEsterno": "https://minty-heating.net/",
+    "imageSrc": null,
+    "seoUrl": "copiose-perspiciatis-acquiro",
+    "latitudine": -45.9935,
+    "longitudine": -109.3956,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-02T08:19:26.065Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c4"
+    },
+    "name": "Cordioli, De Angelis e Fumagalli s.r.l.",
+    "description": "quinta generazione riallineata Moratoria",
+    "indirizzo": "Via Piera 96",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+39 372 075 142",
+    "email": "furio.pozzi9@email.it",
+    "linkEsterno": "https://scary-stool.com/",
+    "imageSrc": null,
+    "seoUrl": "pax-optio-patior",
+    "latitudine": 41.4769,
+    "longitudine": -76.5232,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-09T11:33:15.555Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c5"
+    },
+    "name": "Milani, Delfino e Riva e figli",
+    "description": "terza generazione ridotta Concetto",
+    "indirizzo": "Via Perrotta 65",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+05 3684 8085023",
+    "email": "anatolia33@yahoo.it",
+    "linkEsterno": "https://authentic-translation.it/",
+    "imageSrc": null,
+    "seoUrl": "aurum-corpus-vinco",
+    "latitudine": -13.4233,
+    "longitudine": -90.3525,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-18T09:46:04.167Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c6"
+    },
+    "name": "Pellecchia, Rondinone e Nocerino Group",
+    "description": "quarta generazione ottimizzata framework",
+    "indirizzo": "Piazza La Porta 152",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+71 2009 3838484",
+    "email": "aleandro_felici27@yahoo.it",
+    "linkEsterno": "https://close-jump.com/",
+    "imageSrc": null,
+    "seoUrl": "maiores-utique-provident",
+    "latitudine": -39.911,
+    "longitudine": -131.4393,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-29T02:23:29.768Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c7"
+    },
+    "name": "Cherchi s.r.l.",
+    "description": "reciproca cross-platform Hub",
+    "indirizzo": "Piazza Romana 472",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+31 05 9460935",
+    "email": "prudenzia44@yahoo.com",
+    "linkEsterno": "https://whirlwind-masterpiece.it",
+    "imageSrc": null,
+    "seoUrl": "pectus-curso-confero",
+    "latitudine": -49.8804,
+    "longitudine": 71.3525,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-13T07:34:29.552Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c8"
+    },
+    "name": "Manetti, Pischedda e Barbarulo e figli",
+    "description": "modulare progressiva Struttura",
+    "indirizzo": "Borgo Baldassarre 2",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+66 2329 75869080",
+    "email": "eliseo.albanese57@libero.it",
+    "linkEsterno": "https://powerful-daddy.org/",
+    "imageSrc": null,
+    "seoUrl": "inventore-tibi-campana",
+    "latitudine": 33.6762,
+    "longitudine": -62.5571,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-20T19:37:01.868Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7c9"
+    },
+    "name": "Marchini-Marcelli e figli",
+    "description": "asimmetrica espansa Moderazione",
+    "indirizzo": "Piazza Barbiero 1",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+88 889 98851311",
+    "email": "sabato4@email.it",
+    "linkEsterno": "https://greedy-jump.net/",
+    "imageSrc": null,
+    "seoUrl": "audio-aggero-cognomen",
+    "latitudine": -84.5647,
+    "longitudine": -121.1799,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-04T05:51:54.474Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ca"
+    },
+    "name": "Riccio s.r.l.",
+    "description": "intermediaria automatizzata Servizio clienti",
+    "indirizzo": "Rotonda Carnovale 1",
+    "comune": "Bologna",
+    "provincia": "BO",
+    "regione": "Emilia-Romagna",
+    "phone": "+65 53 3109129",
+    "email": "capitolina_romeo@hotmail.com",
+    "linkEsterno": "https://self-reliant-heating.com",
+    "imageSrc": null,
+    "seoUrl": "velociter-comparo-virga",
+    "latitudine": -73.4089,
+    "longitudine": -57.6394,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-02T05:50:29.649Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7cb"
+    },
+    "name": "Di Salvo-Ciacio SPA",
+    "description": "interattiva compatibile Rete",
+    "indirizzo": "Incrocio Taddei 485",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+39 306 140 072",
+    "email": "caino_privitera43@yahoo.com",
+    "linkEsterno": "https://french-issue.net/",
+    "imageSrc": null,
+    "seoUrl": "commodo-accedo-condico",
+    "latitudine": -12.62,
+    "longitudine": 11.4469,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-06-20T03:38:09.274Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7cc"
+    },
+    "name": "Papa-Tedde Group",
+    "description": "sesta generazione assimilata Paradigma",
+    "indirizzo": "Borgo Evangelisti 60",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+51 782 9089504",
+    "email": "baldomero_morri@yahoo.com",
+    "linkEsterno": "https://equatorial-membership.com/",
+    "imageSrc": null,
+    "seoUrl": "ocer-agnitio-arto",
+    "latitudine": 86.0746,
+    "longitudine": 19.8145,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-09T06:34:51.687Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7cd"
+    },
+    "name": "Savoia-Carloni e figli",
+    "description": "motivazionale persistente Attitudine",
+    "indirizzo": "Strada Brigandì 140",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+52 107 86762687",
+    "email": "ottaviano_cappai@yahoo.it",
+    "linkEsterno": "https://handsome-bonfire.org",
+    "imageSrc": null,
+    "seoUrl": "tripudio-inventore-defungo",
+    "latitudine": 28.9316,
+    "longitudine": -40.8532,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-09T17:26:35.521Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ce"
+    },
+    "name": "Celi, Marian e Serafini s.r.l.",
+    "description": "scalabile digitalizzata Implementazione",
+    "indirizzo": "Piazza Afro 82",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+94 665 04433291",
+    "email": "fulvia.petrella@hotmail.com",
+    "linkEsterno": "https://soulful-nucleotidase.org",
+    "imageSrc": null,
+    "seoUrl": "cogito-crudelis-optio",
+    "latitudine": -9.7263,
+    "longitudine": 71.2803,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-11-05T12:26:01.313Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7cf"
+    },
+    "name": "Angeli Group",
+    "description": "multimedia inversa Firmware",
+    "indirizzo": "Strada Moro 50",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+39 355 716 977",
+    "email": "marita42@yahoo.com",
+    "linkEsterno": "https://silky-cinema.com",
+    "imageSrc": null,
+    "seoUrl": "amplexus-adsidue-suppono",
+    "latitudine": 79.718,
+    "longitudine": 26.1675,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-27T16:43:34.864Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d0"
+    },
+    "name": "Coviello, Scherini e Blasi e figli",
+    "description": "sistemica operativa Paradigma",
+    "indirizzo": "Borgo Palatino 8",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+76 7523 5065092",
+    "email": "aleandro77@hotmail.com",
+    "linkEsterno": "https://wretched-fedora.it",
+    "imageSrc": null,
+    "seoUrl": "truculenter-excepturi-commodo",
+    "latitudine": 24.6478,
+    "longitudine": -76.4681,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-27T11:40:44.926Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d1"
+    },
+    "name": "Marchetti, Tataranni e Parrinello Group",
+    "description": "massimizzata centralizzata Complessità",
+    "indirizzo": "Via Apicella 7",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+58 806 36400598",
+    "email": "basilio61@email.it",
+    "linkEsterno": "https://ashamed-labourer.com",
+    "imageSrc": null,
+    "seoUrl": "surculus-vae-aequitas",
+    "latitudine": 76.6516,
+    "longitudine": 12.1662,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-13T11:32:10.711Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d2"
+    },
+    "name": "Floridia e figli",
+    "description": "nazionale assimilata Iniziativa",
+    "indirizzo": "Via Aureliano 642",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+69 12 8705441",
+    "email": "danio_dangeli10@yahoo.com",
+    "linkEsterno": "https://oily-patroller.net/",
+    "imageSrc": null,
+    "seoUrl": "vita-terminatio-adficio",
+    "latitudine": 32.2883,
+    "longitudine": -66.515,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-10T09:42:15.617Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d3"
+    },
+    "name": "Chilà-La Rosa s.r.l.",
+    "description": "mission-critical universale Hardware",
+    "indirizzo": "Strada Murru 97",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+39 009 707 256",
+    "email": "ada75@libero.it",
+    "linkEsterno": "https://physical-stool.it",
+    "imageSrc": null,
+    "seoUrl": "confido-assumenda-inflammatio",
+    "latitudine": 35.9078,
+    "longitudine": -31.2336,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-03T01:20:14.693Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d4"
+    },
+    "name": "Lodi-Ambrosini SPA",
+    "description": "quinta generazione organica Finestra temporale",
+    "indirizzo": "Piazza Giorgi 947",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+90 970 11 10 5332",
+    "email": "emidio83@libero.it",
+    "linkEsterno": "https://last-interviewer.com",
+    "imageSrc": null,
+    "seoUrl": "sulum-pax-corpus",
+    "latitudine": -27.5728,
+    "longitudine": -118.6633,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-27T01:52:18.028Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d5"
+    },
+    "name": "Vercesi SPA",
+    "description": "interattiva progressiva Metodologia",
+    "indirizzo": "Via Tiozzo 662",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "026 828 9966",
+    "email": "giuseppe_tavani@libero.it",
+    "linkEsterno": "https://cultivated-impostor.net/",
+    "imageSrc": null,
+    "seoUrl": "sopor-stips-tamisium",
+    "latitudine": -33.955,
+    "longitudine": -60.6839,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-31T04:01:04.970Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d6"
+    },
+    "name": "Mignogna Group",
+    "description": "motivazionale automatizzata Infrastruttura",
+    "indirizzo": "Via Antioco 5",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+54 88 59266534",
+    "email": "socrate_doria44@email.it",
+    "linkEsterno": "https://happy-order.it",
+    "imageSrc": null,
+    "seoUrl": "urbanus-vix-deprecator",
+    "latitudine": 27.9853,
+    "longitudine": -167.4544,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-17T19:43:11.199Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d7"
+    },
+    "name": "Fiorucci e figli",
+    "description": "sistemica organica Strategia",
+    "indirizzo": "Incrocio Piras 496",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+04 004 7072698",
+    "email": "gianpietro_surace@email.it",
+    "linkEsterno": "https://tight-ruin.org",
+    "imageSrc": null,
+    "seoUrl": "conculco-aedificium-copia",
+    "latitudine": -65.263,
+    "longitudine": -57.5317,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-20T23:00:27.225Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d8"
+    },
+    "name": "Vierin-Berardi SPA",
+    "description": "coesiva ricontestualizzata Intelligenza artificiale",
+    "indirizzo": "Piazza Luchetti 9",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "378 824 125",
+    "email": "alberta.brunetti16@gmail.com",
+    "linkEsterno": "https://well-lit-coil.it/",
+    "imageSrc": null,
+    "seoUrl": "bestia-minus-tersus",
+    "latitudine": -49.4714,
+    "longitudine": -61.39,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-24T15:56:55.888Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7d9"
+    },
+    "name": "Todaro-Messina e figli",
+    "description": "stabile automatizzata Approccio",
+    "indirizzo": "Borgo Sini 922",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+59 68 33207322",
+    "email": "natalina26@yahoo.com",
+    "linkEsterno": "https://perfumed-valley.com/",
+    "imageSrc": null,
+    "seoUrl": "ustilo-appello-facere",
+    "latitudine": -14.569,
+    "longitudine": -37.5433,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-11T02:43:32.028Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7da"
+    },
+    "name": "Giacalone-Polizzi SPA",
+    "description": "basata sul contenuto monitorata Parallelismo",
+    "indirizzo": "Incrocio De Bonis 330",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "009 187 5130",
+    "email": "ilda38@libero.it",
+    "linkEsterno": "https://strident-footrest.it/",
+    "imageSrc": null,
+    "seoUrl": "caterva-brevis-ultio",
+    "latitudine": -25.8031,
+    "longitudine": 94.4685,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-29T22:08:09.784Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7db"
+    },
+    "name": "Di Bari, Fratti e Bani s.r.l.",
+    "description": "non-volatile esclusiva Database",
+    "indirizzo": "Piazza Gondulfo 4",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+45 79 5246343",
+    "email": "bonifacio25@yahoo.it",
+    "linkEsterno": "https://rundown-stock.org/",
+    "imageSrc": null,
+    "seoUrl": "cenaculum-alii-statua",
+    "latitudine": -42.7738,
+    "longitudine": 81.8654,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-08T07:52:14.238Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7dc"
+    },
+    "name": "Bani SPA",
+    "description": "logistica configurabile Capacità",
+    "indirizzo": "Incrocio Panfilo 636",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+26 15 93149337",
+    "email": "luna.critelli@yahoo.com",
+    "linkEsterno": "https://mundane-ad.com",
+    "imageSrc": null,
+    "seoUrl": "voluptatibus-tum-trado",
+    "latitudine": -43.6092,
+    "longitudine": 137.1777,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-20T03:23:12.567Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7dd"
+    },
+    "name": "Romani-Bonini Group",
+    "description": "nazionale user-friendly Finestra temporale",
+    "indirizzo": "Piazza Amatore 49",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+05 79 9488496",
+    "email": "emidio.romano64@gmail.com",
+    "linkEsterno": "https://primary-sideboard.net",
+    "imageSrc": null,
+    "seoUrl": "tenetur-adhuc-spargo",
+    "latitudine": -53.5205,
+    "longitudine": 150.3532,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-04T01:22:09.697Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7de"
+    },
+    "name": "Tassone-Ferroni e figli",
+    "description": "locale multi-canale Protocollo",
+    "indirizzo": "Piazza Pippo 79",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+98 6493 6846122",
+    "email": "sebastiano.talarico2@email.it",
+    "linkEsterno": "https://frank-decryption.it",
+    "imageSrc": null,
+    "seoUrl": "coniuratio-cogito-voluptatum",
+    "latitudine": -44.2288,
+    "longitudine": 37.5379,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-29T21:14:09.664Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7df"
+    },
+    "name": "Morreale, Alaimo e Massaro SPA",
+    "description": "asincrona digitalizzata Alleanza",
+    "indirizzo": "Borgo Macaluso 966",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+42 2027 7827589",
+    "email": "petronio84@hotmail.com",
+    "linkEsterno": "https://optimal-loaf.it",
+    "imageSrc": null,
+    "seoUrl": "tredecim-succedo-ubi",
+    "latitudine": 81.5461,
+    "longitudine": 87.523,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-11-04T23:34:31.441Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e0"
+    },
+    "name": "Boi-Bisio Group",
+    "description": "24/7 operativa Codifica",
+    "indirizzo": "Via Gennaro 231",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+39 345 527 700",
+    "email": "barsaba.govoni@hotmail.com",
+    "linkEsterno": "https://firm-tomography.net/",
+    "imageSrc": null,
+    "seoUrl": "assentator-cubo-vobis",
+    "latitudine": 2.2142,
+    "longitudine": -31.0313,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-17T23:41:39.771Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e1"
+    },
+    "name": "Berti, Ricciardi e Guida SPA",
+    "description": "ottima robusta Metodologia",
+    "indirizzo": "Piazza Cerrato 1",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+92 2290 3505052",
+    "email": "guendalina_cinelli@yahoo.it",
+    "linkEsterno": "https://deserted-tomatillo.com",
+    "imageSrc": null,
+    "seoUrl": "adduco-iste-clibanus",
+    "latitudine": 52.538,
+    "longitudine": 36.1636,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-29T23:00:51.290Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e2"
+    },
+    "name": "Cremonesi-Cirelli e figli",
+    "description": "didattica operativa Protocollo",
+    "indirizzo": "Rotonda Leandro 31",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+28 088 43992229",
+    "email": "asella.serena@email.it",
+    "linkEsterno": "https://good-guide.net/",
+    "imageSrc": null,
+    "seoUrl": "odio-acsi-tonsor",
+    "latitudine": 41.6233,
+    "longitudine": 73.669,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-20T08:34:31.154Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e3"
+    },
+    "name": "Melillo-Pircher s.r.l.",
+    "description": "asincrona migliorata Sinergia",
+    "indirizzo": "Strada Salvi 670",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+39 054 014 776",
+    "email": "trasea_bevilacqua@hotmail.com",
+    "linkEsterno": "https://quintessential-unibody.org/",
+    "imageSrc": null,
+    "seoUrl": "advenio-atrocitas-cui",
+    "latitudine": 17.0266,
+    "longitudine": -11.7772,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-05T15:55:33.300Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e4"
+    },
+    "name": "Tassone, Zappacosta e Librizzi e figli",
+    "description": "euristica organica Task-force",
+    "indirizzo": "Incrocio Tarquini 3",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "019 016 6539",
+    "email": "vivaldo_pozzi86@hotmail.com",
+    "linkEsterno": "https://cruel-best-seller.org/",
+    "imageSrc": null,
+    "seoUrl": "distinctio-coma-caterva",
+    "latitudine": -5.6577,
+    "longitudine": 98.7474,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-17T11:22:37.936Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e5"
+    },
+    "name": "Viale, Ortenzi e Occhipinti s.r.l.",
+    "description": "olistica sinergica Archivio",
+    "indirizzo": "Incrocio Spada 6",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+06 9797 79497800",
+    "email": "tecla_fantozzi@hotmail.com",
+    "linkEsterno": "https://skeletal-catalyst.org",
+    "imageSrc": null,
+    "seoUrl": "colo-tantillus-ager",
+    "latitudine": 72.9702,
+    "longitudine": 36.7206,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-22T03:14:10.794Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e6"
+    },
+    "name": "Marcello-Ermini Group",
+    "description": "reciproca multi-canale Matrice",
+    "indirizzo": "Contrada Perra 9",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+39 341 619 266",
+    "email": "vilfredo39@gmail.com",
+    "linkEsterno": "https://quintessential-drug.com",
+    "imageSrc": null,
+    "seoUrl": "odio-patior-curiositas",
+    "latitudine": 48.4255,
+    "longitudine": 109.8619,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-22T17:23:18.805Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e7"
+    },
+    "name": "Pibiri, Muratore e Fichera s.r.l.",
+    "description": "object-oriented bilanciata Gerarchia",
+    "indirizzo": "Contrada Vincenza 2",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+02 3744 5812162",
+    "email": "sveva59@libero.it",
+    "linkEsterno": "https://pure-providence.it/",
+    "imageSrc": null,
+    "seoUrl": "adfectus-velut-vociferor",
+    "latitudine": 52.2495,
+    "longitudine": 12.3456,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-10T16:20:24.109Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e8"
+    },
+    "name": "Merli-Rusciano Group",
+    "description": "discreta monitorata Database",
+    "indirizzo": "Rotonda Cannone 349",
+    "comune": "Bologna",
+    "provincia": "BO",
+    "regione": "Emilia-Romagna",
+    "phone": "+11 0179 4005797",
+    "email": "vincenza.cavallaro14@yahoo.it",
+    "linkEsterno": "https://swift-zen.org",
+    "imageSrc": null,
+    "seoUrl": "vox-soleo-ulterius",
+    "latitudine": -58.41,
+    "longitudine": -25.6672,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-03T05:29:04.424Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7e9"
+    },
+    "name": "Rosselli Group",
+    "description": "locale polarizzata Protocollo",
+    "indirizzo": "Incrocio Matteo 295",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+39 375 149 637",
+    "email": "luciano_vuillermoz81@hotmail.com",
+    "linkEsterno": "https://fair-allocation.com",
+    "imageSrc": null,
+    "seoUrl": "succurro-thermae-cui",
+    "latitudine": -30.4416,
+    "longitudine": 19.9852,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-30T03:58:25.609Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ea"
+    },
+    "name": "Cirillo SPA",
+    "description": "esplicita ottimizzata Matrici",
+    "indirizzo": "Contrada Angelucci 80",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+39 309 358 404",
+    "email": "porziano_ruotolo@gmail.com",
+    "linkEsterno": "https://adolescent-guide.net",
+    "imageSrc": null,
+    "seoUrl": "atavus-claustrum-theologus",
+    "latitudine": -20.0559,
+    "longitudine": 32.3913,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-14T13:44:14.231Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7eb"
+    },
+    "name": "Benedetto, Garifo e Aramini Group",
+    "description": "multi-tasking stand-alone framework",
+    "indirizzo": "Borgo Sessa 2",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+97 355 07346307",
+    "email": "rosita_vascotto55@yahoo.it",
+    "linkEsterno": "https://sinful-government.it/",
+    "imageSrc": null,
+    "seoUrl": "blanditiis-tenax-vulariter",
+    "latitudine": 46.3007,
+    "longitudine": -169.7109,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-15T10:40:33.403Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ec"
+    },
+    "name": "Sorce, Bortolin e Tonelli Group",
+    "description": "alto livello persistente Applicazione",
+    "indirizzo": "Incrocio Salvo 16",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+96 7533 7849691",
+    "email": "ranolfo.donofrio@libero.it",
+    "linkEsterno": "https://liquid-noon.com",
+    "imageSrc": null,
+    "seoUrl": "earum-atrocitas-angulus",
+    "latitudine": -10.3531,
+    "longitudine": 139.4814,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-02T23:44:38.408Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ed"
+    },
+    "name": "Baggio-Vacca e figli",
+    "description": "ibrida ridotta Set di istruzioni",
+    "indirizzo": "Contrada Agazio 293",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+50 90 07855729",
+    "email": "gianluca.tonini80@hotmail.com",
+    "linkEsterno": "https://immediate-rawhide.org",
+    "imageSrc": null,
+    "seoUrl": "torqueo-caelestis-amissio",
+    "latitudine": 40.933,
+    "longitudine": 47.022,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-15T23:59:29.760Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ee"
+    },
+    "name": "Zucca-Muratore SPA",
+    "description": "ottimizzante switchabile Finestra temporale",
+    "indirizzo": "Piazza Sacchet 6",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+39 018 602 357",
+    "email": "arminio.paci96@yahoo.it",
+    "linkEsterno": "https://well-made-mozzarella.net/",
+    "imageSrc": null,
+    "seoUrl": "caput-tero-cur",
+    "latitudine": 41.0832,
+    "longitudine": 153.5076,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-30T19:05:12.953Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ef"
+    },
+    "name": "Cardella-Frau Group",
+    "description": "object-oriented polarizzata Parallelismo",
+    "indirizzo": "Borgo Giovannetti 67",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "071 339 5628",
+    "email": "mauro9@libero.it",
+    "linkEsterno": "https://dull-meadow.it/",
+    "imageSrc": null,
+    "seoUrl": "comptus-subvenio-despecto",
+    "latitudine": -43.1623,
+    "longitudine": 55.9544,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-04T23:19:56.766Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f0"
+    },
+    "name": "Lecca e figli",
+    "description": "alto livello ergonomica Benchmark",
+    "indirizzo": "Borgo Benvenuta 863",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+02 98 14374308",
+    "email": "giuliano78@hotmail.com",
+    "linkEsterno": "https://light-angle.net",
+    "imageSrc": null,
+    "seoUrl": "corroboro-victoria-absconditus",
+    "latitudine": 18.9055,
+    "longitudine": -142.4434,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-24T04:40:36.687Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f1"
+    },
+    "name": "Cattaneo-Pili Group",
+    "description": "direzionale piccola Progetto",
+    "indirizzo": "Incrocio Abbondanza 1",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+40 6396 40808898",
+    "email": "liboria88@yahoo.com",
+    "linkEsterno": "https://concrete-intent.com/",
+    "imageSrc": null,
+    "seoUrl": "appositus-vir-recusandae",
+    "latitudine": -24.1685,
+    "longitudine": -109.0956,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-01T14:32:46.695Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f2"
+    },
+    "name": "Bizzarri-Pellicanò e figli",
+    "description": "24 ore persistente Moderazione",
+    "indirizzo": "Strada Criscenti 23",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+97 613 64 56 0663",
+    "email": "proteo98@libero.it",
+    "linkEsterno": "https://young-bug.it/",
+    "imageSrc": null,
+    "seoUrl": "ut-unus-aegre",
+    "latitudine": -41.648,
+    "longitudine": 91.7314,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-21T07:23:16.938Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f3"
+    },
+    "name": "De Santis, Da Rold e Manfredi Group",
+    "description": "sistematica esclusiva Sovrastruttura",
+    "indirizzo": "Via Ugolina 865",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+04 358 18 86 0837",
+    "email": "bonaventura_schettino@gmail.com",
+    "linkEsterno": "https://yellow-appliance.net",
+    "imageSrc": null,
+    "seoUrl": "distinctio-avaritia-arbor",
+    "latitudine": 6.09,
+    "longitudine": 62.7071,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-13T13:30:30.155Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f4"
+    },
+    "name": "Laganà, Renda e Scuderi Group",
+    "description": "background bilanciata Sovrastruttura",
+    "indirizzo": "Rotonda Mazzoleno 914",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+87 401 2569251",
+    "email": "marita_campanile11@gmail.com",
+    "linkEsterno": "https://yellow-amendment.it/",
+    "imageSrc": null,
+    "seoUrl": "defungo-alias-volo",
+    "latitudine": 17.918,
+    "longitudine": -143.2329,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-22T11:36:49.342Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f5"
+    },
+    "name": "Randazzo, Daidone e Barra s.r.l.",
+    "description": "full-range estesa Abilità",
+    "indirizzo": "Contrada Romano 36",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+43 0839 4630080",
+    "email": "candido87@yahoo.it",
+    "linkEsterno": "https://unselfish-tenant.net",
+    "imageSrc": null,
+    "seoUrl": "casso-textor-video",
+    "latitudine": -60.2757,
+    "longitudine": -35.0095,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-03T12:03:17.539Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f6"
+    },
+    "name": "Carollo, Longo e Carrara s.r.l.",
+    "description": "esplicita persistente Iniziativa",
+    "indirizzo": "Piazza Arialdo 56",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+09 812 3426068",
+    "email": "gloria21@gmail.com",
+    "linkEsterno": "https://swift-tentacle.com",
+    "imageSrc": null,
+    "seoUrl": "ocer-claudeo-bos",
+    "latitudine": 37.3855,
+    "longitudine": -17.9859,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-29T22:01:18.456Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f7"
+    },
+    "name": "Coppola s.r.l.",
+    "description": "background bilanciata Previsione",
+    "indirizzo": "Strada Morini 15",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+15 850 58 07 3304",
+    "email": "aniceto_taddei12@email.it",
+    "linkEsterno": "https://nervous-nudge.org",
+    "imageSrc": null,
+    "seoUrl": "cuppedia-demens-vitae",
+    "latitudine": -16.2378,
+    "longitudine": 82.5951,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-23T11:57:22.967Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f8"
+    },
+    "name": "Santarsia-Capecchi e figli",
+    "description": "stabile implementata Hub",
+    "indirizzo": "Borgo Paola 8",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "047 835 3931",
+    "email": "richelmo.benetti91@hotmail.com",
+    "linkEsterno": "https://reasonable-providence.org/",
+    "imageSrc": null,
+    "seoUrl": "cur-pel-attero",
+    "latitudine": -70.2168,
+    "longitudine": -58.3501,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-03T18:46:52.488Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7f9"
+    },
+    "name": "Pugliesi s.r.l.",
+    "description": "multimedia gestita Hardware",
+    "indirizzo": "Via Brigandì 1",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+39 372 103 768",
+    "email": "brando.berto@yahoo.it",
+    "linkEsterno": "https://pleasing-tune-up.net/",
+    "imageSrc": null,
+    "seoUrl": "thorax-stillicidium-talis",
+    "latitudine": -77.6253,
+    "longitudine": -156.8541,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-30T22:51:28.358Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7fa"
+    },
+    "name": "Rotolo, Baroni e Barbarossa Group",
+    "description": "nazionale persistente Architettura",
+    "indirizzo": "Borgo Cardia 34",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+46 81 50337185",
+    "email": "prospera.spina@email.it",
+    "linkEsterno": "https://diligent-deck.com",
+    "imageSrc": null,
+    "seoUrl": "vitium-clarus-minus",
+    "latitudine": -1.754,
+    "longitudine": -152.3642,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-15T00:16:03.356Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7fb"
+    },
+    "name": "Romanini, Tagliabue e Di Paolo Group",
+    "description": "quarta generazione organica Architettura aperta",
+    "indirizzo": "Piazza Campanile 95",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+17 56 9172505",
+    "email": "gautiero_salvadori@yahoo.it",
+    "linkEsterno": "https://excited-shadowbox.com",
+    "imageSrc": null,
+    "seoUrl": "suspendo-tactus-avarus",
+    "latitudine": -74.2524,
+    "longitudine": -128.9089,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-30T09:30:44.815Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7fc"
+    },
+    "name": "Dante, Restivo e Palumbo Group",
+    "description": "basata sul contenuto versatile Utilizzazione",
+    "indirizzo": "Incrocio Lara 305",
+    "comune": "Bologna",
+    "provincia": "BO",
+    "regione": "Emilia-Romagna",
+    "phone": "329 696 887",
+    "email": "ines.dimichele@hotmail.com",
+    "linkEsterno": "https://last-climb.org",
+    "imageSrc": null,
+    "seoUrl": "adimpleo-provident-animus",
+    "latitudine": 78.1134,
+    "longitudine": 119.2362,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-23T00:37:48.270Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7fd"
+    },
+    "name": "Carosi, Biggi e Cinelli Group",
+    "description": "olistica estesa Finestra temporale",
+    "indirizzo": "Borgo Omero 96",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "395 245 422",
+    "email": "elia.gazzola58@libero.it",
+    "linkEsterno": "https://imaginative-monocle.net",
+    "imageSrc": null,
+    "seoUrl": "maxime-texo-iusto",
+    "latitudine": 57.6027,
+    "longitudine": -94.0271,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-06-30T20:20:18.501Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7fe"
+    },
+    "name": "Muratore, Carriero e Aiello e figli",
+    "description": "dinamica multi-canale Moderazione",
+    "indirizzo": "Contrada Gianni 850",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+96 02 7982698",
+    "email": "bonifacio53@gmail.com",
+    "linkEsterno": "https://unhealthy-lobster.org",
+    "imageSrc": null,
+    "seoUrl": "magni-abstergo-aperte",
+    "latitudine": -18.8435,
+    "longitudine": -15.5608,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-02T07:02:27.126Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe7ff"
+    },
+    "name": "Romagnoli, Satta e Pizzi SPA",
+    "description": "modulare versatile Alleanza",
+    "indirizzo": "Via Patruno 25",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+39 356 079 807",
+    "email": "elisabetta12@gmail.com",
+    "linkEsterno": "https://cheerful-negotiation.net/",
+    "imageSrc": null,
+    "seoUrl": "utpote-caelum-adsuesco",
+    "latitudine": 9.8557,
+    "longitudine": 38.8412,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-11T01:02:21.110Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe800"
+    },
+    "name": "Colantuono, Spagnolo e Campanile e figli",
+    "description": "sistemica ridotta Contingenza",
+    "indirizzo": "Strada De Lorenzo 78",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+39 343 914 721",
+    "email": "alda_zagaria83@email.it",
+    "linkEsterno": "https://fake-convection.org/",
+    "imageSrc": null,
+    "seoUrl": "maxime-allatus-depereo",
+    "latitudine": 48.988,
+    "longitudine": -21.5901,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-22T23:53:09.839Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe801"
+    },
+    "name": "Morri, Tedeschi e Lattanzi Group",
+    "description": "sesta generazione stand-alone Intelligenza artificiale",
+    "indirizzo": "Strada Ortensia 4",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+18 6748 1791758",
+    "email": "benedetta.mariano@yahoo.com",
+    "linkEsterno": "https://grumpy-blossom.net/",
+    "imageSrc": null,
+    "seoUrl": "nisi-baiulus-conduco",
+    "latitudine": 9.3373,
+    "longitudine": -128.1186,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-06T01:02:38.497Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe802"
+    },
+    "name": "Tamburini-Tortora e figli",
+    "description": "non-volatile fondamentale Prodotto",
+    "indirizzo": "Incrocio Amata 45",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+70 1382 7274242",
+    "email": "odilia_triolo54@yahoo.it",
+    "linkEsterno": "https://voluminous-middle.org",
+    "imageSrc": null,
+    "seoUrl": "pauper-tamisium-cursim",
+    "latitudine": 35.4832,
+    "longitudine": 166.7087,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-17T21:17:57.452Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe803"
+    },
+    "name": "Tufo SPA",
+    "description": "locale piccola Criptazione",
+    "indirizzo": "Piazza Lolli 15",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "015 051 8226",
+    "email": "rosamunda95@yahoo.it",
+    "linkEsterno": "https://authorized-sprinkles.com",
+    "imageSrc": null,
+    "seoUrl": "ambulo-acsi-incidunt",
+    "latitudine": -28.1052,
+    "longitudine": -143.3149,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-08T05:59:37.843Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe804"
+    },
+    "name": "Federici-Pandolfi Group",
+    "description": "quinta generazione progressiva Funzione",
+    "indirizzo": "Strada Bruto 669",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "011 000 8408",
+    "email": "ausilia.barbarossa51@libero.it",
+    "linkEsterno": "https://rosy-skyline.net/",
+    "imageSrc": null,
+    "seoUrl": "ancilla-admoneo-abundans",
+    "latitudine": 14.9279,
+    "longitudine": -93.5901,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-01-03T22:36:15.656Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe805"
+    },
+    "name": "Cortese SPA",
+    "description": "sensibile al contesto intuitiva Strumenti",
+    "indirizzo": "Contrada Polifemo 373",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+39 060 587 237",
+    "email": "guenda_terenzi@gmail.com",
+    "linkEsterno": "https://unaware-polarisation.com",
+    "imageSrc": null,
+    "seoUrl": "confugo-tametsi-curtus",
+    "latitudine": -13.5256,
+    "longitudine": -91.7901,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-06T04:28:05.206Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe806"
+    },
+    "name": "Pavone e figli",
+    "description": "logistica persistente Paradigma",
+    "indirizzo": "Borgo Maggiore 7",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+35 59 7957933",
+    "email": "emmerico.marinelli9@yahoo.com",
+    "linkEsterno": "https://profuse-sailor.com/",
+    "imageSrc": null,
+    "seoUrl": "caste-tricesimus-tripudio",
+    "latitudine": 35.7663,
+    "longitudine": 108.4108,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-16T08:34:07.669Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe807"
+    },
+    "name": "Di Salvo e figli",
+    "description": "uniforme virtuale Approccio",
+    "indirizzo": "Strada Iacovino 147",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+39 344 056 975",
+    "email": "arturo60@hotmail.com",
+    "linkEsterno": "https://firsthand-carboxyl.org",
+    "imageSrc": null,
+    "seoUrl": "admoveo-adaugeo-succedo",
+    "latitudine": -10.437,
+    "longitudine": 57.8488,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-03T14:35:48.249Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe808"
+    },
+    "name": "Fumagalli e figli",
+    "description": "neutrale robusta Prodotto",
+    "indirizzo": "Contrada Bongiovanni 77",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+32 8939 2289064",
+    "email": "barbarigo74@gmail.com",
+    "linkEsterno": "https://affectionate-turret.it",
+    "imageSrc": null,
+    "seoUrl": "alo-ante-valde",
+    "latitudine": -5.3974,
+    "longitudine": 135.0549,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-06T04:32:05.136Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe809"
+    },
+    "name": "Oliveri-Scalzo Group",
+    "description": "sensibile al contesto ergonomica Strategia",
+    "indirizzo": "Piazza Adone 1",
+    "comune": "Genova",
+    "provincia": "GE",
+    "regione": "Liguria",
+    "phone": "+11 552 7255277",
+    "email": "lisandro55@yahoo.it",
+    "linkEsterno": "https://male-extent.it/",
+    "imageSrc": null,
+    "seoUrl": "bibo-suadeo-ascit",
+    "latitudine": 13.04,
+    "longitudine": -92.6123,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-15T18:41:41.370Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80a"
+    },
+    "name": "Iacovino, Liguori e Rampazzo e figli",
+    "description": "incrementale universale Utilizzazione",
+    "indirizzo": "Incrocio Pasquali 221",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+62 490 67 71 2682",
+    "email": "valter.barreca82@yahoo.it",
+    "linkEsterno": "https://colorful-tool.it",
+    "imageSrc": null,
+    "seoUrl": "vitium-dicta-aduro",
+    "latitudine": 89.6548,
+    "longitudine": 175.6179,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-02-20T13:21:23.783Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80b"
+    },
+    "name": "Costantino, Milani e Serr s.r.l.",
+    "description": "coerente compatibile Finestra temporale",
+    "indirizzo": "Via Assunto 5",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+39 025 521 206",
+    "email": "giusta86@yahoo.com",
+    "linkEsterno": "https://young-provision.it",
+    "imageSrc": null,
+    "seoUrl": "veritas-sponte-surculus",
+    "latitudine": 73.0947,
+    "longitudine": -129.2452,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-28T09:46:34.341Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80c"
+    },
+    "name": "Tolu-Ventimiglia SPA",
+    "description": "interattiva organica Algoritmo",
+    "indirizzo": "Piazza Michelangelo 4",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "+15 204 37867149",
+    "email": "romeo.mosca@libero.it",
+    "linkEsterno": "https://prime-sundae.net",
+    "imageSrc": null,
+    "seoUrl": "aggredior-video-turpis",
+    "latitudine": -37.4161,
+    "longitudine": 116.5195,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-29T13:24:48.140Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80d"
+    },
+    "name": "Di Palma-Nuzzo Group",
+    "description": "bi-direzionale totale Infrastruttura",
+    "indirizzo": "Via Ermenegildo 8",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+39 390 928 405",
+    "email": "moira42@libero.it",
+    "linkEsterno": "https://gorgeous-adrenalin.net",
+    "imageSrc": null,
+    "seoUrl": "verto-enim-totam",
+    "latitudine": 22.0021,
+    "longitudine": 166.0628,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-28T10:52:23.358Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80e"
+    },
+    "name": "Capasso-La Rocca e figli",
+    "description": "globale distribuita Funzionalità",
+    "indirizzo": "Via Ercole 841",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+22 520 4927045",
+    "email": "romola97@email.it",
+    "linkEsterno": "https://thorny-swordfish.com/",
+    "imageSrc": null,
+    "seoUrl": "corrumpo-velociter-demens",
+    "latitudine": 56.187,
+    "longitudine": 155.3875,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-10-18T03:06:07.272Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe80f"
+    },
+    "name": "Corridori SPA",
+    "description": "valore aggiunto universale Implementazione",
+    "indirizzo": "Borgo Aprile 1",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "306 078 364",
+    "email": "cecco69@yahoo.it",
+    "linkEsterno": "https://cavernous-laughter.com/",
+    "imageSrc": null,
+    "seoUrl": "derideo-strenuus-tondeo",
+    "latitudine": 16.5103,
+    "longitudine": -50.2093,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-14T14:18:35.198Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe810"
+    },
+    "name": "Pili, Brandi e Grandi SPA",
+    "description": "multi-tasking gestita Emulazione",
+    "indirizzo": "Incrocio Tedesco 716",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+54 608 05791321",
+    "email": "secondo.criscenti3@gmail.com",
+    "linkEsterno": "https://frozen-earth.com/",
+    "imageSrc": null,
+    "seoUrl": "venustas-vivo-solio",
+    "latitudine": -9.3055,
+    "longitudine": -86.5842,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-06-08T08:49:13.871Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe811"
+    },
+    "name": "Gaspari, Tedde e Sabatino e figli",
+    "description": "object-oriented switchabile Task-force",
+    "indirizzo": "Incrocio Medeot 7",
+    "comune": "Napoli",
+    "provincia": "NA",
+    "regione": "Campania",
+    "phone": "+73 43 4847232",
+    "email": "nazario31@libero.it",
+    "linkEsterno": "https://primary-fat.net",
+    "imageSrc": null,
+    "seoUrl": "candidus-vitae-vado",
+    "latitudine": -13.0691,
+    "longitudine": 44.8141,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-06-28T03:08:09.427Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe812"
+    },
+    "name": "Licitra SPA",
+    "description": "non-volatile avanzata Orchestrazione",
+    "indirizzo": "Borgo Pennestrì 529",
+    "comune": "Milano",
+    "provincia": "MI",
+    "regione": "Lombardia",
+    "phone": "047 314 3357",
+    "email": "abelardo25@yahoo.com",
+    "linkEsterno": "https://happy-go-lucky-cope.it",
+    "imageSrc": null,
+    "seoUrl": "turba-beatus-concido",
+    "latitudine": 49.6426,
+    "longitudine": -83.3161,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-09-30T11:48:35.271Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe813"
+    },
+    "name": "Stigliano Group",
+    "description": "statica distribuita Archivio",
+    "indirizzo": "Contrada Lo Bianco 4",
+    "comune": "Firenze",
+    "provincia": "FI",
+    "regione": "Toscana",
+    "phone": "+62 29 7251738",
+    "email": "ulisse1@email.it",
+    "linkEsterno": "https://lovely-bid.org",
+    "imageSrc": null,
+    "seoUrl": "statim-calamitas-deinde",
+    "latitudine": -35.7323,
+    "longitudine": -52.5689,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-12-05T00:54:49.136Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe814"
+    },
+    "name": "Storti, Montalbano e Fonda e figli",
+    "description": "eco-centrica adattiva Iniziativa",
+    "indirizzo": "Incrocio Scardino 51",
+    "comune": "Bari",
+    "provincia": "BA",
+    "regione": "Puglia",
+    "phone": "+39 012 947 249",
+    "email": "flaviano51@yahoo.it",
+    "linkEsterno": "https://lasting-gerbil.org/",
+    "imageSrc": null,
+    "seoUrl": "basium-tepesco-torqueo",
+    "latitudine": -85.1601,
+    "longitudine": -137.8851,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-07-11T05:34:48.009Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe815"
+    },
+    "name": "Tretola Group",
+    "description": "terziaria sincronizzata Intranet",
+    "indirizzo": "Via Biccari 892",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+37 1257 21931459",
+    "email": "solange80@hotmail.com",
+    "linkEsterno": "https://shadowy-developmental.it",
+    "imageSrc": null,
+    "seoUrl": "voluptatibus-vulticulus-amissio",
+    "latitudine": 62.6251,
+    "longitudine": 126.6232,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-08T21:23:29.417Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe816"
+    },
+    "name": "Biccari-Vanni SPA",
+    "description": "background cross-platform Task-force",
+    "indirizzo": "Incrocio Carrus 70",
+    "comune": "Palermo",
+    "provincia": "PA",
+    "regione": "Sicilia",
+    "phone": "+39 083 532 567",
+    "email": "bardo.costantin11@email.it",
+    "linkEsterno": "https://vast-pine.net/",
+    "imageSrc": null,
+    "seoUrl": "aurum-tenax-crudelis",
+    "latitudine": 6.0014,
+    "longitudine": -37.3388,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-28T21:37:24.852Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe817"
+    },
+    "name": "Innocenti, Martucci e Franchini Group",
+    "description": "globale integrata Criptazione",
+    "indirizzo": "Strada Zullo 86",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "039 097 2305",
+    "email": "nicolo_bruschi@libero.it",
+    "linkEsterno": "https://memorable-gym.org",
+    "imageSrc": null,
+    "seoUrl": "denuncio-patior-aequus",
+    "latitudine": 70.8442,
+    "longitudine": 39.3249,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-06-30T15:43:35.393Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe818"
+    },
+    "name": "Addari, Ciotola e Damiani e figli",
+    "description": "eco-centrica robusta Conglomerato",
+    "indirizzo": "Rotonda Tirri 5",
+    "comune": "Roma",
+    "provincia": "RM",
+    "regione": "Lazio",
+    "phone": "+79 0132 7715974",
+    "email": "ivanoe.gualtieri39@hotmail.com",
+    "linkEsterno": "https://gaseous-daughter.it",
+    "imageSrc": null,
+    "seoUrl": "cribro-veritas-comburo",
+    "latitudine": 71.7452,
+    "longitudine": 59.9984,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2024-08-14T02:44:33.554Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe819"
+    },
+    "name": "Puglisi, Flacco e Argenio Group",
+    "description": "multi-tasking automatizzata Conoscenza base",
+    "indirizzo": "Borgo Ursmaro 2",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+58 244 8406527",
+    "email": "everardo_nicoletti56@yahoo.com",
+    "linkEsterno": "https://vain-draw.it",
+    "imageSrc": null,
+    "seoUrl": "cariosus-quod-molestias",
+    "latitudine": -84.7556,
+    "longitudine": 101.5119,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-05-29T18:42:04.240Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe81a"
+    },
+    "name": "Pezzi-Daidone Group",
+    "description": "direzionale sicura Produttività",
+    "indirizzo": "Contrada Leda 57",
+    "comune": "Bologna",
+    "provincia": "BO",
+    "regione": "Emilia-Romagna",
+    "phone": "045 195 1133",
+    "email": "alberto.chessa@email.it",
+    "linkEsterno": "https://normal-antelope.net",
+    "imageSrc": null,
+    "seoUrl": "aedificium-pecus-arx",
+    "latitudine": 40.1243,
+    "longitudine": 48.5857,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-05T12:19:49.277Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe81b"
+    },
+    "name": "Praticò s.r.l.",
+    "description": "modulare programmabile Architettura",
+    "indirizzo": "Piazza Onorina 701",
+    "comune": "Venezia",
+    "provincia": "VE",
+    "regione": "Veneto",
+    "phone": "+57 3710 0862785",
+    "email": "porfirio_alfieri71@email.it",
+    "linkEsterno": "https://pertinent-bidet.net",
+    "imageSrc": null,
+    "seoUrl": "ago-audentia-dedecor",
+    "latitudine": -5.6995,
+    "longitudine": 60.4141,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-04-17T13:49:07.583Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  },
+  {
+    "_id": {
+      "$oid": "6844433e6319f184385fe81c"
+    },
+    "name": "Di Luca Group",
+    "description": "mission-critical fondamentale Produttività",
+    "indirizzo": "Rotonda Alice 662",
+    "comune": "Torino",
+    "provincia": "TO",
+    "regione": "Piemonte",
+    "phone": "+54 8178 7351029",
+    "email": "decimo_huber92@yahoo.com",
+    "linkEsterno": "https://dental-meal.it",
+    "imageSrc": null,
+    "seoUrl": "sustineo-coadunatio-cogo",
+    "latitudine": -33.2256,
+    "longitudine": -27.5837,
+    "organizerIds": [],
+    "createdAt": {
+      "$date": "2025-03-31T01:05:29.079Z"
+    },
+    "stripeAccountId": null,
+    "ticketingStatus": "no_stripe"
+  }
+]

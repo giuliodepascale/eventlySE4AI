@@ -12,13 +12,13 @@ import DateFilterBar from "@/components/altre/date-filter-bar";
 import AIComponent from "@/components/ML-AI/ai";
 import { getCountLikeForCatagoryEventsByUser, getUserById } from "@/data/user";
 import { SafeEvent } from "../types";
-import { getAllActiveEventsNoLimits } from "@/MONGODB/CRUD/events";
+import { getAllActiveEvents } from "@/MONGODB/CRUD/events";
 
 export default async function Home() {
   const user = await currentUser();
   const fullUser = user?.id ? await getUserById(user.id) : null;
 
-  const allActiveEvents = await getAllActiveEventsNoLimits();
+  const allActiveEvents = await getAllActiveEvents();
 
   let categoryCount = null;
   if(fullUser?.id){
