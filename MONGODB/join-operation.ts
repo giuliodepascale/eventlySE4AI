@@ -10,6 +10,8 @@
  * IMPORTS
  * –––––––––––––––––––––––––––––––––––––––––– */
 import clientPromise from "@/lib/mongoDB";
+import { ObjectId } from "mongodb";
+
 
 /** ***************************************************************************
  * JOIN: getEventsWithOrganizationData
@@ -69,5 +71,62 @@ export async function getEventsWithOrganizationData() {
   const result = await db.collection("events").aggregate(pipeline).toArray();
 
   // 4. Restituisci il risultato: array di documenti formattati
+  return result;
+}
+
+/**
+ * JOIN: getPrenotazioniConDatiEventoByUser
+ * Descrizione:
+ *   - Esegue una JOIN tra “prenotazioni” ed “events”.
+ *   - Unisce i dati evento sulla chiave eventId -> _id.
+ *   - Filtra internamente per userId tramite $match.
+ *   - Ordina gli eventi per data.
+ *   - Ritorna un array di prenotazioni con i dettagli dell’evento.
+ */
+export async function getPrenotazioniConDatiEventoByUser(userId: string) {
+  const client = await clientPromise;
+  const db = client.db("evently");
+
+  const pipeline = [
+    {
+      // JOIN con events usando eventId -> _id
+      $lookup: {
+        from: "events",
+        localField: "eventId",
+        foreignField: "_id",
+        as: "eventInfo",
+      },
+    },
+    {
+      // Estrae singolo evento (da array)
+      $unwind: "$eventInfo",
+    },
+    {
+      // Filtra le prenotazioni per userId dopo il join
+      $match: {
+        userId: new ObjectId(userId),
+      },
+    },
+    {
+      // Seleziona solo i campi desiderati
+      $project: {
+        _id: 1,
+        createdAt: 1,
+        status: 1,
+        "eventInfo._id": 1,
+        "eventInfo.title": 1,
+        "eventInfo.eventDate": 1,
+        "eventInfo.coverImageUrl": 1,
+      },
+    },
+    {
+      // Ordina per data evento crescente
+      $sort: {
+        "eventInfo.eventDate": 1,
+      },
+    },
+  ];
+
+  const result = await db.collection("prenotazioni").aggregate(pipeline).toArray();
   return result;
 }

@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 // utils/transform.ts
 import { WithId, Document, ObjectId } from "mongodb";
-import { SafeEvent, SafeOrganization } from "@/app/types"; // percorso corretto alla tua definizione
+import { SafeEvent, SafeOrganization, SafePrenotazione } from "@/app/types"; // percorso corretto alla tua definizione
 import { manualStatus } from "@prisma/client";
 
 /**
@@ -114,4 +114,19 @@ export function transformMongoOrganizations(
   docs: WithId<Document>[]
 ): SafeOrganization[] {
   return docs.map(transformMongoDocToSafeOrganization);
+}
+
+
+export function transformMongoDocToSafePrenotazione(doc: WithId<Document>): SafePrenotazione {
+  return {
+    id: doc._id.toString(),
+    eventId: (doc.eventId as ObjectId).toString(),
+    userId: (doc.userId as ObjectId).toString(),
+    reservedAt: (doc.reservedAt as Date).toISOString(),
+    qrCode: String(doc.qrCode),
+  };
+}
+
+export function transformMongoPrenotazioni(docs: WithId<Document>[]): SafePrenotazione[] {
+  return docs.map(transformMongoDocToSafePrenotazione);
 }

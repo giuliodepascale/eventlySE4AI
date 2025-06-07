@@ -31,3 +31,18 @@ export type SearchParams = Promise<{
 export type SafeTicketType = Omit<TicketType, "createdAt"> & {
   createdAt: string;
 };
+
+
+/**
+ * SafePrenotazione rappresenta un modello di prenotazione "pulito" e serializzabile.
+ * In particolare:
+ * - 'reservedAt' è convertito in stringa ISO per facilitare la serializzazione JSON.
+ * - Gli ID sono rappresentati come stringhe invece che come ObjectId di MongoDB.
+ */
+export type SafePrenotazione = {
+  id: string;
+  eventId: string;
+  userId: string;
+  reservedAt: string;
+  qrCode: string;
+};

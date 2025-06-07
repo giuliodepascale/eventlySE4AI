@@ -201,3 +201,10 @@ export const CreateTicketTypeSchema = z.object({
     z.number().int().min(1, "La quantità deve essere almeno 1")
   ),
 });
+
+
+//validazione penotazione
+export const CreatePrenotazioneSchema = z.object({
+  eventId: z.string().min(1, "L'ID dell'evento è obbligatorio"),
+  userId: z.string().min(1, "L'ID utente è obbligatorio"),
+});
