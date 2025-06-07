@@ -252,10 +252,9 @@ export async function getAllActiveEvents(
     },
   };
 }
-
 /**
  * getAllActiveEventsNoLimits
- * Come getAllActiveEvents ma senza limitare la query (ritorna tutti gli eventi attivi).
+ * Come getAllActiveEvents ma con limite di 50 risultati.
  */
 export async function getAllActiveEventsNoLimits(
   query = "",
@@ -274,11 +273,11 @@ export async function getAllActiveEventsNoLimits(
     .collection("events")
     .find(filters)
     .sort({ eventDate: 1 })
+    .limit(50)
     .toArray();
 
   return transformMongoEvents(rawDocs);
 }
-
 /**
  * getRelatedEventsByCategory
  * Recupera eventi con la stessa categoria, escludendo un eventId specifico.

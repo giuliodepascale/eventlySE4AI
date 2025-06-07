@@ -1,5 +1,3 @@
-"use server"
-
 import { Suspense } from "react";
 import UpcomingEvents from "@/components/events/upcoming-events";
 import Section from "@/components/events/section";
@@ -12,13 +10,13 @@ import DateFilterBar from "@/components/altre/date-filter-bar";
 import AIComponent from "@/components/ML-AI/ai";
 import { getCountLikeForCatagoryEventsByUser, getUserById } from "@/data/user";
 import { SafeEvent } from "../types";
-import { getAllActiveEvents } from "@/MONGODB/CRUD/events";
+import { getAllActiveEventsNoLimits } from "@/MONGODB/CRUD/events";
 
 export default async function Home() {
   const user = await currentUser();
   const fullUser = user?.id ? await getUserById(user.id) : null;
 
-  const allActiveEvents = await getAllActiveEvents();
+  const allActiveEvents = await getAllActiveEventsNoLimits();
 
   let categoryCount = null;
   if(fullUser?.id){
