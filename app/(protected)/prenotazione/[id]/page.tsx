@@ -1,9 +1,10 @@
 import EmptyState from "@/components/altre/empty-state";
 
-import { getPrenotazione } from "@/data/prenotazione";
+
 import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
 import BookingDetails from "@/components/events/prenotazione/prenotazione-client";
+import { getPrenotazioneById } from "@/MONGODB/CRUD/prenotazione";
 
 interface BookingPageProps {
     params: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -23,7 +24,7 @@ export default async function BookingPage({ params }: BookingPageProps) {
     }
 
     // Recupera la prenotazione dal database
-    const prenotazione = await getPrenotazione(id as string);
+    const prenotazione = await getPrenotazioneById(id as string);
 
     // Controlla se la prenotazione esiste
     if (!prenotazione || !prenotazione.id) {
@@ -64,6 +65,9 @@ export default async function BookingPage({ params }: BookingPageProps) {
     }
 
     return (
-        <BookingDetails prenotazione={prenotazione} fullUser={fullUser} />
+        <BookingDetails 
+            prenotazione={prenotazione} 
+            fullUser={fullUser ? { name: fullUser.name || undefined } : null} 
+        />
     );
 }

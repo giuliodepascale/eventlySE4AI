@@ -2,16 +2,14 @@
 import { Suspense } from "react";
 
 
-import { getActiveTicketsByEvent } from "@/data/ticket-type";
-import { hasUserReservation } from "@/data/prenotazione";
+
 import { currentUser } from "@/lib/auth";
 import EventClient from "@/components/events/event-client";
 import EmptyState from "@/components/altre/empty-state";
-import TicketRow from "@/components/typetickets/ticket-row";
+
 import Link from "next/link";
 import PrenotaOraButton from "@/components/events/prenotazione/prenota-button";
 import EventList from "@/components/events/events-list";
-import type { SafeTicketType } from "@/app/types";
 import type { User } from "@prisma/client";
 
 import { getOrganizationById } from "@/MONGODB/CRUD/organization";
@@ -82,33 +80,11 @@ async function TicketSection({ eventId }: { eventId: string }) {
     );
   }
 
-  const event = await getEventById(eventId);
-  const ticketTypes: SafeTicketType[] = await getActiveTicketsByEvent(
-    eventId
-  );
 
-  const reservationId =
-    event?.isReservationActive && fullUser.id
-      ? (await hasUserReservation(fullUser.id, eventId)) || undefined
-      : undefined;
+
 
   return (
-    <div className="mt-6 space-y-3">
-      {ticketTypes.map((ticket) => (
-        <TicketRow key={ticket.id} typeTicket={ticket} userId={fullUser.id} />
-      ))}
-
-      {event?.isReservationActive &&
-        (reservationId ? (
-          <Link href={`/prenotazione/${reservationId}`}>
-            <button className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">
-              Vai alla tua prenotazione
-            </button>
-          </Link>
-        ) : (
           <PrenotaOraButton eventId={eventId} userId={fullUser.id} />
-        ))}
-    </div>
   );
 }
 

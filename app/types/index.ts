@@ -46,3 +46,17 @@ export type SafePrenotazione = {
   reservedAt: string;
   qrCode: string;
 };
+
+
+export type SafePrenotazioneEstesa = {
+  id: string;
+  eventId: string;
+  userId: string;
+  reservedAt: string;
+  qrCode: string;
+  eventInfo: {
+    id: string;
+    title: string;
+    eventDate: string;
+  };
+};

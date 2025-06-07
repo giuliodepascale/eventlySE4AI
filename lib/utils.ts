@@ -5,45 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// utils/transform.ts
-import { WithId, Document, ObjectId } from "mongodb";
-import { SafeEvent, SafeOrganization, SafePrenotazione } from "@/app/types"; // percorso corretto alla tua definizione
-import { manualStatus } from "@prisma/client";
-
-/**
- * Trasforma un documento Mongo di tipo WithId<Document> in un oggetto SafeEvent.
- */
-export function transformMongoDocToSafeEvent(doc: WithId<Document>): SafeEvent {
-  return {
-    id: doc._id.toString(),
-    title: String(doc.title),
-    description: String(doc.description),
-    imageSrc: doc.imageSrc != null ? String(doc.imageSrc) : null,
-    createdAt: (doc.createdAt as Date).toISOString(),
-    category: String(doc.category),
-    comune: String(doc.comune),
-    provincia: String(doc.provincia),
-    regione: String(doc.regione),
-    latitudine: String(doc.latitudine),
-    longitudine: String(doc.longitudine),
-    favoriteCount: typeof doc.favoriteCount === "number" ? doc.favoriteCount : 0,
-    eventDate: (doc.eventDate as Date).toISOString(),
-    indirizzo: String(doc.indirizzo),
-    organizationId: (doc.organizationId as ObjectId).toString(),
-    status: doc.status as manualStatus,
-    seoUrl: String(doc.seoUrl),
-    isReservationActive: Boolean(doc.isReservationActive),
-  };
-}
-
-/**
- * Trasforma un array di documenti Mongo (WithId<Document>[]) in un array di SafeEvent[].
- */
-export function transformMongoEvents(
-  docs: WithId<Document>[]
-): SafeEvent[] {
-  return docs.map(transformMongoDocToSafeEvent);
-}
 
 
 // utils/date.ts
@@ -81,6 +42,39 @@ export function buildDateFilter(dateFilter = "") {
   return { eventDate: { $gt: new Date(Date.now() - 4 * 60 * 60 * 1000) } };
 }
 
+import { WithId, Document, ObjectId } from "mongodb";
+import { SafeEvent, SafeOrganization, SafePrenotazione, SafePrenotazioneEstesa } from "@/app/types";
+import { manualStatus } from "@prisma/client";
+
+/**
+ * Trasforma un documento Mongo di tipo WithId<Document> in un oggetto SafeEvent.
+ */
+export function transformMongoDocToSafeEvent(doc: WithId<Document>): SafeEvent {
+  return {
+    id: doc._id.toString(),
+    title: String(doc.title),
+    description: String(doc.description),
+    imageSrc: doc.imageSrc != null ? String(doc.imageSrc) : null,
+    createdAt: (doc.createdAt as Date).toISOString(),
+    category: String(doc.category),
+    comune: String(doc.comune),
+    provincia: String(doc.provincia),
+    regione: String(doc.regione),
+    latitudine: String(doc.latitudine),
+    longitudine: String(doc.longitudine),
+    favoriteCount: typeof doc.favoriteCount === "number" ? doc.favoriteCount : 0,
+    eventDate: (doc.eventDate as Date).toISOString(),
+    indirizzo: String(doc.indirizzo),
+    organizationId: (doc.organizationId as ObjectId).toString(),
+    status: doc.status as manualStatus,
+    seoUrl: String(doc.seoUrl),
+    isReservationActive: Boolean(doc.isReservationActive),
+  };
+}
+
+export function transformMongoEvents(docs: WithId<Document>[]): SafeEvent[] {
+  return docs.map(transformMongoDocToSafeEvent);
+}
 
 /**
  * Trasforma un documento MongoDB in un oggetto SafeOrganization plain.
@@ -107,17 +101,26 @@ export function transformMongoDocToSafeOrganization(doc: WithId<Document>): Safe
   };
 }
 
-/**
- * Trasforma un array di documenti MongoDB in un array di SafeOrganization.
- */
-export function transformMongoOrganizations(
-  docs: WithId<Document>[]
-): SafeOrganization[] {
+export function transformMongoOrganizations(docs: WithId<Document>[]): SafeOrganization[] {
   return docs.map(transformMongoDocToSafeOrganization);
 }
 
-
+/**
+ * Trasforma un documento MongoDB in un oggetto SafePrenotazione.
+ */
 export function transformMongoDocToSafePrenotazione(doc: WithId<Document>): SafePrenotazione {
+  // Validazione sicura dei campi obbligatori
+  if (
+    !("_id" in doc) ||
+    !("eventId" in doc) ||
+    !("userId" in doc) ||
+    !("reservedAt" in doc) ||
+    !("qrCode" in doc)
+  ) {
+    console.error("[ERROR] Documento incompleto:", doc);
+    throw new Error("Documento prenotazione incompleto");
+  }
+
   return {
     id: doc._id.toString(),
     eventId: (doc.eventId as ObjectId).toString(),
@@ -129,4 +132,33 @@ export function transformMongoDocToSafePrenotazione(doc: WithId<Document>): Safe
 
 export function transformMongoPrenotazioni(docs: WithId<Document>[]): SafePrenotazione[] {
   return docs.map(transformMongoDocToSafePrenotazione);
+}
+
+
+export function transformDocToSafePrenotazioneEstesa(doc: WithId<Document>): SafePrenotazioneEstesa {
+  if (
+    !doc._id || !doc.eventId || !doc.userId ||
+    !doc.reservedAt || !doc.qrCode || !doc.eventInfo
+  ) {
+    console.error("[ERROR] Documento prenotazione estesa incompleto:", doc);
+    throw new Error("Documento prenotazione estesa incompleto");
+  }
+
+  return {
+    id: doc._id.toString(),
+    eventId: (doc.eventId as ObjectId).toString(),
+    userId: (doc.userId as ObjectId).toString(),
+    reservedAt: (doc.reservedAt as Date).toISOString(),
+    qrCode: String(doc.qrCode),
+    eventInfo: {
+      id: doc.eventInfo._id?.toString?.() ?? "evento_non_definito",
+      title: String(doc.eventInfo.title),
+      eventDate: (doc.eventInfo.eventDate as Date).toISOString(),
+    }
+  };
+}
+
+
+export function transformDocsToSafePrenotazioniEstese(docs: WithId<Document>[]): SafePrenotazioneEstesa[] {
+  return docs.map(transformDocToSafePrenotazioneEstesa);
 }

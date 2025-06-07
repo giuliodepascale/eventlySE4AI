@@ -4,9 +4,11 @@ import Container from "@/components/altre/container";
 import EmptyState from "@/components/altre/empty-state";
 import ReservationList from "@/components/events/prenotazione/reservation-list";
 
-import { getReservationsByUser } from "@/data/prenotazione";
+
 import { currentUser } from "@/lib/auth";
+import { getPrenotazioniConDatiEventoByUser } from "@/MONGODB/join-operation";
 import { Suspense } from "react";
+
 
 const ReservationsPage = async () => {
     const user = await currentUser();
@@ -17,7 +19,7 @@ const ReservationsPage = async () => {
         );
     }
 
-    const result = await getReservationsByUser(user.id);
+    const result = await getPrenotazioniConDatiEventoByUser(user.id);
 
     if (result.length === 0) {
         return (
@@ -46,7 +48,7 @@ const ReservationsPage = async () => {
                     "
                 >
                     <Suspense fallback={<Loading />}>
-                        <ReservationList reservations={result} /> 
+                       <ReservationList reservations={result} />
                     </Suspense>
                 </div>
             </Container>

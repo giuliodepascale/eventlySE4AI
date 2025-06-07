@@ -65,7 +65,7 @@ export async function createPrenotazione(
   // 3. Inserisci in MongoDB
   const client = await clientPromise;
   const db = client.db("evently");
-  const result = await db.collection("prenotazioni").insertOne(prenotazioneDoc);
+  await db.collection("prenotazioni").insertOne(prenotazioneDoc);
 
   // 4. Redirect alla pagina dell’evento prenotato
   redirect(`/events/${eventId}`);
