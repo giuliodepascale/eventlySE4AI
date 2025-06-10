@@ -1,42 +1,19 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Progetto NoSQL – Gestione Eventi con MongoDB
 
-## Getting Started
+Questo repository contiene il progetto sviluppato per il corso di Basi di Dati, incentrato sulla gestione di eventi e prenotazioni tramite un database NoSQL (MongoDB). Le funzionalità principali sono state implementate in TypeScript, con focus su operazioni CRUD e join manuali tra collezioni.
 
-First, run the development server:
+## Struttura del Progetto
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 📁 MONGODB/CRUD
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Contiene i file TypeScript per la gestione delle principali entità del progetto. Le operazioni interagiscono direttamente con il database MongoDB, simulando l'intero flusso applicativo senza l'uso di ORM.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `events.ts` – Operazioni CRUD sulla collezione degli eventi (creazione, aggiornamento, cancellazione, ricerca).
+- `organization.ts` – Operazioni CRUD per la gestione delle organizzazioni che pubblicano eventi.
+- `prenotazione.ts` – Gestione delle prenotazioni degli utenti per gli eventi.
+- `join-operation.ts` – Operazioni di join tra collezioni
+### 📁 scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Generazione dati.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# eventlyitalia
-evently
-
->>>>>>> ba6551bac52e065e60ad9369b07f890c04af92fa
+- `generate-json.mjs` – Script in JavaScript per generare dati sintetici in formato JSON utili al popolamento iniziale del database MongoDB.
